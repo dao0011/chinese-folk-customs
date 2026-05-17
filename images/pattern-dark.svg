@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240">
+  <!-- 中国传统回纹 (回字纹) - 用于深色导航栏背景 -->
+  <!-- 回纹边框图案 -->
+  <rect x="5" y="5" width="30" height="30" fill="none" stroke="#D2B48C" stroke-width="1.2" stroke-opacity="0.25"/>
+  <rect x="10" y="10" width="20" height="20" fill="none" stroke="#D2B48C" stroke-width="1" stroke-opacity="0.2"/>
+  <rect x="15" y="15" width="10" height="10" fill="none" stroke="#D2B48C" stroke-width="0.8" stroke-opacity="0.15"/>
+
+  <rect x="125" y="5" width="30" height="30" fill="none" stroke="#D2B48C" stroke-width="1.2" stroke-opacity="0.25"/>
+  <rect x="130" y="10" width="20" height="20" fill="none" stroke="#D2B48C" stroke-width="1" stroke-opacity="0.2"/>
+  <rect x="135" y="15" width="10" height="10" fill="none" stroke="#D2B48C" stroke-width="0.8" stroke-opacity="0.15"/>
+
+  <rect x="65" y="65" width="30" height="30" fill="none" stroke="#D2B48C" stroke-width="1.2" stroke-opacity="0.25"/>
+  <rect x="70" y="70" width="20" height="20" fill="none" stroke="#D2B48C" stroke-width="1" stroke-opacity="0.2"/>
+  <rect x="75" y="75" width="10" height="10" fill="none" stroke="#D2B48C" stroke-width="0.8" stroke-opacity="0.15"/>
+
+  <rect x="185" y="65" width="30" height="30" fill="none" stroke="#D2B48C" stroke-width="1.2" stroke-opacity="0.25"/>
+  <rect x="190" y="70" width="20" height="20" fill="none" stroke="#D2B48C" stroke-width="1" stroke-opacity="0.2"/>
+  <rect x="195" y="75" width="10" height="10" fill="none" stroke="#D2B48C" stroke-width="0.8" stroke-opacity="0.15"/>
+
+  <rect x="5" y="125" width="30" height="30" fill="none" stroke="#D2B48C" stroke-width="1.2" stroke-opacity="0.25"/>
+  <rect x="10" y="130" width="20" height="20" fill="none" stroke="#D2B48C" stroke-width="1" stroke-opacity="0.2"/>
+  <rect x="15" y="135" width="10" height="10" fill="none" stroke="#D2B48C" stroke-width="0.8" stroke-opacity="0.15"/>
+
+  <rect x="125" y="125" width="30" height="30" fill="none" stroke="#D2B48C" stroke-width="1.2" stroke-opacity="0.25"/>
+  <rect x="130" y="130" width="20" height="20" fill="none" stroke="#D2B48C" stroke-width="1" stroke-opacity="0.2"/>
+  <rect x="135" y="135" width="10" height="10" fill="none" stroke="#D2B48C" stroke-width="0.8" stroke-opacity="0.15"/>
+
+  <rect x="65" y="185" width="30" height="30" fill="none" stroke="#D2B48C" stroke-width="1.2" stroke-opacity="0.25"/>
+  <rect x="70" y="190" width="20" height="20" fill="none" stroke="#D2B48C" stroke-width="1" stroke-opacity="0.2"/>
+  <rect x="75" y="195" width="10" height="10" fill="none" stroke="#D2B48C" stroke-width="0.8" stroke-opacity="0.15"/>
+
+  <rect x="185" y="185" width="30" height="30" fill="none" stroke="#D2B48C" stroke-width="1.2" stroke-opacity="0.25"/>
+  <rect x="190" y="190" width="20" height="20" fill="none" stroke="#D2B48C" stroke-width="1" stroke-opacity="0.2"/>
+  <rect x="195" y="195" width="10" height="10" fill="none" stroke="#D2B48C" stroke-width="0.8" stroke-opacity="0.15"/>
+
+  <!-- 祥云纹 -->
+  <path d="M45,48 Q50,40 58,42 Q66,44 65,52 Q64,58 56,58 Q50,58 48,54 Q46,50 45,48Z" fill="none" stroke="#D2B48C" stroke-width="0.8" stroke-opacity="0.18"/>
+  <path d="M165,48 Q170,40 178,42 Q186,44 185,52 Q184,58 176,58 Q170,58 168,54 Q166,50 165,48Z" fill="none" stroke="#D2B48C" stroke-width="0.8" stroke-opacity="0.18"/>
+  <path d="M105,108 Q110,100 118,102 Q126,104 125,112 Q124,118 116,118 Q110,118 108,114 Q106,110 105,108Z" fill="none" stroke="#D2B48C" stroke-width="0.8" stroke-opacity="0.18"/>
+  <path d="M45,168 Q50,160 58,162 Q66,164 65,172 Q64,178 56,178 Q50,178 48,174 Q46,170 45,168Z" fill="none" stroke="#D2B48C" stroke-width="0.8" stroke-opacity="0.18"/>
+  <path d="M165,168 Q170,160 178,162 Q186,164 185,172 Q184,178 176,178 Q170,178 168,174 Q166,170 165,168Z" fill="none" stroke="#D2B48C" stroke-width="0.8" stroke-opacity="0.18"/>
+
+  <!-- 窗格线条 -->
+  <line x1="0" y1="120" x2="240" y2="120" stroke="#D2B48C" stroke-width="0.5" stroke-opacity="0.08"/>
+  <line x1="120" y1="0" x2="120" y2="240" stroke="#D2B48C" stroke-width="0.5" stroke-opacity="0.08"/>
+
+  <!-- 对角装饰线 -->
+  <line x1="0" y1="0" x2="60" y2="60" stroke="#D2B48C" stroke-width="0.4" stroke-opacity="0.06"/>
+  <line x1="240" y1="0" x2="180" y2="60" stroke="#D2B48C" stroke-width="0.4" stroke-opacity="0.06"/>
+  <line x1="0" y1="240" x2="60" y2="180" stroke="#D2B48C" stroke-width="0.4" stroke-opacity="0.06"/>
+  <line x1="240" y1="240" x2="180" y2="180" stroke="#D2B48C" stroke-width="0.4" stroke-opacity="0.06"/>
+
+  <!-- 小圆点装饰 -->
+  <circle cx="120" cy="60" r="2" fill="#D2B48C" fill-opacity="0.12"/>
+  <circle cx="60" cy="120" r="2" fill="#D2B48C" fill-opacity="0.12"/>
+  <circle cx="180" cy="120" r="2" fill="#D2B48C" fill-opacity="0.12"/>
+  <circle cx="120" cy="180" r="2" fill="#D2B48C" fill-opacity="0.12"/>
+</svg>
