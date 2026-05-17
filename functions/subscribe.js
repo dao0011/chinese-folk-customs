@@ -56,7 +56,8 @@ export async function onRequestPost({ request, env }) {
       );
     }
 
-    return Response.redirect('/subscribe-thankyou?email=' + encodeURIComponent(email), 303);
+    var data = JSON.parse(body);
+    return Response.redirect('/subscribe-thankyou?email=' + encodeURIComponent(email) + '&sent=ok&id=' + (data.id || ''), 303);
   } catch (e) {
     return new Response(
       'Error: ' + e.message,
