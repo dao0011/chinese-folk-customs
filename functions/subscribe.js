@@ -44,13 +44,14 @@ export async function onRequest({ request, env }) {
       }),
     });
 
+    var body = await res.text();
+
     if (!res.ok) {
-      return new Response('Email delivery failed. Please try again later.', { status: 502 });
+      return new Response('Resend error [' + res.status + ']: ' + body, { status: 502 });
     }
 
-    // Success: redirect to thank-you page
-    return Response.redirect('/subscribe-thankyou?email=' + encodeURIComponent(email), 303);
+    return Response.redirect('/subscribe-thankyou', 303);
   } catch (e) {
-    return new Response('Something went wrong. Please try again.', { status: 500 });
+    return new Response('Error: ' + e.message + ' | ' + e.stack, { status: 500 });
   }
 }
