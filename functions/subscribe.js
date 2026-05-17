@@ -1,4 +1,8 @@
-export async function onRequestPost({ request, env }) {
+export async function onRequest({ request, env }) {
+  if (request.method !== 'POST') {
+    return new Response('Please use POST', { status: 405 });
+  }
+
   var formData = await request.formData();
   var email = (formData.get('email_address') || formData.get('email') || '').trim();
 
@@ -11,10 +15,9 @@ export async function onRequestPost({ request, env }) {
   var from = env.RESEND_FROM || 'Folk Calm <guide@tcmwellness.xyz>';
 
   if (!resendKey) {
-    return new Response('ENV MISSING: RESEND_API_KEY not set');
+    return new Response('ENV MISSING: RESEND_API_KEY', { status: 500 });
   }
 
-  // Step 1: Test basic connectivity to Resend
   try {
     var res = await fetch('https://api.resend.com/emails', {
       method: 'POST',
@@ -26,25 +29,15 @@ export async function onRequestPost({ request, env }) {
         from: from,
         to: [email],
         subject: 'Your Free Guide: 10 Ancient Chinese Evening Habits',
-        html: '<p>Test email from Folk Calm. <a href="' + pdfUrl + '">Download your guide</a></p>',
+        html: '<p>Here is your free guide: <a href="' + pdfUrl + '">Download</a></p>',
       }),
     });
 
-    var statusCode = res.status;
     var body = await res.text();
-
-    // Show everything — status code, body, and env key preview
-    var info = 'RESEND STATUS: ' + statusCode + '\n';
-    info += 'RESEND BODY: ' + body.substring(0, 500) + '\n';
-    info += 'KEY PREFIX: ' + resendKey.substring(0, 6) + '...\n';
-    info += 'FROM: ' + from;
-
-    return new Response(info, {
+    return new Response('Resend: ' + res.status + ' -> ' + body.substring(0, 500), {
       headers: { 'Content-Type': 'text/plain; charset=utf-8' },
     });
   } catch (e) {
-    return new Response('FETCH ERROR: ' + e.message + ' | ' + e.stack, {
-      headers: { 'Content-Type': 'text/plain; charset=utf-8' },
-    });
+    return new Response('Error: ' + e.message, { status: 500 });
   }
 }
