@@ -24,11 +24,11 @@ export async function onRequestPost({ request, env }) {
     );
   }
 
-  const pdfUrl = 'https://chinese-folk-customs.pages.dev/pdfs/10-Ancient-Chinese-Evening-Habits-Guide.pdf';
+  const pdfUrl = 'https://tcmwellness.xyz/pdfs/10-Ancient-Chinese-Evening-Habits-Guide.pdf';
 
   // Send email via Resend
   const resendKey = env.RESEND_API_KEY;
-  const from = env.RESEND_FROM || 'Folk Calm <guide@chinese-folk-customs.pages.dev>';
+  const from = env.RESEND_FROM || 'Folk Calm <guide@tcmwellness.xyz>';
 
   if (!resendKey) {
     // Fallback: redirect to thank-you page with PDF link
@@ -62,7 +62,7 @@ export async function onRequestPost({ request, env }) {
             <hr style="border: 1px solid #e0d5c5; margin: 24px 0;">
             <p style="color: #888; font-size: 12px;">
               You received this email because you subscribed at Folk Calm.
-              <br><a href="https://chinese-folk-customs.pages.dev/privacy-policy.html">Privacy Policy</a>
+              <br><a href="https://tcmwellness.xyz/privacy-policy.html">Privacy Policy</a>
             </p>
           </div>
         `,
