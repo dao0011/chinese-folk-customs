@@ -1,6 +1,6 @@
 export async function onRequest({ request, env }) {
   if (request.method !== 'POST') {
-    return Response.redirect('/', 302);
+    return Response.redirect('https://tcmwellness.xyz/', 302);
   }
 
   var formData = await request.formData();
@@ -50,7 +50,7 @@ export async function onRequest({ request, env }) {
       return new Response('Resend error [' + res.status + ']: ' + body, { status: 502 });
     }
 
-    return Response.redirect('/subscribe-thankyou', 303);
+    return Response.redirect('https://tcmwellness.xyz/subscribe-thankyou', 303);
   } catch (e) {
     return new Response('Error: ' + e.message + ' | ' + e.stack, { status: 500 });
   }
