@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://tcmwellness.xyz/sitemap.xml
+Sitemap: https://www.tcmwellness.xyz/sitemap.xml
