@@ -46,7 +46,7 @@
     el.innerHTML =
       '<div class="container">' +
         '<h1>Folk Calm</h1>' +
-        '<p class="subtitle">Traditional Chinese Home Customs</p>' +
+        '<p class="subtitle">Old habits from a Sichuan kitchen, written down so I don't forget</p>' +
         '<nav class="main-nav" aria-label="Main navigation">' +
           '<button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation">☰ Menu</button>' +
           '<ul>' +
@@ -87,10 +87,10 @@
           '<p>This website documents historical Chinese folk customs for educational and cultural interest only. All content is based on historical records and oral traditions. It is not personal advice, guidance, or a recommendation for any action. Historical texts reflect ancient worldviews and are not guides for contemporary living.</p>' +
         '</div>' +
         '<div class="affiliate-footer-note">' +
-          '<p>As an Amazon Associate, Folk Calm earns from qualifying purchases. This does not affect the price you pay. <a href="affiliate-disclosure.html">Learn more →</a></p>' +
+          '<p>If you buy something through certain links, I get a few cents. It doesn't change what you pay. I only link to things I'd use in my own kitchen. <a href="affiliate-disclosure.html">Full disclosure →</a></p>' +
         '</div>' +
         '<div class="copyright">' +
-          '<p>&copy; <span id="y"></span> Folk Calm. All rights reserved.</p>' +
+          '<p>&copy; <span id="y"></span> Folk Calm. Written in Chengdu, China.</p>' +
         '</div>' +
       '</div>';
 
@@ -168,7 +168,7 @@
     var els = document.querySelectorAll('.affiliate-disclosure-placeholder');
     for (var i = 0; i < els.length; i++) {
       els[i].className = 'affiliate-note';
-      els[i].innerHTML = '<strong>Disclosure:</strong> Some links below are affiliate links. As an Amazon Associate, Folk Calm earns from qualifying purchases at no extra cost to you.';
+      els[i].innerHTML = '<strong>Disclosure:</strong> Some links below are affiliate links. If you buy through them, I get a few cents — at no extra cost to you. I only link to things I'd use in my own kitchen.';
     }
   }
 
