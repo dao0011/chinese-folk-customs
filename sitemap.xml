@@ -70,4 +70,28 @@
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
+  <url>
+    <loc>https://www.tcmwellness.xyz/article-yam-millet-porridge.html</loc>
+    <lastmod>2026-05-20T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.tcmwellness.xyz/article-sichuan-peppercorn-foot-soak.html</loc>
+    <lastmod>2026-05-20T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.tcmwellness.xyz/article-sour-jujube-seed-tea.html</loc>
+    <lastmod>2026-05-20T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.tcmwellness.xyz/article-post-meal-walk.html</loc>
+    <lastmod>2026-05-20T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>
