@@ -6,61 +6,67 @@
 >
   <url>
     <loc>https://www.tcmwellness.xyz/</loc>
-    <lastmod>2026-05-11T00:00:00+00:00</lastmod>
+    <lastmod>2026-05-20T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.tcmwellness.xyz/categories.html</loc>
-    <lastmod>2026-05-11T00:00:00+00:00</lastmod>
+    <lastmod>2026-05-20T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tcmwellness.xyz/article-mugwort-foot-soak.html</loc>
-    <lastmod>2026-05-11T00:00:00+00:00</lastmod>
+    <lastmod>2026-05-20T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tcmwellness.xyz/article-ginger-tea.html</loc>
-    <lastmod>2026-05-11T00:00:00+00:00</lastmod>
+    <lastmod>2026-05-20T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tcmwellness.xyz/article-rice-congee.html</loc>
-    <lastmod>2026-05-11T00:00:00+00:00</lastmod>
+    <lastmod>2026-05-20T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tcmwellness.xyz/article-salt-warm-pack.html</loc>
-    <lastmod>2026-05-11T00:00:00+00:00</lastmod>
+    <lastmod>2026-05-20T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tcmwellness.xyz/disclaimer.html</loc>
-    <lastmod>2026-05-15T00:00:00+00:00</lastmod>
+    <lastmod>2026-05-20T00:00:00+00:00</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://www.tcmwellness.xyz/about.html</loc>
-    <lastmod>2026-05-15T00:00:00+00:00</lastmod>
+    <lastmod>2026-05-20T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.tcmwellness.xyz/privacy-policy.html</loc>
-    <lastmod>2026-05-15T00:00:00+00:00</lastmod>
+    <lastmod>2026-05-20T00:00:00+00:00</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://www.tcmwellness.xyz/affiliate-disclosure.html</loc>
-    <lastmod>2026-05-15T00:00:00+00:00</lastmod>
+    <lastmod>2026-05-20T00:00:00+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://www.tcmwellness.xyz/terms-of-use.html</loc>
+    <lastmod>2026-05-20T00:00:00+00:00</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
