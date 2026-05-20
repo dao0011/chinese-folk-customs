@@ -51,9 +51,9 @@
           '<button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation">☰ Menu</button>' +
           '<ul>' +
             '<li><a href="index.html" class="nav-link' + isActive('index.html') + '"' + ariaCurrent('index.html') + '>Home</a></li>' +
-            '<li><a href="categories.html" class="nav-link' + isActive('categories.html') + '"' + ariaCurrent('categories.html') + '>Categories</a></li>' +
-            '<li><a href="article-mugwort-foot-soak.html" class="nav-link' + isActive('article-mugwort-foot-soak.html') + '"' + ariaCurrent('article-mugwort-foot-soak.html') + '>Foot Soak</a></li>' +
-            '<li><a href="disclaimer.html" class="nav-link' + isActive('disclaimer.html') + '"' + ariaCurrent('disclaimer.html') + '>Disclaimer</a></li>' +
+            '<li><a href="categories.html" class="nav-link' + isActive('categories.html') + '"' + ariaCurrent('categories.html') + '>All Remedies</a></li>' +
+            '<li><a href="about.html" class="nav-link' + isActive('about.html') + '"' + ariaCurrent('about.html') + '>About</a></li>' +
+            '<li><a href="#subscribe" class="nav-link">Free Guide</a></li>' +
           '</ul>' +
         '</nav>' +
         searchHTML +
@@ -78,7 +78,7 @@
               '<li><a href="disclaimer.html">Full Disclaimer</a></li>' +
               '<li><a href="privacy-policy.html">Privacy Policy</a></li>' +
               '<li><a href="affiliate-disclosure.html">Affiliate Disclosure</a></li>' +
-              '<li><a href="disclaimer.html">Terms of Use</a></li>' +
+              '<li><a href="terms-of-use.html">Terms of Use</a></li>' +
             '</ul>' +
           '</div>' +
         '</div>' +
@@ -90,7 +90,7 @@
           '<p>As an Amazon Associate, Folk Calm earns from qualifying purchases. This does not affect the price you pay. <a href="affiliate-disclosure.html">Learn more →</a></p>' +
         '</div>' +
         '<div class="copyright">' +
-          '<p>&copy; <span id="y"></span> Traditional Chinese Home Customs Archive. All rights reserved.</p>' +
+          '<p>&copy; <span id="y"></span> Folk Calm. All rights reserved.</p>' +
         '</div>' +
       '</div>';
 
@@ -172,8 +172,40 @@
     }
   }
 
+  // ── Performance & SEO Tags ─────────────────────────────────────
+  function injectPerformanceTags() {
+    if (!document.head) return;
+
+    // Cache-Control meta
+    var meta = document.createElement('meta');
+    meta.httpEquiv = 'Cache-Control';
+    meta.content = 'public, max-age=3600';
+    document.head.appendChild(meta);
+
+    // Preconnect to Resend API
+    var pc = document.createElement('link');
+    pc.rel = 'preconnect';
+    pc.href = 'https://api.resend.com';
+    pc.crossOrigin = 'anonymous';
+    document.head.appendChild(pc);
+
+    // DNS prefetch for Resend
+    var dns = document.createElement('link');
+    dns.rel = 'dns-prefetch';
+    dns.href = '//api.resend.com';
+    document.head.appendChild(dns);
+
+    // Preload banner image
+    var preload = document.createElement('link');
+    preload.rel = 'preload';
+    preload.as = 'image';
+    preload.href = 'images/tcm-herbs-banner.webp';
+    document.head.appendChild(preload);
+  }
+
   // ── Init ─────────────────────────────────────────────────────────
   function init() {
+    injectPerformanceTags();
     injectBanner();
     injectHeader();
     injectFooter();
