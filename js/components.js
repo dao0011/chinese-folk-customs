@@ -45,8 +45,8 @@
     el.className = 'site-header';
     el.innerHTML =
       '<div class="container">' +
-        '<h1>Traditional Chinese Home Customs</h1>' +
-        '<p class="subtitle">Documenting ancient family routines and household practices</p>' +
+        '<h1>Folk Calm</h1>' +
+        '<p class="subtitle">Traditional Chinese Home Customs</p>' +
         '<nav class="main-nav" aria-label="Main navigation">' +
           '<button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation">☰ Menu</button>' +
           '<ul>' +
