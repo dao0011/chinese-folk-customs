@@ -124,14 +124,30 @@
     el.className = 'related-articles';
 
     var articles = [
-      { url: 'article-mugwort-foot-soak.html', title: 'Dried Mugwort Foot Soak', desc: 'A quiet evening basin ritual from southern Chinese homes.', img: 'images/dried-mugwort-bundle.webp' },
-      { url: 'article-ginger-tea.html', title: 'Ginger & Date Warm Sip', desc: 'The most ordinary after-meal moment in Chinese family life.', img: 'images/ginger-tea-cup.webp' },
+      { url: 'article-mugwort-foot-soak.html', title: 'Dried Mugwort Foot Soak', desc: 'A quiet evening basin ritual from southern Chinese homes.', img: 'images/warm-foot-soak-basin.webp' },
+      { url: 'article-ginger-tea.html', title: 'Ginger & Date Warm Sip', desc: 'The most ordinary after-meal moment in Chinese family life.', img: 'images/ginger-date-tea.webp' },
       { url: 'article-rice-congee.html', title: 'Plain Rice Congee', desc: 'The comfort bowl that travels through every Chinese kitchen.', img: 'images/rice-congee-kitchen.webp' },
-      { url: 'article-salt-warm-pack.html', title: 'Coarse Salt Warm Pack', desc: 'Grandmother\'s cloth heat pad — simple warmth from the kitchen.', img: 'images/warm-foot-soak-basin.webp' }
+      { url: 'article-salt-warm-pack.html', title: 'Coarse Salt Warm Pack', desc: 'Grandmother\'s cloth heat pad — simple warmth from the kitchen.', img: 'images/article-salt-warm-pack-photo.webp' },
+      { url: 'article-winter-melon-tea.html', title: 'Winter Melon Tea for Dry Throats', desc: 'Every autumn my grandmother simmered winter melon with rock sugar — a slow ritual for dry throats.', img: 'images/article-winter-melon-tea-photo.webp' },
+      { url: 'article-yam-millet-porridge.html', title: 'Chinese Yam and Millet Porridge', desc: 'A gentle stomach-soothing bowl from northern China.', img: 'images/article-yam-millet-porridge-photo.webp' },
+      { url: 'article-sichuan-peppercorn-foot-soak.html', title: 'Sichuan Peppercorn Foot Soak', desc: 'Warmth for cold days from the Sichuan kitchen.', img: 'images/article-sichuan-peppercorn-foot-soak-photo.webp' },
+      { url: 'article-sour-jujube-seed-tea.html', title: 'Sour Jujube Seed Tea', desc: 'A quiet cup before sleep — toasted seeds steeped in hot water.', img: 'images/article-sour-jujube-seed-tea-photo.webp' },
+      { url: 'article-post-meal-walk.html', title: 'Post-Meal Walk', desc: 'A hundred paces after a meal — an old Chinese daily habit.', img: 'images/article-post-meal-walk-photo.webp' },
+      { url: 'article-scallion-white-root.html', title: 'Scallion White Root Tea', desc: 'What my grandmother reached for when a cold was coming.', img: 'images/article-scallion-white-root-photo.webp' },
+      { url: 'article-goji-berry-tea.html', title: 'Goji Berry Tea', desc: 'The cup my grandmother poured for tired eyes every afternoon.', img: 'images/ginger-tea-cup.webp' },
+      { url: 'article-moxibustion-home.html', title: 'Moxibustion at Home', desc: 'Warming the knees with mugwort warmth on winter evenings.', img: 'images/moxibustion.webp' },
+      { url: 'article-ginger-foot-soak.html', title: 'Ginger Foot Soak for Cold Feet', desc: 'Old ginger in hot water until her feet glowed pink.', img: 'images/warm-foot-soak-basin.webp' }
     ];
 
-    // Filter out current page
+    // Filter out current page, shuffle, take 6
     var filtered = articles.filter(function (a) { return a.url !== path; });
+    for (var i = filtered.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = filtered[i];
+      filtered[i] = filtered[j];
+      filtered[j] = tmp;
+    }
+    filtered = filtered.slice(0, 6);
 
     var html = '<h3>Continue Reading</h3><div class="related-grid">';
     filtered.forEach(function (a) {
