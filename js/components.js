@@ -211,12 +211,6 @@
     dns.href = '//api.resend.com';
     document.head.appendChild(dns);
 
-    // Preload banner image
-    var preload = document.createElement('link');
-    preload.rel = 'preload';
-    preload.as = 'image';
-    preload.href = 'images/tcm-herbs-banner.webp';
-    document.head.appendChild(preload);
   }
 
   // ── Init ─────────────────────────────────────────────────────────
