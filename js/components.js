@@ -50,7 +50,7 @@
         '<nav class="main-nav" aria-label="Main navigation">' +
           '<button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation">☰ Menu</button>' +
           '<ul>' +
-            '<li><a href="index.html" class="nav-link' + isActive('index.html') + '"' + ariaCurrent('index.html') + '>Home</a></li>' +
+            '<li><a href="/" class="nav-link' + isActive('index.html') + '"' + ariaCurrent('index.html') + '>Home</a></li>' +
             '<li><a href="categories.html" class="nav-link' + isActive('categories.html') + '"' + ariaCurrent('categories.html') + '>All Remedies</a></li>' +
             '<li><a href="about.html" class="nav-link' + isActive('about.html') + '"' + ariaCurrent('about.html') + '>About</a></li>' +
             '<li><a href="#subscribe" class="nav-link">Free Guide</a></li>' +

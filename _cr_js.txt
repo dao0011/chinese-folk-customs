@@ -1,0 +1,153 @@
+=== FULL JS (first 5000 chars) ===
+
+const out=document.getElementById('result');
+const btn=document.getElementById('go');
+const inp=document.getElementById('url');
+const progressBar=document.getElementById('progressBar');
+const pasteArea=document.getElementById('pasteArea');
+const pasteText=document.getElementById('pasteText');
+
+// ── Enter key shortcut ──
+inp.addEventListener('keydown',e=>{if(e.key==='Enter')extract()});
+
+// ── Reading progress bar (#2) ──
+let progressObserving=false;
+function startProgressObserver(){
+  if(progressObserving)return;
+  progressObserving=true;
+  const resultCard=out.querySelector('.result-card');
+  if(!resultCard)return;
+  const update=()=>{
+    const rect=resultCard.getBoundingClientRect();
+    const total=rect.height-window.innerHeight+rect.top;
+    if(total<=0){progressBar.style.setProperty('--progress','100%');return}
+    const scrolled=-rect.top;
+    const pct=Math.min(100,Math.max(0,(scrolled/total)*100));
+    progressBar.style.setProperty('--progress',pct+'%');
+  };
+  window.addEventListener('scroll',update,{passive:true});
+  update();
+}
+
+// ── Font size controls (#2) ──
+function changeFontSize(delta){
+  const fs=parseFloat(localStorage.getItem('cr_font_size')||'1.125');
+  let newFs=fs+delta;
+  if(newFs<0.75)newFs=0.75;
+  if(newFs>1.75)newFs=1.75;
+  localStorage.setItem('cr_font_size',String(newFs));
+  document.documentElement.style.setProperty('--fs-content',newFs+'rem');
+}
+
+// ── Load saved font size ──
+const savedFs=localStorage.getItem('cr_font_size');
+if(savedFs)document.documentElement.style.setProperty('--fs-content',savedFs+'rem');
+
+// ── Reading mode toggle (#2) ──
+let readingMode=false;
+function toggleReadingMode(el){
+  readingMode=!readingMode;
+  el.textContent=readingMode?'📖 Exit Reading Mode':'🔍 Reading Mode';
+  el.classList.toggle('active',readingMode);
+  document.querySelectorAll('.content')[0]?.classList.toggle('read-mode-only',readingMode);
+}
+
+// ── HTML sanitizer ──
+function sanitize(html){
+  const div=document.createElement('div');
+  div.innerHTML=html;
+  for(const tag of div.querySelectorAll('script,iframe,object,embed,link,style'))tag.remove();
+  for(const el of div.querySelectorAll('*')){
+    for(const attr of[...el.attributes]){
+      if(attr.name.startsWith('on')||(attr.name==='href'&&attr.value.startsWith('javascript:')))el.removeAttribute(attr.name);
+    }
+  }
+  return div.innerHTML;
+}
+
+// ── Staged loading (#3) ──
+const STAGES=[
+  {label:'Fetching article...',icon:'🌐'},
+  {label:'Extracting content...',icon:'📄'},
+  {label:'Summarizing with AI...',icon:'✨'},
+];
+
+function showStagedLoading(){
+  const humorMsgs=[
+    'This article is wordy. AI is working hard.',
+    'Counting paragraphs... almost there.',
+    'Reading between the lines for you.',
+    'Brewing a fresh summary just for you.',
+    'Decoding the article so you do not have to.',
+  ];
+  const stagesHtml=STAGES.map((s,i)=>'<div class="loading-stage current" data-stage='+i+'>'+
+    '<span class=stage-icon>'+s.icon+'</span><span>'+s.label+'</span></div>').join('');
+  out.innerHTML='<div class=loading>'+stagesHtml+
+    '<div class=spinner></div>'+
+    '<div class=loading-humor id=loadingHumor></div></div>';
+  // advance stages
+  const stageEls=out.querySelectorAll('.loading-stage');
+  let humorTimer=null;
+  stageEls.forEach((el,i)=>{
+    setTimeout(()=>{
+      // mark prev done
+      if(i>0)stageEls[i-1].className='loading-stage done';
+      stageEls[i].className='loading-stage current';
+      if(i===STAGES.length-1){
+        // last stage: show humor after 2s
+        humorTimer=setTimeout(()=>{
+          const h=document.getElementById('loadingHumor');
+          if(h)h.textContent=humorMsgs[Math.floor(Math.random()*humorMsgs.length)];
+        },2000);
+      }
+    },i*1800);
+  });
+  // cleanup timer
+  out._humorCleanup=()=>{if(humorTimer)clearTimeout(humorTimer)};
+}
+
+// ── Word count & reading time (#4) ──
+function estimateReadingTime(text){
+  const wc=(text||'').trim().split(/\s+/).length;
+  const rt=Math.max(1,Math.round(wc/200));
+  return {words:wc,minutes:rt};
+}
+
+// ── Download state (#7) ──
+let currentDownloadData=null;
+
+function doDownloadMarkdown(){
+  if(!currentDownloadData)return;
+  const {title,text,summary,source}=currentDownloadData;
+  const now=new Date().toISOString().slice(0,10);
+  const frontmatter='---\ntitle: "'+(title||'Untitled')+'"\nsource: "'+source+'"\nextracted_at: "'+now+'"\nsummary: "'+summary+'"\n---\n\n';
+  const body='# '+title+'\n\n'+text;
+  downloadFile(frontmatter+body,'.md','text/markdown');
+}
+
+function doDownloadPlain(){
+  if(!currentDownloadData)return;
+  const {title,text}=currentDownloadData;
+  downloadFile(title+'\n\n'+text,'.txt','text/plain');
+}
+
+function doDownloadHTML(){
+  if(!currentDownloadData)return;
+  const {title,content}=currentDownloadData;
+  const html='<!doctype html><html><head><meta charset=utf-8><title>'+title+'</title><style>body{max-width:720px;margin:40px auto;padding:0 20px;font-family:sans-serif;line-height:1.8;color:#333}img{max-width:100%}blockquote{border-left:
+
+=== JS length: 12230
+
+=== DOMContentLoaded handler ===
+DOMContentLoaded',()=>{
+  // Global click handler for dropdown items
+  document.addEventListener('click',e=>{
+    const item=e.target.closest('.dropdown-item');
+    if(!item)return;
+    const fmt=item.dataset.format;
+    if(fmt==='md')doDownloadMarkdown();
+    else if(fmt==='txt')doDownloadPlain();
+    else if(fmt==='html')doDownloadHTML();
+  });
+});
+
