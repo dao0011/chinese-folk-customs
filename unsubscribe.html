@@ -19,18 +19,43 @@
     <main id="main" class="wrap">
         <article>
             <h1>Unsubscribe</h1>
-            <p class="lead">Send us the email address you want removed from Folk Calm updates.</p>
 
-            <form class="email-cta-form" action="mailto:unsubscribe@tcmwellness.xyz?subject=Unsubscribe" method="post" enctype="text/plain">
-                <input type="email" name="email_address" placeholder="Your email address" required aria-label="Email address">
-                <button type="submit">Send Unsubscribe Request</button>
-            </form>
+            <div id="unsubscribe-sent" style="display:none">
+                <p class="lead">Your unsubscribe request has been received.</p>
+                <p>We'll remove you from Folk Calm updates, usually within 24 hours. You won't receive further emails from us.</p>
+                <p><a href="/">Back to the home page →</a></p>
+            </div>
 
-            <p class="privacy-note">Your request will be processed manually. You can also reply STOP to any Folk Calm email.</p>
+            <div id="unsubscribe-error" style="display:none">
+                <p class="lead">Something went wrong. Please try again, or email us directly at <a href="mailto:unsubscribe@tcmwellness.xyz?subject=Unsubscribe">unsubscribe@tcmwellness.xyz</a>.</p>
+            </div>
+
+            <div id="unsubscribe-form">
+                <p class="lead">Enter the email address you want removed from Folk Calm updates.</p>
+
+                <form class="email-cta-form" action="/unsubscribe" method="post">
+                    <input type="email" name="email_address" placeholder="Your email address" required aria-label="Email address">
+                    <button type="submit">Send Unsubscribe Request</button>
+                </form>
+
+                <p class="privacy-note">You can also reply STOP to any Folk Calm email. Requests are processed within 24 hours.</p>
+            </div>
         </article>
     </main>
 
     <div id="site-footer"></div>
+    <script>
+    (function() {
+        var params = new URLSearchParams(window.location.search);
+        if (params.get('sent') === '1') {
+            document.getElementById('unsubscribe-form').style.display = 'none';
+            document.getElementById('unsubscribe-sent').style.display = 'block';
+        } else if (params.get('error') === '1') {
+            document.getElementById('unsubscribe-form').style.display = 'none';
+            document.getElementById('unsubscribe-error').style.display = 'block';
+        }
+    })();
+    </script>
     <script src="js/main.js" defer></script>
 </body>
 </html>
