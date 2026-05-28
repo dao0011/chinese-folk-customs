@@ -1,13 +1,72 @@
+var PAGE_HTML = [
+'<!DOCTYPE html>',
+'<html lang="en">',
+'<head>',
+'    <meta charset="UTF-8">',
+'    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">',
+'    <title>Unsubscribe — Folk Calm</title>',
+'    <meta name="description" content="Request removal from Folk Calm email updates.">',
+'    <meta name="robots" content="noindex, nofollow">',
+'    <link rel="icon" href="favicon.ico" type="image/x-icon">',
+'    <link rel="stylesheet" href="css/styles.css">',
+'    <script src="js/components.js?v=3" defer></script>',
+'</head>',
+'<body>',
+'    <a href="#main" class="skip-link">Skip to main content</a>',
+'    <div id="site-disclaimer-banner"></div>',
+'    <div id="site-header"></div>',
+'    <main id="main" class="wrap">',
+'        <article>',
+'            <h1>Unsubscribe</h1>',
+'            <div id="unsubscribe-sent" style="display:none">',
+'                <p class="lead">Your unsubscribe request has been received.</p>',
+'                <p>We\'ll remove you from Folk Calm updates, usually within 24 hours. You won\'t receive further emails from us.</p>',
+'                <p><a href="/">Back to the home page →</a></p>',
+'            </div>',
+'            <div id="unsubscribe-error" style="display:none">',
+'                <p class="lead">Something went wrong. Please try again, or email us directly at <a href="mailto:unsubscribe@tcmwellness.xyz?subject=Unsubscribe">unsubscribe@tcmwellness.xyz</a>.</p>',
+'            </div>',
+'            <div id="unsubscribe-form">',
+'                <p class="lead">Enter the email address you want removed from Folk Calm updates.</p>',
+'                <form class="email-cta-form" action="/unsubscribe" method="post">',
+'                    <input type="email" name="email_address" placeholder="Your email address" required aria-label="Email address">',
+'                    <button type="submit">Send Unsubscribe Request</button>',
+'                </form>',
+'                <p class="privacy-note">You can also reply STOP to any Folk Calm email. Requests are processed within 24 hours.</p>',
+'            </div>',
+'        </article>',
+'    </main>',
+'    <div id="site-footer"></div>',
+'    <script>',
+'    (function(){',
+'        var p=new URLSearchParams(window.location.search);',
+'        if(p.get("sent")==="1"){document.getElementById("unsubscribe-form").style.display="none";document.getElementById("unsubscribe-sent").style.display="block"}',
+'        else if(p.get("error")==="1"){document.getElementById("unsubscribe-form").style.display="none";document.getElementById("unsubscribe-error").style.display="block"}',
+'    })();',
+'    </script>',
+'    <script src="js/main.js" defer></script>',
+'</body>',
+'</html>',
+].join('');
+
 export async function onRequest({ request, env }) {
+  var url = new URL(request.url);
+
+  if (request.method === 'GET') {
+    return new Response(PAGE_HTML, {
+      headers: { 'Content-Type': 'text/html; charset=utf-8' },
+    });
+  }
+
   if (request.method !== 'POST') {
-    return Response.redirect('https://tcmwellness.xyz/unsubscribe.html', 302);
+    return new Response('Method not allowed', { status: 405 });
   }
 
   var formData = await request.formData();
   var email = (formData.get('email_address') || '').trim();
 
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    return Response.redirect('https://tcmwellness.xyz/unsubscribe.html?error=1', 302);
+    return Response.redirect('https://www.tcmwellness.xyz/unsubscribe?error=1', 302);
   }
 
   var resendKey = env.RESEND_API_KEY;
@@ -49,12 +108,12 @@ export async function onRequest({ request, env }) {
     if (!res.ok) {
       var body = await res.text();
       console.error('Resend error [' + res.status + ']: ' + body);
-      return Response.redirect('https://tcmwellness.xyz/unsubscribe.html?error=1', 302);
+      return Response.redirect('https://www.tcmwellness.xyz/unsubscribe?error=1', 302);
     }
 
-    return Response.redirect('https://tcmwellness.xyz/unsubscribe.html?sent=1', 302);
+    return Response.redirect('https://www.tcmwellness.xyz/unsubscribe?sent=1', 302);
   } catch (e) {
     console.error('Unsubscribe error:', e);
-    return Response.redirect('https://tcmwellness.xyz/unsubscribe.html?error=1', 302);
+    return Response.redirect('https://www.tcmwellness.xyz/unsubscribe?error=1', 302);
   }
 }

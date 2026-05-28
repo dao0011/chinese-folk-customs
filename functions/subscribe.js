@@ -11,7 +11,7 @@ export async function onRequest({ request, env }) {
   }
 
   var pdfUrl = 'https://tcmwellness.xyz/pdfs/10-Ancient-Chinese-Evening-Habits-Guide.pdf';
-  var unsubscribeUrl = 'https://www.tcmwellness.xyz/unsubscribe.html';
+  var unsubscribeUrl = 'https://www.tcmwellness.xyz/unsubscribe';
   var unsubscribeMailto = 'mailto:unsubscribe@tcmwellness.xyz?subject=Unsubscribe';
   var resendKey = env.RESEND_API_KEY;
   var from = env.RESEND_FROM || 'Folk Calm <guide@tcmwellness.xyz>';
