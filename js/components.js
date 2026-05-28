@@ -135,9 +135,9 @@
       { url: 'article-sour-jujube-seed-tea.html', title: 'Sour Jujube Seed Tea', desc: 'A quiet cup before sleep — toasted seeds steeped in hot water.', img: 'images/article-sour-jujube-seed-tea-photo.webp' },
       { url: 'article-post-meal-walk.html', title: 'Post-Meal Walk', desc: 'A hundred paces after a meal — an old Chinese daily habit.', img: 'images/article-post-meal-walk-photo.webp' },
       { url: 'article-scallion-white-root.html', title: 'Scallion White Root Tea', desc: 'What my grandmother reached for when a cold was coming.', img: 'images/article-scallion-white-root-photo.webp' },
-      { url: 'article-goji-berry-tea.html', title: 'Goji Berry Tea', desc: 'The cup my grandmother poured for tired eyes every afternoon.', img: 'images/ginger-tea-cup.webp' },
+      { url: 'article-goji-berry-tea.html', title: 'Goji Berry Tea', desc: 'The cup my grandmother poured for tired eyes every afternoon.', img: 'images/goji-berry-tea-cup.jpg' },
       { url: 'article-moxibustion-home.html', title: 'Moxibustion at Home', desc: 'Warming the knees with mugwort warmth on winter evenings.', img: 'images/moxibustion.webp' },
-      { url: 'article-ginger-foot-soak.html', title: 'Ginger Foot Soak for Cold Feet Comfort', desc: 'Old ginger in hot water until her feet glowed pink.', img: 'images/warm-foot-soak-basin.webp' }
+      { url: 'article-ginger-foot-soak.html', title: 'Ginger Foot Soak for Cold Feet Comfort', desc: 'Old ginger in hot water until her feet glowed pink.', img: 'images/ginger-soak-pinterest.jpg' }
     ];
 
     // Filter out current page, shuffle, take 6
