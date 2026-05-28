@@ -11,6 +11,8 @@ export async function onRequest({ request, env }) {
   }
 
   var pdfUrl = 'https://tcmwellness.xyz/pdfs/10-Ancient-Chinese-Evening-Habits-Guide.pdf';
+  var unsubscribeUrl = 'https://www.tcmwellness.xyz/unsubscribe.html';
+  var unsubscribeMailto = 'mailto:unsubscribe@tcmwellness.xyz?subject=Unsubscribe';
   var resendKey = env.RESEND_API_KEY;
   var from = env.RESEND_FROM || 'Folk Calm <guide@tcmwellness.xyz>';
 
@@ -29,6 +31,9 @@ export async function onRequest({ request, env }) {
         from: from,
         to: [email],
         subject: 'Your Free Guide: 10 Ancient Chinese Evening Habits',
+        headers: {
+          'List-Unsubscribe': '<' + unsubscribeMailto + '>, <' + unsubscribeUrl + '>',
+        },
         html: [
           '<div style="font-family: Georgia, serif; max-width: 600px; margin: 0 auto; padding: 20px;">',
           '<h2 style="color: #5C3317;">Thank you for subscribing!</h2>',
@@ -38,7 +43,7 @@ export async function onRequest({ request, env }) {
           '</p>',
           '<p style="color: #6B5B4A; font-size: 14px;">Or copy this link: <a href="' + pdfUrl + '">' + pdfUrl + '</a></p>',
           '<hr style="border: 1px solid #e0d5c5; margin: 24px 0;">',
-          '<p style="color: #888; font-size: 12px;">You received this email because you subscribed at Folk Calm. <a href="https://tcmwellness.xyz/privacy-policy.html">Privacy Policy</a></p>',
+          '<p style="color: #888; font-size: 12px;">You received this email because you subscribed at Folk Calm. <a href="https://tcmwellness.xyz/privacy-policy.html">Privacy Policy</a> · <a href="' + unsubscribeUrl + '">Unsubscribe</a> or reply STOP.</p>',
           '</div>',
         ].join(''),
       }),
@@ -47,11 +52,13 @@ export async function onRequest({ request, env }) {
     var body = await res.text();
 
     if (!res.ok) {
-      return new Response('Resend error [' + res.status + ']: ' + body, { status: 502 });
+      console.error('Resend error [' + res.status + ']: ' + body);
+      return new Response('Subscription failed. Please try again later.', { status: 502 });
     }
 
     return Response.redirect('https://tcmwellness.xyz/subscribe-thankyou', 303);
   } catch (e) {
-    return new Response('Error: ' + e.message + ' | ' + e.stack, { status: 500 });
+    console.error('Subscription error:', e);
+    return new Response('Subscription failed. Please try again later.', { status: 500 });
   }
 }

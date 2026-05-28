@@ -25,16 +25,26 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (searchInput && searchButton && searchResults) {
         var sitePages = [
-            { title: 'Evening Foot Soak Tradition',     url: 'index.html',                       keywords: 'foot soak evening basin warm water household practice' },
-            { title: 'Dried Mugwort Foot Soak',          url: 'article-mugwort-foot-soak.html',   keywords: 'mugwort foot soak dried herb bundle steps materials safety' },
-            { title: 'Categories — Folk Habits',         url: 'categories.html',                  keywords: 'categories kitchen comforts compresses cloth warmth ginger tea' },
-            { title: 'Disclaimer',                       url: 'disclaimer.html',                  keywords: 'disclaimer legal cultural record boundaries' },
-            { title: 'Ginger Tea Preparation',           url: 'article-ginger-tea.html',          keywords: 'ginger tea cup warm sip kitchen' },
-            { title: 'Cloth Warmth — Household Compresses', url: 'article-salt-warm-pack.html',  keywords: 'compress warm pack cloth salt rice bag' },
-            { title: 'Plain Rice Congee',                url: 'article-rice-congee.html',         keywords: 'rice congee porridge breakfast comfort bowl' },
-            { title: 'About Folk Calm',                  url: 'about.html',                       keywords: 'about cultural archive mission methodology' },
-            { title: 'Privacy Policy',                   url: 'privacy-policy.html',              keywords: 'privacy gdpr ccpa data email policy' },
-            { title: 'Affiliate Disclosure',             url: 'affiliate-disclosure.html',        keywords: 'affiliate amazon disclosure transparency' },
+            { title: 'Evening Foot Soak Tradition',             url: 'index.html',                                   keywords: 'foot soak evening basin warm water household practice' },
+            { title: 'Dried Mugwort Foot Soak',                  url: 'article-mugwort-foot-soak.html',               keywords: 'mugwort foot soak dried herb bundle steps materials safety' },
+            { title: 'Ginger and Date Warm Sip',                 url: 'article-ginger-tea.html',                      keywords: 'ginger tea date warm sip kitchen after dinner' },
+            { title: 'Plain Rice Congee',                        url: 'article-rice-congee.html',                     keywords: 'rice congee porridge breakfast comfort bowl kitchen' },
+            { title: 'Coarse Salt Warm Pack',                    url: 'article-salt-warm-pack.html',                  keywords: 'compress warm pack cloth salt rice bag household warmth' },
+            { title: 'Chinese Yam and Millet Porridge',          url: 'article-yam-millet-porridge.html',             keywords: 'yam millet porridge congee gentle stomach soothing breakfast' },
+            { title: 'Sichuan Peppercorn Foot Soak',             url: 'article-sichuan-peppercorn-foot-soak.html',    keywords: 'sichuan peppercorn foot soak cold feet comfort winter warmth' },
+            { title: 'Sour Jujube Seed Tea',                     url: 'article-sour-jujube-seed-tea.html',            keywords: 'sour jujube seed tea suan zao ren restful evening bedtime' },
+            { title: 'Post-Meal Walk',                           url: 'article-post-meal-walk.html',                  keywords: 'post meal walk after eating daily habit digestion stroll' },
+            { title: 'Goji Berry Tea',                           url: 'article-goji-berry-tea.html',                  keywords: 'goji berry tea afternoon cup dried berries kitchen' },
+            { title: 'Scallion White Root Tea',                  url: 'article-scallion-white-root.html',             keywords: 'scallion white root tea cong bai ginger kitchen' },
+            { title: 'Moxibustion at Home',                      url: 'article-moxibustion-home.html',                keywords: 'moxibustion moxa stick mugwort knees winter warmth' },
+            { title: 'Ginger Foot Soak',                         url: 'article-ginger-foot-soak.html',                keywords: 'ginger foot soak cold feet warm basin evening' },
+            { title: 'Winter Melon Throat Comfort Tea',          url: 'article-winter-melon-tea.html',                keywords: 'winter melon tea throat comfort rock sugar autumn kitchen' },
+            { title: 'Categories - Folk Habits',                 url: 'categories.html',                              keywords: 'categories kitchen comforts compresses cloth warmth ginger tea' },
+            { title: 'About Folk Calm',                          url: 'about.html',                                   keywords: 'about cultural archive mission methodology' },
+            { title: 'Disclaimer',                               url: 'disclaimer.html',                              keywords: 'disclaimer legal cultural record boundaries' },
+            { title: 'Privacy Policy',                           url: 'privacy-policy.html',                          keywords: 'privacy gdpr ccpa data email policy' },
+            { title: 'Affiliate Disclosure',                     url: 'affiliate-disclosure.html',                    keywords: 'affiliate disclosure transparency' },
+            { title: 'Terms of Use',                             url: 'terms-of-use.html',                            keywords: 'terms of use legal policy' },
         ];
 
         function performSearch(query) {

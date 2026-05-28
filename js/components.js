@@ -30,6 +30,7 @@
   function injectHeader() {
     var el = document.getElementById('site-header');
     if (!el) return;
+    var guideHref = path === 'index.html' ? '#subscribe' : '/#subscribe';
 
     // Only show search on index.html
     var searchHTML = (path === 'index.html' || path === '')
@@ -53,7 +54,7 @@
             '<li><a href="/" class="nav-link' + isActive('index.html') + '"' + ariaCurrent('index.html') + '>Home</a></li>' +
             '<li><a href="categories.html" class="nav-link' + isActive('categories.html') + '"' + ariaCurrent('categories.html') + '>All Remedies</a></li>' +
             '<li><a href="about.html" class="nav-link' + isActive('about.html') + '"' + ariaCurrent('about.html') + '>About</a></li>' +
-            '<li><a href="#subscribe" class="nav-link">Free Guide</a></li>' +
+            '<li><a href="' + guideHref + '" class="nav-link">Free Guide</a></li>' +
           '</ul>' +
         '</nav>' +
         searchHTML +
@@ -105,10 +106,10 @@
     if (!el) return;
     el.className = 'email-signup-cta';
     el.innerHTML =
-      '<div class="email-cta-inner">' +
+      '<div id="subscribe" class="email-cta-inner">' +
         '<h3>Enjoyed this article? Get our free cultural guide</h3>' +
         '<p>A beautifully designed PDF documenting 10 ancient Chinese evening routines — delivered to your inbox.</p>' +
-        '<form id="cta-email-form" class="email-cta-form" action="https://app.convertkit.com/forms/PLACEHOLDER/subscriptions" method="post">' +
+        '<form id="cta-email-form" class="email-cta-form" action="/subscribe" method="post">' +
           '<input type="email" name="email_address" placeholder="Your email address" required aria-label="Email address">' +
           '<label class="gdpr-consent"><input type="checkbox" required> I agree to receive emails. Unsubscribe anytime. <a href="privacy-policy.html">Privacy Policy</a></label>' +
           '<button type="submit">Send Me the Free Guide</button>' +
@@ -128,7 +129,7 @@
       { url: 'article-ginger-tea.html', title: 'Ginger & Date Warm Sip', desc: 'The most ordinary after-meal moment in Chinese family life.', img: 'images/ginger-date-tea.webp' },
       { url: 'article-rice-congee.html', title: 'Plain Rice Congee', desc: 'The comfort bowl that travels through every Chinese kitchen.', img: 'images/rice-congee-kitchen.webp' },
       { url: 'article-salt-warm-pack.html', title: 'Coarse Salt Warm Pack', desc: 'Grandmother\'s cloth heat pad — simple warmth from the kitchen.', img: 'images/article-salt-warm-pack-photo.webp' },
-      { url: 'article-winter-melon-tea.html', title: 'Winter Melon Tea for Dry Throats', desc: 'Every autumn my grandmother simmered winter melon with rock sugar — a slow ritual for dry throats.', img: 'images/article-winter-melon-tea-photo.webp' },
+      { url: 'article-winter-melon-tea.html', title: 'Winter Melon Throat Comfort Tea', desc: 'Every autumn my grandmother simmered winter melon with rock sugar — a slow ritual for throat comfort.', img: 'images/article-winter-melon-tea-photo.webp' },
       { url: 'article-yam-millet-porridge.html', title: 'Chinese Yam and Millet Porridge', desc: 'A gentle stomach-soothing bowl from northern China.', img: 'images/article-yam-millet-porridge-photo.webp' },
       { url: 'article-sichuan-peppercorn-foot-soak.html', title: 'Sichuan Peppercorn Foot Soak', desc: 'Warmth for cold days from the Sichuan kitchen.', img: 'images/article-sichuan-peppercorn-foot-soak-photo.webp' },
       { url: 'article-sour-jujube-seed-tea.html', title: 'Sour Jujube Seed Tea', desc: 'A quiet cup before sleep — toasted seeds steeped in hot water.', img: 'images/article-sour-jujube-seed-tea-photo.webp' },
@@ -198,18 +199,18 @@
     meta.content = 'public, max-age=3600';
     document.head.appendChild(meta);
 
-    // Preconnect to Resend API
-    var pc = document.createElement('link');
-    pc.rel = 'preconnect';
-    pc.href = 'https://api.resend.com';
-    pc.crossOrigin = 'anonymous';
-    document.head.appendChild(pc);
+    if (document.getElementById('email-collection-form') || document.getElementById('email-signup-cta')) {
+      var pc = document.createElement('link');
+      pc.rel = 'preconnect';
+      pc.href = 'https://api.resend.com';
+      pc.crossOrigin = 'anonymous';
+      document.head.appendChild(pc);
 
-    // DNS prefetch for Resend
-    var dns = document.createElement('link');
-    dns.rel = 'dns-prefetch';
-    dns.href = '//api.resend.com';
-    document.head.appendChild(dns);
+      var dns = document.createElement('link');
+      dns.rel = 'dns-prefetch';
+      dns.href = '//api.resend.com';
+      document.head.appendChild(dns);
+    }
 
   }
 
