@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
             { title: 'Moxibustion at Home',                      url: 'article-moxibustion-home.html',                keywords: 'moxibustion moxa stick mugwort knees winter warmth' },
             { title: 'Ginger Foot Soak',                         url: 'article-ginger-foot-soak.html',                keywords: 'ginger foot soak cold feet warm basin evening' },
             { title: 'Winter Melon Throat Comfort Tea',          url: 'article-winter-melon-tea.html',                keywords: 'winter melon tea throat comfort rock sugar autumn kitchen' },
+            { title: 'Morning Warm Water',                       url: 'article-morning-warm-water.html',           keywords: 'morning warm water kitchen ritual gentle start grandmother routine' },
             { title: 'Categories - Folk Habits',                 url: 'categories.html',                              keywords: 'categories kitchen comforts compresses cloth warmth ginger tea' },
             { title: 'About Folk Calm',                          url: 'about.html',                                   keywords: 'about cultural archive mission methodology' },
             { title: 'Disclaimer',                               url: 'disclaimer.html',                              keywords: 'disclaimer legal cultural record boundaries' },
