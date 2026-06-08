@@ -1,126 +1,122 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset
-  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
->
+<?xml version='1.0' encoding='utf-8'?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
   <url>
     <loc>https://www.tcmwellness.xyz/</loc>
-    <lastmod>2026-05-20T00:00:00+00:00</lastmod>
+    <lastmod>2026-05-29T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.tcmwellness.xyz/categories.html</loc>
-    <lastmod>2026-05-20T00:00:00+00:00</lastmod>
+    <lastmod>2026-05-30T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tcmwellness.xyz/article-mugwort-foot-soak.html</loc>
-    <lastmod>2026-05-20T00:00:00+00:00</lastmod>
+    <lastmod>2026-05-27T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tcmwellness.xyz/article-ginger-tea.html</loc>
-    <lastmod>2026-05-20T00:00:00+00:00</lastmod>
+    <lastmod>2026-05-29T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tcmwellness.xyz/article-rice-congee.html</loc>
-    <lastmod>2026-05-20T00:00:00+00:00</lastmod>
+    <lastmod>2026-05-27T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tcmwellness.xyz/article-salt-warm-pack.html</loc>
-    <lastmod>2026-05-20T00:00:00+00:00</lastmod>
+    <lastmod>2026-05-27T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tcmwellness.xyz/disclaimer.html</loc>
-    <lastmod>2026-05-20T00:00:00+00:00</lastmod>
+    <lastmod>2026-05-28T00:00:00+00:00</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://www.tcmwellness.xyz/about.html</loc>
-    <lastmod>2026-05-20T00:00:00+00:00</lastmod>
+    <lastmod>2026-05-28T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.tcmwellness.xyz/privacy-policy.html</loc>
-    <lastmod>2026-05-20T00:00:00+00:00</lastmod>
+    <lastmod>2026-05-28T00:00:00+00:00</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://www.tcmwellness.xyz/affiliate-disclosure.html</loc>
-    <lastmod>2026-05-20T00:00:00+00:00</lastmod>
+    <lastmod>2026-05-28T00:00:00+00:00</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://www.tcmwellness.xyz/terms-of-use.html</loc>
-    <lastmod>2026-05-20T00:00:00+00:00</lastmod>
+    <lastmod>2026-05-28T00:00:00+00:00</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://www.tcmwellness.xyz/article-yam-millet-porridge.html</loc>
-    <lastmod>2026-05-20T00:00:00+00:00</lastmod>
+    <lastmod>2026-05-28T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tcmwellness.xyz/article-sichuan-peppercorn-foot-soak.html</loc>
-    <lastmod>2026-05-20T00:00:00+00:00</lastmod>
+    <lastmod>2026-05-28T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tcmwellness.xyz/article-sour-jujube-seed-tea.html</loc>
-    <lastmod>2026-05-20T00:00:00+00:00</lastmod>
+    <lastmod>2026-05-28T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tcmwellness.xyz/article-post-meal-walk.html</loc>
-    <lastmod>2026-05-20T00:00:00+00:00</lastmod>
+    <lastmod>2026-05-27T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tcmwellness.xyz/article-goji-berry-tea.html</loc>
-    <lastmod>2026-05-20T00:00:00+00:00</lastmod>
+    <lastmod>2026-05-29T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tcmwellness.xyz/article-scallion-white-root.html</loc>
-    <lastmod>2026-05-20T00:00:00+00:00</lastmod>
+    <lastmod>2026-05-27T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tcmwellness.xyz/article-moxibustion-home.html</loc>
-    <lastmod>2026-05-24T00:00:00+00:00</lastmod>
+    <lastmod>2026-05-29T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tcmwellness.xyz/article-ginger-foot-soak.html</loc>
-    <lastmod>2026-05-24T00:00:00+00:00</lastmod>
+    <lastmod>2026-05-29T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.tcmwellness.xyz/article-winter-melon-tea.html</loc>
-    <lastmod>2026-05-25T00:00:00+00:00</lastmod>
+    <lastmod>2026-05-28T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
