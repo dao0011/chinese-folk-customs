@@ -1,3 +1,41 @@
+async function createOrResubscribeContact(email, resendKey) {
+  var headers = {
+    'Authorization': 'Bearer ' + resendKey,
+    'Content-Type': 'application/json',
+  };
+
+  var createRes = await fetch('https://api.resend.com/contacts', {
+    method: 'POST',
+    headers: headers,
+    body: JSON.stringify({
+      email: email,
+      unsubscribed: false,
+    }),
+  });
+
+  if (createRes.ok) {
+    return;
+  }
+
+  var createBody = await createRes.text();
+  var updateRes = await fetch('https://api.resend.com/contacts/' + encodeURIComponent(email), {
+    method: 'PATCH',
+    headers: headers,
+    body: JSON.stringify({
+      unsubscribed: false,
+    }),
+  });
+
+  if (updateRes.ok) {
+    return;
+  }
+
+  var updateBody = await updateRes.text();
+  console.error('Resend contact create error [' + createRes.status + ']: ' + createBody);
+  console.error('Resend contact update error [' + updateRes.status + ']: ' + updateBody);
+  throw new Error('Contact sync failed');
+}
+
 export async function onRequest({ request, env }) {
   if (request.method !== 'POST') {
     return Response.redirect('https://tcmwellness.xyz/', 302);
@@ -17,10 +55,12 @@ export async function onRequest({ request, env }) {
   var from = env.RESEND_FROM || 'Folk Calm <guide@tcmwellness.xyz>';
 
   if (!resendKey) {
-    return new Response('Server config error.', { status: 500 });
+    return new Response('Subscription failed. Please try again later.', { status: 500 });
   }
 
   try {
+    await createOrResubscribeContact(email, resendKey);
+
     var res = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
