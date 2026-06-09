@@ -138,7 +138,10 @@
       { url: 'article-goji-berry-tea.html', title: 'Goji Berry Tea', desc: 'The cup my grandmother poured for tired eyes every afternoon.', img: 'images/goji-berry-tea-cup.jpg' },
       { url: 'article-moxibustion-home.html', title: 'Moxibustion at Home', desc: 'Warming the knees with mugwort warmth on winter evenings.', img: 'images/moxibustion.webp' },
       { url: 'article-ginger-foot-soak.html', title: 'Ginger Foot Soak for Cold Feet Comfort', desc: 'Old ginger in hot water until her feet glowed pink.', img: 'images/ginger-soak-pinterest.jpg' },
-      { url: 'article-morning-warm-water.html', title: 'Morning Warm Water', desc: 'The first kitchen ritual — a cup of warm water before anything else.', img: 'images/morning-warm-water.webp' }
+      { url: 'article-morning-warm-water.html', title: 'Morning Warm Water', desc: 'The first kitchen ritual — a cup of warm water before anything else.', img: 'images/morning-warm-water.webp' },
+      { url: 'article-rice-water-rinse.html', title: 'Rice Water Rinse', desc: 'The milky water left from washing rice, saved in a chipped jar on the bathroom shelf.', img: 'images/rice-water-rinse.webp' },
+      { url: 'article-bedding-airing.html', title: 'Bedding Airing Ritual', desc: 'Carrying the quilts outside on a clear morning to catch the smell of the sun.', img: 'images/bedding-airing.webp' },
+      { url: 'article-post-lunch-pause.html', title: 'Post-Lunch Pause', desc: 'Twenty minutes of quiet after lunch — not a nap, just letting the meal settle.', img: 'images/post-lunch-pause.webp' }
     ];
 
     // Filter out current page, shuffle, take 6
