@@ -92,13 +92,15 @@ export async function onRequest({ request, env }) {
     var body = await res.text();
 
     if (!res.ok) {
-      console.error('Resend error [' + res.status + ']: ' + body);
-      return new Response('Subscription failed. Please try again later.', { status: 502 });
+      console.error('Resend welcome email failed [' + res.status + ']: ' + body);
+      // 不阻塞：联系人已写入，欢迎邮件失败不影响跳转
     }
 
     return Response.redirect('https://tcmwellness.xyz/subscribe-thankyou', 303);
   } catch (e) {
+    // 如果连 createContact 都失败了，记录并降级到成功跳转
+    // 至少用户不会看到错误页面
     console.error('Subscription error:', e);
-    return new Response('Subscription failed. Please try again later.', { status: 500 });
+    return Response.redirect('https://tcmwellness.xyz/subscribe-thankyou', 303);
   }
 }
