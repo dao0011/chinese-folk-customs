@@ -1,0 +1,28 @@
+# Cloudflare 缓存策略
+# 静态 HTML 页面缓存 4 小时
+/*.html
+  Cache-Control: public, max-age=14400
+
+# 图片缓存 7 天
+/images/*
+  Cache-Control: public, max-age=604800, immutable
+
+# CSS/JS 缓存 1 天
+/css/*
+  Cache-Control: public, max-age=86400
+/js/*
+  Cache-Control: public, max-age=86400
+
+# PDF 缓存 3 天
+/pdfs/*
+  Cache-Control: public, max-age=259200
+
+# 首页不做长缓存（内容会变）
+/
+  Cache-Control: public, max-age=3600
+
+# sitemap/robots 缓存 1 天
+/sitemap.xml
+  Cache-Control: public, max-age=86400
+/robots.txt
+  Cache-Control: public, max-age=86400
