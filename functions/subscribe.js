@@ -38,7 +38,7 @@ async function createOrResubscribeContact(email, resendKey) {
 
 export async function onRequest({ request, env }) {
   if (request.method !== 'POST') {
-    return Response.redirect('https://tcmwellness.xyz/', 302);
+    return Response.redirect('https://www.folkcalm.com/', 302);
   }
 
   var formData = await request.formData();
@@ -48,11 +48,11 @@ export async function onRequest({ request, env }) {
     return new Response('Please enter a valid email address.', { status: 400 });
   }
 
-  var pdfUrl = 'https://tcmwellness.xyz/pdfs/10-Ancient-Chinese-Evening-Habits-Guide.pdf';
-  var unsubscribeUrl = 'https://www.tcmwellness.xyz/unsubscribe';
-  var unsubscribeMailto = 'mailto:unsubscribe@tcmwellness.xyz?subject=Unsubscribe';
+  var pdfUrl = 'https://www.folkcalm.com/pdfs/10-Ancient-Chinese-Evening-Habits-Guide.pdf';
+  var unsubscribeUrl = 'https://www.folkcalm.com/unsubscribe';
+  var unsubscribeMailto = 'mailto:unsubscribe@folkcalm.com?subject=Unsubscribe';
   var resendKey = env.RESEND_API_KEY;
-  var from = env.RESEND_FROM || 'Folk Calm <guide@tcmwellness.xyz>';
+  var from = env.RESEND_FROM || 'Folk Calm <guide@folkcalm.com>';
 
   if (!resendKey) {
     return new Response('Subscription failed. Please try again later.', { status: 500 });
@@ -83,7 +83,7 @@ export async function onRequest({ request, env }) {
           '</p>',
           '<p style="color: #6B5B4A; font-size: 14px;">Or copy this link: <a href="' + pdfUrl + '">' + pdfUrl + '</a></p>',
           '<hr style="border: 1px solid #e0d5c5; margin: 24px 0;">',
-          '<p style="color: #888; font-size: 12px;">You received this email because you subscribed at Folk Calm. <a href="https://tcmwellness.xyz/privacy-policy.html">Privacy Policy</a> · <a href="' + unsubscribeUrl + '">Unsubscribe</a> or reply STOP.</p>',
+          '<p style="color: #888; font-size: 12px;">You received this email because you subscribed at Folk Calm. <a href="https://www.folkcalm.com/privacy-policy.html">Privacy Policy</a> · <a href="' + unsubscribeUrl + '">Unsubscribe</a> or reply STOP.</p>',
           '</div>',
         ].join(''),
       }),
@@ -96,11 +96,11 @@ export async function onRequest({ request, env }) {
       // 不阻塞：联系人已写入，欢迎邮件失败不影响跳转
     }
 
-    return Response.redirect('https://tcmwellness.xyz/subscribe-thankyou', 303);
+    return Response.redirect('https://www.folkcalm.com/subscribe-thankyou', 303);
   } catch (e) {
     // 如果连 createContact 都失败了，记录并降级到成功跳转
     // 至少用户不会看到错误页面
     console.error('Subscription error:', e);
-    return Response.redirect('https://tcmwellness.xyz/subscribe-thankyou', 303);
+    return Response.redirect('https://www.folkcalm.com/subscribe-thankyou', 303);
   }
 }

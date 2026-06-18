@@ -24,7 +24,7 @@ var PAGE_HTML = [
 '                <p><a href="/">Back to the home page →</a></p>',
 '            </div>',
 '            <div id="unsubscribe-error" style="display:none">',
-'                <p class="lead">Something went wrong. Please try again, or email us directly at <a href="mailto:unsubscribe@tcmwellness.xyz?subject=Unsubscribe">unsubscribe@tcmwellness.xyz</a>.</p>',
+'                <p class="lead">Something went wrong. Please try again, or email us directly at <a href="mailto:unsubscribe@folkcalm.com?subject=Unsubscribe">unsubscribe@folkcalm.com</a>.</p>',
 '            </div>',
 '            <div id="unsubscribe-form">',
 '                <p class="lead">Enter the email address you want removed from Folk Calm updates.</p>',
@@ -106,20 +106,20 @@ export async function onRequest({ request, env }) {
   var email = (formData.get('email_address') || '').trim();
 
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    return Response.redirect('https://www.tcmwellness.xyz/unsubscribe?error=1', 302);
+    return Response.redirect('https://www.folkcalm.com/unsubscribe?error=1', 302);
   }
 
   var resendKey = env.RESEND_API_KEY;
 
   if (!resendKey) {
-    return Response.redirect('https://www.tcmwellness.xyz/unsubscribe?error=1', 302);
+    return Response.redirect('https://www.folkcalm.com/unsubscribe?error=1', 302);
   }
 
   try {
     await markContactUnsubscribed(email, resendKey);
-    return Response.redirect('https://www.tcmwellness.xyz/unsubscribe?sent=1', 302);
+    return Response.redirect('https://www.folkcalm.com/unsubscribe?sent=1', 302);
   } catch (e) {
     console.error('Unsubscribe error:', e);
-    return Response.redirect('https://www.tcmwellness.xyz/unsubscribe?error=1', 302);
+    return Response.redirect('https://www.folkcalm.com/unsubscribe?error=1', 302);
   }
 }

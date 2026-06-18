@@ -203,6 +203,12 @@
     meta.content = 'public, max-age=3600';
     document.head.appendChild(meta);
 
+    // Pinterest domain verification — 注入到所有页面
+    var pMeta = document.createElement('meta');
+    pMeta.name = 'p:domain_verify';
+    pMeta.content = 'a270a04a5ef23181ecff2f2e53128712';
+    document.head.appendChild(pMeta);
+
     if (document.getElementById('email-collection-form') || document.getElementById('email-signup-cta')) {
       var pc = document.createElement('link');
       pc.rel = 'preconnect';

@@ -9,5 +9,8 @@ Thumbs.db
 !.dev.vars.example
 .env*
 !.env.example
+resend-audit/
+emails-sent-*.csv
 .vscode
 .claude/
+__pycache__/

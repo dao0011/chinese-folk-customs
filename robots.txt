@@ -3,4 +3,4 @@ Allow: /
 Disallow: /*?q=
 Disallow: /unsubscribe.html
 
-Sitemap: https://www.tcmwellness.xyz/sitemap.xml
+Sitemap: https://www.folkcalm.com/sitemap.xml
