@@ -14,3 +14,12 @@ emails-sent-*.csv
 .vscode
 .claude/
 __pycache__/
+
+# generated/test images
+pin-*-agnes.png
+pinterest-*-pin.jpg
+yam-millet-porridge-agnes.png
+_city_night_test.png
+
+# claude agents
+.agents/

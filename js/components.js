@@ -144,7 +144,7 @@
       { url: 'article-post-lunch-pause.html', title: 'Post-Lunch Pause', desc: 'Twenty minutes of quiet after lunch — not a nap, just letting the meal settle.', img: 'images/post-lunch-pause.webp' },
       { url: 'article-soap-pods.html', title: 'Soap Pods by the Kitchen Sink', desc: 'A broken piece of dried honey locust pod steeped in water made the foam that washed everything.', img: 'images/soap-pods-bowl-agnes.png' },
       { url: 'article-mung-bean-soup.html', title: 'Mung Bean Soup for Summer Afternoons', desc: 'Unsweetened, cooked until the beans split open, then left to cool. She\'d drink it standing up.', img: 'images/mung-bean-soup-bowl-agnes.webp' },
-      { url: 'article-chrysanthemum-tea.html', title: 'Chrysanthemum Tea for Tired Eyes', desc: 'One flower steeped all day. She held the cup in both hands and let the warmth find her eyes.', img: 'images/chrysanthemum-tea-cup-agnes.png' }
+      { url: 'article-chrysanthemum-tea.html', title: 'Chrysanthemum Tea for Autumn Dryness', desc: 'One flower steeped all day. She held the cup in both hands and let the warmth rise into her skin.', img: 'images/chrysanthemum-tea-cup-agnes.png' }
     ];
 
     // Filter out current page, shuffle, take 6

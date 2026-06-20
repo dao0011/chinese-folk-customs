@@ -36,6 +36,12 @@ HTML = r"""<div style="font-family: Georgia, 'Times New Roman', serif; max-width
   </p>
 
   <p style="color: #4A3728; font-size: 14px; line-height: 1.8;">
+    Today is Duanwu Jie &mdash; the Dragon Boat Festival.
+    Wherever you are, I hope there's a zongzi nearby and someone you care about
+    within reach. <b>端午安康</b> &mdash; may you stay safe and well this summer.
+  </p>
+
+  <p style="color: #4A3728; font-size: 14px; line-height: 1.8;">
     Thursday again &mdash; time for this week's archive.
   </p>
 
