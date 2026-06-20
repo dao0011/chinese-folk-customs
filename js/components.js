@@ -141,7 +141,10 @@
       { url: 'article-morning-warm-water.html', title: 'Morning Warm Water', desc: 'The first kitchen ritual — a cup of warm water before anything else.', img: 'images/morning-warm-water.webp' },
       { url: 'article-rice-water-rinse.html', title: 'Rice Water Rinse', desc: 'The milky water left from washing rice, saved in a chipped jar on the bathroom shelf.', img: 'images/rice-water-rinse.webp' },
       { url: 'article-bedding-airing.html', title: 'Bedding Airing Ritual', desc: 'Carrying the quilts outside on a clear morning to catch the smell of the sun.', img: 'images/bedding-airing.webp' },
-      { url: 'article-post-lunch-pause.html', title: 'Post-Lunch Pause', desc: 'Twenty minutes of quiet after lunch — not a nap, just letting the meal settle.', img: 'images/post-lunch-pause.webp' }
+      { url: 'article-post-lunch-pause.html', title: 'Post-Lunch Pause', desc: 'Twenty minutes of quiet after lunch — not a nap, just letting the meal settle.', img: 'images/post-lunch-pause.webp' },
+      { url: 'article-soap-pods.html', title: 'Soap Pods by the Kitchen Sink', desc: 'A broken piece of dried honey locust pod steeped in water made the foam that washed everything.', img: 'images/soap-pods-bowl-agnes.png' },
+      { url: 'article-mung-bean-soup.html', title: 'Mung Bean Soup for Summer Afternoons', desc: 'Unsweetened, cooked until the beans split open, then left to cool. She\'d drink it standing up.', img: 'images/mung-bean-soup-bowl-agnes.webp' },
+      { url: 'article-chrysanthemum-tea.html', title: 'Chrysanthemum Tea for Dry-Eye Days', desc: 'One flower steeped all day. She held the cup in both hands and let the warmth find her eyes.', img: 'images/chrysanthemum-tea-cup-agnes.png' }
     ];
 
     // Filter out current page, shuffle, take 6

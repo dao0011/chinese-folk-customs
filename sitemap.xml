@@ -144,4 +144,22 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>https://www.folkcalm.com/article-soap-pods.html</loc>
+    <lastmod>2026-06-20T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.folkcalm.com/article-mung-bean-soup.html</loc>
+    <lastmod>2026-06-20T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.folkcalm.com/article-chrysanthemum-tea.html</loc>
+    <lastmod>2026-06-20T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>
