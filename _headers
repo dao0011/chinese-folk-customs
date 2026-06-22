@@ -26,3 +26,9 @@
   Cache-Control: public, max-age=86400
 /robots.txt
   Cache-Control: public, max-age=86400
+
+# 安全响应头
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()

@@ -142,9 +142,9 @@
       { url: 'article-rice-water-rinse.html', title: 'Rice Water Rinse', desc: 'The milky water left from washing rice, saved in a chipped jar on the bathroom shelf.', img: 'images/rice-water-rinse.webp' },
       { url: 'article-bedding-airing.html', title: 'Bedding Airing Ritual', desc: 'Carrying the quilts outside on a clear morning to catch the smell of the sun.', img: 'images/bedding-airing.webp' },
       { url: 'article-post-lunch-pause.html', title: 'Post-Lunch Pause', desc: 'Twenty minutes of quiet after lunch — not a nap, just letting the meal settle.', img: 'images/post-lunch-pause.webp' },
-      { url: 'article-soap-pods.html', title: 'Soap Pods by the Kitchen Sink', desc: 'A broken piece of dried honey locust pod steeped in water made the foam that washed everything.', img: 'images/soap-pods-bowl-agnes.png' },
+      { url: 'article-soap-pods.html', title: 'Soap Pods by the Kitchen Sink', desc: 'A broken piece of dried honey locust pod steeped in water made the foam that washed everything.', img: 'images/soap-pods-bowl-agnes.webp' },
       { url: 'article-mung-bean-soup.html', title: 'Mung Bean Soup for Summer Afternoons', desc: 'Unsweetened, cooked until the beans split open, then left to cool. She\'d drink it standing up.', img: 'images/mung-bean-soup-bowl-agnes.webp' },
-      { url: 'article-chrysanthemum-tea.html', title: 'Chrysanthemum Tea for Autumn Dryness', desc: 'One flower steeped all day. She held the cup in both hands and let the warmth rise into her skin.', img: 'images/chrysanthemum-tea-cup-agnes.png' }
+      { url: 'article-chrysanthemum-tea.html', title: 'Chrysanthemum Tea for Autumn Dryness', desc: 'One flower steeped all day. She held the cup in both hands and let the warmth rise into her skin.', img: 'images/chrysanthemum-tea-cup-agnes.webp' }
     ];
 
     // Filter out current page, shuffle, take 6
@@ -199,18 +199,6 @@
   // ── Performance & SEO Tags ─────────────────────────────────────
   function injectPerformanceTags() {
     if (!document.head) return;
-
-    // Cache-Control meta
-    var meta = document.createElement('meta');
-    meta.httpEquiv = 'Cache-Control';
-    meta.content = 'public, max-age=3600';
-    document.head.appendChild(meta);
-
-    // Pinterest domain verification — 注入到所有页面
-    var pMeta = document.createElement('meta');
-    pMeta.name = 'p:domain_verify';
-    pMeta.content = 'a270a04a5ef23181ecff2f2e53128712';
-    document.head.appendChild(pMeta);
 
     if (document.getElementById('email-collection-form') || document.getElementById('email-signup-cta')) {
       var pc = document.createElement('link');

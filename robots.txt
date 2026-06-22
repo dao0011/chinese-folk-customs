@@ -1,6 +1,6 @@
 User-agent: *
 Allow: /
 Disallow: /*?q=
-Disallow: /unsubscribe.html
+Disallow: /unsubscribe
 
 Sitemap: https://www.folkcalm.com/sitemap.xml

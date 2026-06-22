@@ -21,5 +21,9 @@ pinterest-*-pin.jpg
 yam-millet-porridge-agnes.png
 _city_night_test.png
 
+# PDF build artifacts (gitignored, kept locally)
+images/pdf_gen/
+pdfs/_preview_*
+
 # claude agents
 .agents/

@@ -4,36 +4,60 @@ async function createOrResubscribeContact(email, resendKey) {
     'Content-Type': 'application/json',
   };
 
-  var createRes = await fetch('https://api.resend.com/contacts', {
-    method: 'POST',
-    headers: headers,
-    body: JSON.stringify({
-      email: email,
-      unsubscribed: false,
-    }),
-  });
+  try {
+    var createRes = await fetch('https://api.resend.com/contacts', {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify({
+        email: email,
+        unsubscribed: false,
+      }),
+    });
 
-  if (createRes.ok) {
-    return;
+    if (createRes.ok) {
+      return { created: true };
+    }
+
+    var createBody = await createRes.text();
+    var createStatus = createRes.status;
+
+    // 联系人已存在（409 Conflict）—— 尝试恢复订阅，失败可降级
+    if (createStatus === 409 || createStatus === 422) {
+      try {
+        var updateRes = await fetch('https://api.resend.com/contacts/' + encodeURIComponent(email), {
+          method: 'PATCH',
+          headers: headers,
+          body: JSON.stringify({
+            unsubscribed: false,
+          }),
+        });
+
+        if (updateRes.ok) {
+          return { created: false, resubscribed: true };
+        }
+
+        var updateBody = await updateRes.text();
+        console.error('Resend contact update error [' + updateRes.status + ']: ' + updateBody);
+        // 联系人已存在，PATCH 失败可降级——仍然发邮件
+        return { created: false, resubscribed: false, patchFailed: true };
+      } catch (e) {
+        console.error('Resend contact update network error:', e);
+        // 网络错误但联系人大概率已存在——降级继续
+        return { created: false, resubscribed: false, patchFailed: true };
+      }
+    }
+
+    // 非 409 错误（5xx 等）——真正的服务端故障
+    console.error('Resend contact create error [' + createStatus + ']: ' + createBody);
+    throw new Error('Contact create failed: ' + createStatus);
+  } catch (e) {
+    // fetch 本身的网络错误
+    if (e.message && e.message.startsWith('Contact create failed:')) {
+      throw e; // 服务端错误，向上抛
+    }
+    console.error('Resend contact create network error:', e);
+    throw new Error('Contact API unreachable');
   }
-
-  var createBody = await createRes.text();
-  var updateRes = await fetch('https://api.resend.com/contacts/' + encodeURIComponent(email), {
-    method: 'PATCH',
-    headers: headers,
-    body: JSON.stringify({
-      unsubscribed: false,
-    }),
-  });
-
-  if (updateRes.ok) {
-    return;
-  }
-
-  var updateBody = await updateRes.text();
-  console.error('Resend contact create error [' + createRes.status + ']: ' + createBody);
-  console.error('Resend contact update error [' + updateRes.status + ']: ' + updateBody);
-  throw new Error('Contact sync failed');
 }
 
 export async function onRequest({ request, env }) {
@@ -59,8 +83,15 @@ export async function onRequest({ request, env }) {
   }
 
   try {
+    // 第一步：创建或恢复联系人（失败不降级，直接报错）
     await createOrResubscribeContact(email, resendKey);
+  } catch (e) {
+    console.error('Contact sync failed:', e);
+    return new Response('Subscription failed. Please try again later.', { status: 500 });
+  }
 
+  try {
+    // 第二步：发欢迎邮件（失败可降级，联系人已入库）
     var res = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
@@ -93,14 +124,13 @@ export async function onRequest({ request, env }) {
 
     if (!res.ok) {
       console.error('Resend welcome email failed [' + res.status + ']: ' + body);
-      // 不阻塞：联系人已写入，欢迎邮件失败不影响跳转
+      // 联系人已入库，邮件失败可降级到感谢页
     }
 
     return Response.redirect('https://www.folkcalm.com/subscribe-thankyou', 303);
   } catch (e) {
-    // 如果连 createContact 都失败了，记录并降级到成功跳转
-    // 至少用户不会看到错误页面
-    console.error('Subscription error:', e);
+    // 网络错误或 API 不可达 — 联系人可能已入库，降级到感谢页
+    console.error('Email send error:', e);
     return Response.redirect('https://www.folkcalm.com/subscribe-thankyou', 303);
   }
 }

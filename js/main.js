@@ -2,22 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     'use strict';
 
     /* ==========================================================
-       1. Mobile hamburger menu (fallback — components.js also binds this)
-       ========================================================== */
-    var navToggle = document.querySelector('.nav-toggle');
-    var navUl = document.querySelector('.main-nav ul');
-    if (navToggle && navUl && !navToggle._bound) {
-        navToggle._bound = true;
-        navToggle.addEventListener('click', function () {
-            navUl.classList.toggle('open');
-            var isOpen = navUl.classList.contains('open');
-            this.textContent = isOpen ? '✕ Close' : '☰ Menu';
-            this.setAttribute('aria-expanded', isOpen);
-        });
-    }
-
-    /* ==========================================================
-       2. Search (only on pages that have the search form)
+       1. Search (only on pages that have the search form)
        ========================================================== */
     var searchInput  = document.getElementById('search-input');
     var searchButton = document.getElementById('search-button');
