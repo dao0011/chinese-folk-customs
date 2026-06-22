@@ -36,12 +36,6 @@ HTML = r"""<div style="font-family: Georgia, 'Times New Roman', serif; max-width
   </p>
 
   <p style="color: #4A3728; font-size: 14px; line-height: 1.8;">
-    Today is Duanwu Jie &mdash; the Dragon Boat Festival.
-    Wherever you are, I hope there's a zongzi nearby and someone you care about
-    within reach. <b>端午安康</b> &mdash; may you stay safe and well this summer.
-  </p>
-
-  <p style="color: #4A3728; font-size: 14px; line-height: 1.8;">
     Thursday again &mdash; time for this week's archive.
   </p>
 
@@ -103,6 +97,13 @@ HTML = r"""<div style="font-family: Georgia, 'Times New Roman', serif; max-width
   <p style="color: #4A3728; font-size: 14px; line-height: 1.8;">
     Thank you for still being here. Knowing someone is reading these makes the
     quiet work of remembering feel a little less alone.
+  </p>
+
+  <p style="color: #4A3728; font-size: 14px; line-height: 1.8;">
+    If something here stirs a memory of your own, or if you have a family story
+    you have been meaning to write down &mdash; I would genuinely love to hear it.
+    Just drop a note to <a href="mailto:contact@folkcalm.com" style="color: #A0522D;">contact@folkcalm.com</a>.
+    I read every letter that comes in.
   </p>
 
   <p style="color: #888; font-size: 12px; text-align: right; margin-top: 24px;">
