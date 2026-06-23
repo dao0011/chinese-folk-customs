@@ -145,9 +145,7 @@
       { url: 'article-soap-pods.html', title: 'Soap Pods by the Kitchen Sink', desc: 'A broken piece of dried honey locust pod steeped in water made the foam that washed everything.', img: 'images/soap-pods-bowl.webp' },
       { url: 'article-mung-bean-soup.html', title: 'Mung Bean Soup for Summer Afternoons', desc: 'Unsweetened, cooked until the beans split open, then left to cool. She\'d drink it standing up.', img: 'images/mung-bean-soup-bowl.webp' },
       { url: 'article-chrysanthemum-tea.html', title: 'Chrysanthemum Tea for Autumn Dryness', desc: 'One flower steeped all day. She held the cup in both hands and let the warmth rise into her skin.', img: 'images/chrysanthemum-tea-cup.webp' },
-      { url: 'article-warm-towel-compress.html', title: 'Warm Towel Eye Compress', desc: 'A warm towel over closed eyes at the end of a long day — the five-minute reset.', img: 'images/warm-towel-compress.webp' },
-      { url: 'article-hair-combing-ritual.html', title: 'Hundred Strokes Hair Combing', desc: 'The last sound of the day — a wooden comb through hair, one hundred strokes before sleep.', img: 'images/hair-combing-ritual.webp' },
-      { url: 'article-sunning-the-back.html', title: 'Turning Your Back to the Sun', desc: 'A wooden stool, the morning sun, and fifteen minutes with your back to the light.', img: 'images/sunning-the-back.webp' }
+      { url: 'article-warm-towel-compress.html', title: 'Warm Towel Eye Compress', desc: 'A warm towel over closed eyes at the end of a long day — the five-minute reset.', img: 'images/warm-towel-compress.webp' }
     ];
 
     // Filter out current page, shuffle, take 6
