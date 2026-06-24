@@ -150,7 +150,13 @@
     ];
 
     // Filter out current page, shuffle, take 6
-    var filtered = articles.filter(function (a) { return a.url !== path; });
+    // Filter out current page（兼容带/不带 .html 的 URL）
+    var filtered = articles.filter(function (a) {
+      if (a.url === path) return false;
+      if (path && a.url === path + '.html') return false;
+      if (a.url.replace(/\.html$/, '') === path.replace(/\.html$/, '')) return false;
+      return true;
+    });
     for (var i = filtered.length - 1; i > 0; i--) {
       var j = Math.floor(Math.random() * (i + 1));
       var tmp = filtered[i];
