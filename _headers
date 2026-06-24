@@ -7,11 +7,11 @@
 /images/*
   Cache-Control: public, max-age=604800, immutable
 
-# CSS/JS 缓存 1 小时（文章发布时 JS 会变）
+# CSS/JS 缓存 30 分钟（文章发布时 JS 会变）
 /css/*
-  Cache-Control: public, max-age=3600
+  Cache-Control: public, max-age=1800
 /js/*
-  Cache-Control: public, max-age=3600
+  Cache-Control: public, max-age=1800
 
 # PDF 缓存 3 天
 /pdfs/*
