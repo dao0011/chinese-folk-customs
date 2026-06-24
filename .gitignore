@@ -27,3 +27,4 @@ pdfs/_preview_*
 
 # claude agents
 .agents/
+send_newsletter.py
