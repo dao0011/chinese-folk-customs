@@ -46,8 +46,7 @@ body::before {
     content: '';
     position: fixed;
     inset: 0;
-    background: url('../images/pattern-light.svg') repeat;
-    background-size: 120px 120px;
+    background: var(--primary-dark);
     opacity: 1;
     z-index: -2;
     pointer-events: none;
@@ -123,9 +122,9 @@ body::after {
 .site-header {
     background-color: var(--primary-color);
     background-image:
-        url('../images/pattern-dark.svg'),
+        
         linear-gradient(180deg, var(--primary-dark) 0%, var(--primary-color) 40%, #6B3A1F 100%);
-    background-size: 100px 100px, 100% 100%;
+    background-size: 100% 100%;
     background-position: center, center;
     padding: 2.2rem 0 1.8rem;
     text-align: center;
@@ -645,8 +644,6 @@ main {
 /* --- Footer --- */
 .site-footer {
     background-color: var(--primary-dark);
-    background-image: url('../images/pattern-dark.svg');
-    background-size: 80px 80px;
     color: rgba(255,248,231,0.8);
     padding: 2rem 0 1.5rem;
     margin-top: 2rem;
