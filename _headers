@@ -9,9 +9,9 @@
 
 # CSS/JS 缓存 30 分钟（文章发布时 JS 会变）
 /css/*
-  Cache-Control: public, max-age=1800
+  Cache-Control: public, max-age=60
 /js/*
-  Cache-Control: public, max-age=1800
+  Cache-Control: public, max-age=60
 
 # PDF 缓存 3 天
 /pdfs/*
