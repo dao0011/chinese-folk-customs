@@ -122,9 +122,9 @@ body::after {
 .site-header {
     background-color: var(--primary-color);
     background-image:
-        
+        repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(255,255,255,0.03) 2px, rgba(255,255,255,0.03) 4px),
         linear-gradient(180deg, var(--primary-dark) 0%, var(--primary-color) 40%, #6B3A1F 100%);
-    background-size: 100% 100%;
+    background-size: 8px 8px, 100% 100%;
     background-position: center, center;
     padding: 2.2rem 0 1.8rem;
     text-align: center;
