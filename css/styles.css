@@ -12,7 +12,7 @@
     --text-color: #3B2F1E;          /* 深棕文字 */
     --light-text: #6B5B4A;          /* 浅棕文字 */
     --background-color: #D9C8B0;    /* 米色/浅棕背景 */
-    --background-light: #E8DCD0;    /* 更浅的背景 */
+    --background-light: #D4C4B0;    /* 更浅的背景 */
     --disclaimer-bg: #f8f5f0;
     --disclaimer-border: #e0d5c5;
     --container-width: 1100px;
@@ -80,7 +80,7 @@ body::after {
     max-width: var(--content-width);
     margin: 2rem auto;
     padding: 2.5rem 2rem 3rem;
-    background-color: rgba(235, 222, 208, 0.95);
+    background-color: rgba(220, 205, 180, 0.95);
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow-lg);
     border: 1px solid rgba(210, 180, 140, 0.2);
@@ -327,7 +327,7 @@ main {
     max-width: var(--content-width);
     margin: 2rem auto;
     padding: 2.5rem 2rem 3rem;
-    background-color: rgba(235, 222, 208, 0.95);
+    background-color: rgba(220, 205, 180, 0.95);
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow-lg);
     border: 1px solid rgba(210, 180, 140, 0.2);
