@@ -35,19 +35,44 @@
                 <div style="text-align:center;margin:2rem 0;">
                     <p style="font-size:1.3rem;color:#5C3317;"><strong>$7.99</strong></p>
 
-                    <div id="paypal-container-MWU3WVLP4ZBFY" style="margin:1rem 0;"></div>
-                    <script src="https://www.paypal.com/sdk/js?client-id=BAAcs88xxwVltTD9e6S_uScsEMeMFC2ex4MwuyMNbHMeirYUIaT4RisLZVLQtpCpUdJ56v0keW8XUehIaM&components=hosted-buttons&disable-funding=venmo&currency=USD"></script>
+                    <!-- PayPal 按钮区域 -->
+                    <div id="paypal-button-container" style="margin:1rem 0; min-height:40px;"></div>
+                    <p id="paypal-status" style="color:#888;font-size:0.85rem;margin-top:0.5rem;"></p>
+
+                    <!-- 付款成功后显示：邮箱 + 确认按钮 -->
+                    <div id="post-payment-section" style="display:none; margin-top:1.5rem;">
+                        <p style="color:#A0522D;">Payment authorized — enter your email to receive the PDF:</p>
+                        <input id="buyer-email" type="email" placeholder="your@email.com" style="padding:10px;width:260px;border:1px solid #D4C4B0;border-radius:6px;font-size:1rem;">
+                        <button id="confirm-pdf-btn" style="margin:8px 0 0 6px;padding:10px 24px;background:#A0522D;color:#fff;border:none;border-radius:6px;font-size:1rem;cursor:pointer;">Confirm & Get PDF</button>
+                        <p id="send-status" style="color:#888;font-size:0.85rem;margin-top:0.5rem;"></p>
+                    </div>
+
+                    <!-- PayPal SDK -->
+                    <script src="https://www.paypal.com/sdk/js?client-id=AYqdC1YbsOnJJy8xc1f0-lcc7MYWh9J9HV72O-yX_HwZYie3qkqUZiUwjzlxY2zuNgFPPQHEOYTxCbsJ&currency=USD&disable-funding=venmo" data-sdk-integration-source="button-factory"></script>
                     <script>
-                    paypal.HostedButtons({hostedButtonId: "MWU3WVLP4ZBFY"}).render("#paypal-container-MWU3WVLP4ZBFY");
+                    var orderID = null;
+
+                    paypal.Buttons({
+                        createOrder: function(data, actions) {
+                            return actions.order.create({
+                                purchase_units: [{
+                                    amount: { value: '7.99' }
+                                }]
+                            });
+                        },
+                        onApprove: function(data) {
+                            orderID = data.orderID;
+                            document.getElementById('paypal-status').innerHTML = '<span style="color:green;">Payment authorized.</span>';
+                            document.getElementById('post-payment-section').style.display = 'block';
+                        },
+                        onCancel: function() {
+                            document.getElementById('paypal-status').textContent = 'Payment cancelled.';
+                        },
+                        onError: function(err) {
+                            document.getElementById('paypal-status').textContent = 'Payment error. Please try again.';
+                        }
+                    }).render('#paypal-button-container');
                     </script>
-
-                    <p style="color:#888;font-size:0.85rem;">After payment, enter your email and we'll send the PDF:</p>
-
-                    <input id="buyer-email" type="email" placeholder="your@email.com" style="padding:10px;width:260px;border:1px solid #D4C4B0;border-radius:6px;font-size:1rem;">
-                    <button id="send-pdf-btn" style="margin:8px 0 0 6px;padding:10px 24px;background:#A0522D;color:#fff;border:none;border-radius:6px;font-size:1rem;cursor:pointer;">Send My PDF</button>
-                    <p id="send-status" style="color:#888;font-size:0.85rem;margin-top:0.5rem;"></p>
-
-                    <p style="color:#A0522D;font-size:0.75rem;margin-top:1rem;">This purchase operates on trust. Thank you for supporting this work.</p>
                 </div>
             </div>
         </article>
@@ -56,24 +81,26 @@
     <div id="site-footer"></div>
     <script src="js/main.js" defer></script>
     <script>
-    document.getElementById('send-pdf-btn').addEventListener('click', function() {
+    document.getElementById('confirm-pdf-btn').addEventListener('click', function() {
         var email = document.getElementById('buyer-email').value.trim();
         if (!email) { alert('Please enter your email.'); return; }
         if (!email.includes('@')) { alert('Please enter a valid email.'); return; }
-        document.getElementById('send-status').textContent = 'Sending...';
-        fetch('/send-pdf', {
+        if (!orderID) { alert('Please complete the PayPal payment first.'); return; }
+
+        document.getElementById('send-status').textContent = 'Processing...';
+        fetch('/capture-order', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: email, product: 'remedies-guide' })
+            body: JSON.stringify({ orderID: orderID, email: email })
         }).then(function(r) { return r.json(); })
         .then(function(data) {
             if (data.ok) {
-                document.getElementById('send-status').innerHTML = '<span style=color:green>Sent!</span> Check your inbox.<br><a href=\"pdfs/25-Chinese-Household-Remedies-Guide.pdf\">Or download directly.</a>';
+                document.getElementById('send-status').innerHTML = '<span style="color:green;">&#10003; Payment confirmed.</span><br><a href="' + data.downloadUrl + '">Download PDF</a><br><span style="color:#888;font-size:0.8rem;">A download link has also been sent to your email.</span>';
             } else {
-                document.getElementById('send-status').textContent = 'Error. Contact guide@folkcalm.com';
+                document.getElementById('send-status').textContent = 'Something went wrong. Contact guide@folkcalm.com (Error: ' + (data.error || 'unknown') + ')';
             }
         }).catch(function() {
-            document.getElementById('send-status').textContent = 'Network error. Try again.';
+            document.getElementById('send-status').textContent = 'Network error. Please try again.';
         });
     });
     </script>

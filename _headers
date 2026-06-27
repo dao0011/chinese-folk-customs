@@ -32,3 +32,7 @@
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+# API 端点不缓存
+/capture-order
+  Cache-Control: no-store
