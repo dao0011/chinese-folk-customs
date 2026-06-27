@@ -55,6 +55,7 @@
             '<li><a href="categories.html" class="nav-link' + isActive('categories.html') + '"' + ariaCurrent('categories.html') + '>All Remedies</a></li>' +
             '<li><a href="about.html" class="nav-link' + isActive('about.html') + '"' + ariaCurrent('about.html') + '>About</a></li>' +
             '<li><a href="' + guideHref + '" class="nav-link">Free Guide</a></li>' +
+            '<li><a href="remedies-guide.html" class="nav-link' + isActive('remedies-guide.html') + '"' + ariaCurrent('remedies-guide.html') + '>Shop</a></li>' +
           '</ul>' +
         '</nav>' +
         searchHTML +
