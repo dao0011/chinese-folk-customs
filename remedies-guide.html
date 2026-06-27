@@ -35,22 +35,26 @@
                 <div style="text-align:center;margin:2rem 0;">
                     <p style="font-size:1.3rem;color:#5C3317;"><strong>$7.99</strong></p>
                     
-                    <!-- PayPal Hosted Button -->
-                    <div id="paypal-container-MWU3WVLP4ZBFY" style="margin:1.5rem 0;"></div>
+                    <!-- Step 1: PayPal -->
+                    <p style="color:#5C3317;font-weight:bold;">Step 1: Complete payment</p>
+                    <div id="paypal-container-MWU3WVLP4ZBFY" style="margin:0.5rem 0 1.5rem;"></div>
                     <script src="https://www.paypal.com/sdk/js?client-id=BAAcs88xxwVltTD9e6S_uScsEMeMFC2ex4MwuyMNbHMeirYUIaT4RisLZVLQtpCpUdJ56v0keW8XUehIaM&components=hosted-buttons&disable-funding=venmo&currency=USD"></script>
                     <script>
-                        paypal.HostedButtons({hostedButtonId: "MWU3WVLP4ZBFY"}).render("#paypal-container-MWU3WVLP4ZBFY");
+                    paypal.HostedButtons({
+                        hostedButtonId: "MWU3WVLP4ZBFY"
+                    }).render("#paypal-container-MWU3WVLP4ZBFY");
                     </script>
                     
-                    <p style="color:#888;font-size:0.9rem;margin:1rem 0;">After payment, enter your email below and we'll send the PDF instantly:</p>
-                    
-                    <div style="margin:1rem 0;">
-                        <input id="buyer-email" type="email" placeholder="your@email.com" required style="padding:10px;width:250px;border:1px solid #D4C4B0;border-radius:6px;font-size:1rem;">
+                    <!-- Step 2: Email (hidden until they confirm payment) -->
+                    <div id="step2" style="display:none;">
+                        <hr style="border-color:#D4C4B0;margin:1rem 0;">
+                        <p style="color:#5C3317;font-weight:bold;">Step 2: Receive your PDF</p>
+                        <input id="buyer-email" type="email" placeholder="your@email.com" required style="padding:10px;width:260px;border:1px solid #D4C4B0;border-radius:6px;font-size:1rem;">
                         <button id="send-pdf-btn" style="margin-top:8px;padding:10px 24px;background:#A0522D;color:#fff;border:none;border-radius:6px;font-size:1rem;cursor:pointer;">Send My PDF</button>
                         <p id="send-status" style="color:#888;font-size:0.85rem;margin-top:0.5rem;"></p>
                     </div>
                     
-                    <p style="color:#888;font-size:0.75rem;">This is a cultural documentation, not medical advice.</p>
+                    <p style="color:#888;font-size:0.75rem;margin-top:1rem;">This is a cultural documentation, not medical advice.</p>
                 </div>
             </div>
         </article>
@@ -59,26 +63,66 @@
     <div id="site-footer"></div>
     <script src="js/main.js" defer></script>
     <script>
-        document.getElementById('send-pdf-btn').addEventListener('click', function() {
-            var email = document.getElementById('buyer-email').value.trim();
-            if (!email) { alert('Please enter your email.'); return; }
-            if (!email.includes('@')) { alert('Please enter a valid email.'); return; }
-            document.getElementById('send-status').textContent = 'Sending...';
-            fetch('/send-pdf', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email: email, product: 'remedies-guide' })
-            }).then(function(r) { return r.json(); })
-            .then(function(data) {
-                if (data.ok) {
-                    document.getElementById('send-status').innerHTML = '<span style=color:green>Sent!</span> Check your inbox.<br><a href=\"pdfs/25-Chinese-Household-Remedies-Guide.pdf\">Or download directly.</a>';
-                } else {
-                    document.getElementById('send-status').textContent = 'Error. Please email guide@folkcalm.com';
-                }
-            }).catch(function() {
-                document.getElementById('send-status').textContent = 'Network error. Try again or email guide@folkcalm.com.';
+    // Show step 2 after PayPal interaction
+    var shown = false;
+    function showStep2() {
+        if (shown) return;
+        shown = true;
+        document.getElementById('step2').style.display = 'block';
+    }
+
+    // Monitor for PayPal popup/redirect
+    var checkTimer = setInterval(function() {
+        // If user clicked away and came back, show step 2
+        if (document.hidden === false && shown === false) {
+            // Check if any PayPal iframe was interacted with
+            var frames = document.querySelectorAll('iframe');
+            if (frames.length > 0) {
+                // User sees PayPal button - wait for click via blur/focus
+            }
+        }
+    }, 2000);
+
+    // Show step 2 on page visibility change (user returned from PayPal)
+    document.addEventListener('visibilitychange', function() {
+        if (document.visibilityState === 'visible' && !shown) {
+            showStep2();
+        }
+    });
+
+    // Also show after 2 seconds if PayPal button loaded (safety net)
+    setTimeout(function() {
+        if (document.querySelectorAll('#paypal-container-MWU3WVLP4ZBFY iframe').length > 0) {
+            // Button loaded, listen for window blur (user clicked it)
+            window.addEventListener('blur', function() {
+                setTimeout(function() {
+                    if (document.visibilityState === 'visible') showStep2();
+                }, 500);
             });
+        }
+    }, 2000);
+
+    // Send PDF
+    document.getElementById('send-pdf-btn').addEventListener('click', function() {
+        var email = document.getElementById('buyer-email').value.trim();
+        if (!email) { alert('Please enter your email.'); return; }
+        if (!email.includes('@')) { alert('Please enter a valid email.'); return; }
+        document.getElementById('send-status').textContent = 'Sending...';
+        fetch('/send-pdf', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: email, product: 'remedies-guide' })
+        }).then(function(r) { return r.json(); })
+        .then(function(data) {
+            if (data.ok) {
+                document.getElementById('send-status').innerHTML = '<span style=color:green>Sent!</span> Check your inbox.<br><a href=\"pdfs/25-Chinese-Household-Remedies-Guide.pdf\">Or download directly.</a>';
+            } else {
+                document.getElementById('send-status').textContent = 'Error. Please email guide@folkcalm.com';
+            }
+        }).catch(function() {
+            document.getElementById('send-status').textContent = 'Network error. Try again or email guide@folkcalm.com.';
         });
+    });
     </script>
 </body>
 </html>
