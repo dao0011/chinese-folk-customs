@@ -36,3 +36,4 @@
 # API 端点不缓存
 /capture-order
   Cache-Control: no-store
+
