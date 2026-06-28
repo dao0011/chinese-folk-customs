@@ -39,7 +39,7 @@ export async function onRequest(context) {
   const clientId = env.PAYPAL_CLIENT_ID;
   const clientSecret = env.PAYPAL_CLIENT_SECRET;
   if (!clientId || !clientSecret) {
-    return new Response(JSON.stringify({ ok: false, error: 'Payment service unavailable' }), {
+    return new Response(JSON.stringify({ ok: false, error: 'Env: ID=' + (env.PAYPAL_CLIENT_ID ? 'set' : 'MISSING') + ' Secret=' + (env.PAYPAL_CLIENT_SECRET ? 'set' : 'MISSING') }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' }
     });
