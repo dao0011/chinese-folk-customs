@@ -148,7 +148,8 @@
       { url: 'article-chrysanthemum-tea.html', title: 'Chrysanthemum Tea for Autumn Dryness', desc: 'One flower steeped all day. She held the cup in both hands and let the warmth rise into her skin.', img: 'images/chrysanthemum-tea-cup.webp' },
       { url: 'article-warm-towel-compress.html', title: 'Warm Towel Eye Compress', desc: 'A warm towel over closed eyes at the end of a long day — the five-minute reset.', img: 'images/warm-towel-compress.webp' },
       { url: 'article-pear-water-night-cough.html', title: 'When the Cough Wouldn\'t Stop, Grandma Went to the Kitchen', desc: 'A pear, a few pieces of rock sugar, and water — the simplest answer from a Chinese kitchen.', img: 'images/pear-water-night-cough.webp' },
-      { url: 'article-sour-plum-drink.html', title: 'The Dark Amber Drink That Cooled a Beijing Summer', desc: 'Smoked dark plums, hawthorn, tangerine peel, osmanthus — the jar every hutong household kept on the fridge door from June to August.', img: 'images/sour-plum-drink.webp' }
+      { url: 'article-sour-plum-drink.html', title: 'The Dark Amber Drink That Cooled a Beijing Summer', desc: 'Smoked dark plums, hawthorn, tangerine peel, osmanthus — the jar every hutong household kept on the fridge door from June to August.', img: 'images/sour-plum-drink.webp' },
+      { url: 'article-tremella-soup.html', title: 'The Pale Fungus That Made a Beauty of Every Woman in the Hutong', desc: 'A dried knot of white fungus, soaked four hours and simmered until the water turned to silk.', img: 'images/tremella-soup.webp' }
     ];
 
     // Filter out current page, shuffle, take 6
