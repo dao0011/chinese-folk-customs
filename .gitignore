@@ -16,16 +16,28 @@ emails-sent-*.csv
 __pycache__/
 .ml_token
 send_now.py
+google*.html
+project-words.txt
+skills-lock.json
 
 # generated/test images
 pin-*-agnes.png
 pinterest-*-pin.jpg
 yam-millet-porridge-agnes.png
 _city_night_test.png
+images/hair-combing-ritual.*
+images/hero-bg-soft.webp
+images/kitchen-tools/
+images/pattern-*.svg
+images/pin-*
+images/pinterest-*-pin.jpg
+images/sunning-the-back.*
 
 # PDF build artifacts (gitignored, kept locally)
 images/pdf_gen/
 pdfs/_preview_*
+pdfs/Grandmothers-*.pdf
+pdfs/Quiet-Rules-*.pdf
 
 # claude agents
 .agents/
