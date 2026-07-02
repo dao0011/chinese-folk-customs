@@ -9,6 +9,38 @@
   var path = window.location.pathname.replace(/^.*[\\/]/, '');
   if (!path) path = 'index.html';
 
+  // 文章元数据（共享数据源，Related Articles + Latest Articles 共用）
+  var articles = [
+    { url: 'article-mugwort-foot-soak.html', title: 'Dried Mugwort Foot Soak', desc: 'A quiet evening basin ritual from southern Chinese homes.', img: 'images/warm-foot-soak-basin.webp', date: '2026-05-17' },
+    { url: 'article-ginger-tea.html', title: 'Ginger & Date Warm Sip', desc: 'The most ordinary after-meal moment in Chinese family life.', img: 'images/ginger-date-tea.webp', date: '2026-05-17' },
+    { url: 'article-rice-congee.html', title: 'Plain Rice Congee', desc: 'The comfort bowl that travels through every Chinese kitchen.', img: 'images/rice-congee-kitchen.webp', date: '2026-05-17' },
+    { url: 'article-salt-warm-pack.html', title: 'Coarse Salt Warm Pack', desc: 'Grandmother\'s cloth heat pad — simple warmth from the kitchen.', img: 'images/salt-warm-pack.webp', date: '2026-05-17' },
+    { url: 'article-winter-melon-tea.html', title: 'Winter Melon Throat Comfort Tea', desc: 'Every autumn my grandmother simmered winter melon with rock sugar — a slow ritual for throat comfort.', img: 'images/winter-melon-tea.webp', date: '2026-05-25' },
+    { url: 'article-yam-millet-porridge.html', title: 'Chinese Yam and Millet Porridge', desc: 'A gentle stomach-soothing bowl from northern China.', img: 'images/yam-millet-porridge.webp', date: '2026-05-20' },
+    { url: 'article-sichuan-peppercorn-foot-soak.html', title: 'Sichuan Peppercorn Foot Soak', desc: 'Warmth for cold days from the Sichuan kitchen.', img: 'images/sichuan-peppercorn-foot-soak.webp', date: '2026-05-20' },
+    { url: 'article-sour-jujube-seed-tea.html', title: 'Sour Jujube Seed Tea', desc: 'A quiet cup before sleep — toasted seeds steeped in hot water.', img: 'images/sour-jujube-seed-tea.webp', date: '2026-05-20' },
+    { url: 'article-post-meal-walk.html', title: 'Post-Meal Walk', desc: 'A hundred paces after a meal — an old Chinese daily habit.', img: 'images/post-meal-walk.webp', date: '2026-05-20' },
+    { url: 'article-scallion-white-root.html', title: 'Scallion White Root Tea', desc: 'What my grandmother reached for when a cold was coming.', img: 'images/scallion-white-root.webp', date: '2026-05-21' },
+    { url: 'article-goji-berry-tea.html', title: 'Goji Berry Tea', desc: 'The cup my grandmother poured for tired eyes every afternoon.', img: 'images/goji-berry-tea-cup.jpg', date: '2026-05-21' },
+    { url: 'article-moxibustion-home.html', title: 'Moxibustion at Home', desc: 'Warming the knees with mugwort warmth on winter evenings.', img: 'images/moxibustion.webp', date: '2026-05-24' },
+    { url: 'article-ginger-foot-soak.html', title: 'Ginger Foot Soak for Cold Feet Comfort', desc: 'Old ginger in hot water until her feet glowed pink.', img: 'images/ginger-foot-soak.jpg', date: '2026-05-24' },
+    { url: 'article-morning-warm-water.html', title: 'Morning Warm Water', desc: 'The first kitchen ritual — a cup of warm water before anything else.', img: 'images/morning-warm-water.webp', date: '2026-05-30' },
+    { url: 'article-rice-water-rinse.html', title: 'Rice Water Rinse', desc: 'The milky water left from washing rice, saved in a chipped jar on the bathroom shelf.', img: 'images/rice-water-rinse.webp', date: '2026-06-09' },
+    { url: 'article-bedding-airing.html', title: 'Bedding Airing Ritual', desc: 'Carrying the quilts outside on a clear morning to catch the smell of the sun.', img: 'images/bedding-airing.webp', date: '2026-06-09' },
+    { url: 'article-post-lunch-pause.html', title: 'Post-Lunch Pause', desc: 'Twenty minutes of quiet after lunch — not a nap, just letting the meal settle.', img: 'images/post-lunch-pause.webp', date: '2026-06-09' },
+    { url: 'article-soap-pods.html', title: 'Soap Pods by the Kitchen Sink', desc: 'A broken piece of dried honey locust pod steeped in water made the foam that washed everything.', img: 'images/soap-pods-bowl.webp', date: '2026-06-20' },
+    { url: 'article-mung-bean-soup.html', title: 'Mung Bean Soup for Summer Afternoons', desc: 'Unsweetened, cooked until the beans split open, then left to cool. She\'d drink it standing up.', img: 'images/mung-bean-soup-bowl.webp', date: '2026-06-20' },
+    { url: 'article-chrysanthemum-tea.html', title: 'Chrysanthemum Tea for Autumn Dryness', desc: 'One flower steeped all day. She held the cup in both hands and let the warmth rise into her skin.', img: 'images/chrysanthemum-tea-cup.webp', date: '2026-06-20' },
+    { url: 'article-warm-towel-compress.html', title: 'Warm Towel Eye Compress', desc: 'A warm towel over closed eyes at the end of a long day — the five-minute reset.', img: 'images/warm-towel-compress.webp', date: '2026-06-23' },
+    { url: 'article-pear-water-night-cough.html', title: 'When the Cough Wouldn\'t Stop, Grandma Went to the Kitchen', desc: 'A pear, a few pieces of rock sugar, and water — the simplest answer from a Chinese kitchen.', img: 'images/pear-water-night-cough.webp', date: '2026-06-25' },
+    { url: 'article-sour-plum-drink.html', title: 'The Dark Amber Drink That Cooled a Beijing Summer', desc: 'Smoked dark plums, hawthorn, tangerine peel, osmanthus — the jar every hutong household kept on the fridge door from June to August.', img: 'images/sour-plum-drink.webp', date: '2026-06-27' },
+    { url: 'article-bamboo-wife.html', title: 'The Bamboo Wife: China\'s Forgotten Summer Cooler', desc: 'A hollow cylinder of woven bamboo, hugged through the hottest nights — a thousand-year-old object China forgot.', img: 'images/bamboo-wife.webp', date: '2026-07-03' },
+    { url: 'article-salt-water-gargle.html', title: 'Salt Water Gargle: The Glass by Every Toothbrush', desc: 'Half a glass of warm water, a pinch of coarse salt — the morning gargle passed down through three generations.', img: 'images/salt-water-gargle.webp', date: '2026-07-02' },
+    { url: 'article-longan-red-date-tea.html', title: 'Longan Red Date Tea: The Goddess Tea of the Hutong', desc: 'Dried longan and red dates simmered into deep red water — the pot my grandmother carried door to door.', img: 'images/longan-red-date-tea.webp', date: '2026-07-01' },
+    { url: 'article-tremella-soup.html', title: 'The Pale Fungus That Made a Beauty of Every Woman in the Hutong', desc: 'A dried knot of white fungus, soaked four hours and simmered until the water turned to silk.', img: 'images/tremella-soup.webp', date: '2026-06-29' },
+    { url: 'article-ginger-scalp-rub.html', title: 'Ginger on the Scalp', desc: 'Every Sunday, a fresh-cut knob of ginger rubbed into the hairline. She said it woke the roots up.', img: 'images/ginger-scalp-rub.webp', date: '2026-06-30' }
+  ];
+
   function isActive(page) {
     return path === page ? ' active' : '';
   }
@@ -125,36 +157,6 @@
     if (!el) return;
     el.className = 'related-articles';
 
-    var articles = [
-      { url: 'article-mugwort-foot-soak.html', title: 'Dried Mugwort Foot Soak', desc: 'A quiet evening basin ritual from southern Chinese homes.', img: 'images/warm-foot-soak-basin.webp' },
-      { url: 'article-ginger-tea.html', title: 'Ginger & Date Warm Sip', desc: 'The most ordinary after-meal moment in Chinese family life.', img: 'images/ginger-date-tea.webp' },
-      { url: 'article-rice-congee.html', title: 'Plain Rice Congee', desc: 'The comfort bowl that travels through every Chinese kitchen.', img: 'images/rice-congee-kitchen.webp' },
-      { url: 'article-salt-warm-pack.html', title: 'Coarse Salt Warm Pack', desc: 'Grandmother\'s cloth heat pad — simple warmth from the kitchen.', img: 'images/salt-warm-pack.webp' },
-      { url: 'article-winter-melon-tea.html', title: 'Winter Melon Throat Comfort Tea', desc: 'Every autumn my grandmother simmered winter melon with rock sugar — a slow ritual for throat comfort.', img: 'images/winter-melon-tea.webp' },
-      { url: 'article-yam-millet-porridge.html', title: 'Chinese Yam and Millet Porridge', desc: 'A gentle stomach-soothing bowl from northern China.', img: 'images/yam-millet-porridge.webp' },
-      { url: 'article-sichuan-peppercorn-foot-soak.html', title: 'Sichuan Peppercorn Foot Soak', desc: 'Warmth for cold days from the Sichuan kitchen.', img: 'images/sichuan-peppercorn-foot-soak.webp' },
-      { url: 'article-sour-jujube-seed-tea.html', title: 'Sour Jujube Seed Tea', desc: 'A quiet cup before sleep — toasted seeds steeped in hot water.', img: 'images/sour-jujube-seed-tea.webp' },
-      { url: 'article-post-meal-walk.html', title: 'Post-Meal Walk', desc: 'A hundred paces after a meal — an old Chinese daily habit.', img: 'images/post-meal-walk.webp' },
-      { url: 'article-scallion-white-root.html', title: 'Scallion White Root Tea', desc: 'What my grandmother reached for when a cold was coming.', img: 'images/scallion-white-root.webp' },
-      { url: 'article-goji-berry-tea.html', title: 'Goji Berry Tea', desc: 'The cup my grandmother poured for tired eyes every afternoon.', img: 'images/goji-berry-tea-cup.jpg' },
-      { url: 'article-moxibustion-home.html', title: 'Moxibustion at Home', desc: 'Warming the knees with mugwort warmth on winter evenings.', img: 'images/moxibustion.webp' },
-      { url: 'article-ginger-foot-soak.html', title: 'Ginger Foot Soak for Cold Feet Comfort', desc: 'Old ginger in hot water until her feet glowed pink.', img: 'images/ginger-foot-soak.jpg' },
-      { url: 'article-morning-warm-water.html', title: 'Morning Warm Water', desc: 'The first kitchen ritual — a cup of warm water before anything else.', img: 'images/morning-warm-water.webp' },
-      { url: 'article-rice-water-rinse.html', title: 'Rice Water Rinse', desc: 'The milky water left from washing rice, saved in a chipped jar on the bathroom shelf.', img: 'images/rice-water-rinse.webp' },
-      { url: 'article-bedding-airing.html', title: 'Bedding Airing Ritual', desc: 'Carrying the quilts outside on a clear morning to catch the smell of the sun.', img: 'images/bedding-airing.webp' },
-      { url: 'article-post-lunch-pause.html', title: 'Post-Lunch Pause', desc: 'Twenty minutes of quiet after lunch — not a nap, just letting the meal settle.', img: 'images/post-lunch-pause.webp' },
-      { url: 'article-soap-pods.html', title: 'Soap Pods by the Kitchen Sink', desc: 'A broken piece of dried honey locust pod steeped in water made the foam that washed everything.', img: 'images/soap-pods-bowl.webp' },
-      { url: 'article-mung-bean-soup.html', title: 'Mung Bean Soup for Summer Afternoons', desc: 'Unsweetened, cooked until the beans split open, then left to cool. She\'d drink it standing up.', img: 'images/mung-bean-soup-bowl.webp' },
-      { url: 'article-chrysanthemum-tea.html', title: 'Chrysanthemum Tea for Autumn Dryness', desc: 'One flower steeped all day. She held the cup in both hands and let the warmth rise into her skin.', img: 'images/chrysanthemum-tea-cup.webp' },
-      { url: 'article-warm-towel-compress.html', title: 'Warm Towel Eye Compress', desc: 'A warm towel over closed eyes at the end of a long day — the five-minute reset.', img: 'images/warm-towel-compress.webp' },
-      { url: 'article-pear-water-night-cough.html', title: 'When the Cough Wouldn\'t Stop, Grandma Went to the Kitchen', desc: 'A pear, a few pieces of rock sugar, and water — the simplest answer from a Chinese kitchen.', img: 'images/pear-water-night-cough.webp' },
-      { url: 'article-sour-plum-drink.html', title: 'The Dark Amber Drink That Cooled a Beijing Summer', desc: 'Smoked dark plums, hawthorn, tangerine peel, osmanthus — the jar every hutong household kept on the fridge door from June to August.', img: 'images/sour-plum-drink.webp' },
-      { url: 'article-salt-water-gargle.html', title: 'Salt Water Gargle: The Glass by Every Toothbrush', desc: 'Half a glass of warm water, a pinch of coarse salt — the morning gargle passed down through three generations.', img: 'images/salt-water-gargle.webp' },
-      { url: 'article-longan-red-date-tea.html', title: 'Longan Red Date Tea: The Goddess Tea of the Hutong', desc: 'Dried longan and red dates simmered into deep red water — the pot my grandmother carried door to door.', img: 'images/longan-red-date-tea.webp' },
-      { url: 'article-tremella-soup.html', title: 'The Pale Fungus That Made a Beauty of Every Woman in the Hutong', desc: 'A dried knot of white fungus, soaked four hours and simmered until the water turned to silk.', img: 'images/tremella-soup.webp' },
-      { url: 'article-ginger-scalp-rub.html', title: 'Ginger on the Scalp', desc: 'Every Sunday, a fresh-cut knob of ginger rubbed into the hairline. She said it woke the roots up.', img: 'images/ginger-scalp-rub.webp' }
-    ];
-
     // Filter out current page, shuffle, take 6
     // Filter out current page（兼容带/不带 .html 的 URL）
     var filtered = articles.filter(function (a) {
@@ -229,6 +231,27 @@
 
   }
 
+  // ── Latest Articles (homepage only) ─────────────────────────────
+  function injectLatestArticles() {
+    var el = document.getElementById('latest-articles');
+    if (!el) return;
+
+    var today = new Date().toISOString().split('T')[0];
+
+    var sorted = articles.filter(function (a) {
+      return a.date <= today;
+    }).sort(function (a, b) {
+      return b.date.localeCompare(a.date);
+    }).slice(0, 5);
+
+    var html = '<ul>';
+    sorted.forEach(function (a) {
+      html += '<li><a href="' + a.url + '">' + a.title + '</a> &mdash; ' + a.desc + '</li>';
+    });
+    html += '</ul>';
+    el.innerHTML = html;
+  }
+
   // ── Init ─────────────────────────────────────────────────────────
   function init() {
     injectPerformanceTags();
@@ -237,6 +260,7 @@
     injectFooter();
     injectEmailCta();
     injectRelatedArticles();
+    injectLatestArticles();
     injectSocialShare();
     injectAffiliateDisclosure();
 

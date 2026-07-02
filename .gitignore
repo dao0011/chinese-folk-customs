@@ -14,6 +14,8 @@ emails-sent-*.csv
 .vscode
 .claude/
 __pycache__/
+.ml_token
+send_now.py
 
 # generated/test images
 pin-*-agnes.png

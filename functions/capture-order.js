@@ -2,6 +2,65 @@
 // POST /capture-order
 // Body: { orderID: string, email: string }
 
+const PAID_GUIDE_FILE = '25-Chinese-Household-Remedies-Guide.pdf';
+const PAID_GUIDE_PRICE = '7.99';
+const PAID_GUIDE_CURRENCY = 'USD';
+const DOWNLOAD_TOKEN_SECONDS = 7 * 24 * 60 * 60;
+
+function getTokenSecret(env) {
+  return env.PDF_TOKEN_SECRET || env.PAYPAL_CLIENT_SECRET || '';
+}
+
+function base64Url(bytes) {
+  var binary = '';
+  for (var i = 0; i < bytes.length; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
+async function signDownloadToken(env, file, orderID, expires) {
+  var secret = getTokenSecret(env);
+  if (!secret) throw new Error('PDF token secret is not configured');
+
+  var encoder = new TextEncoder();
+  var key = await crypto.subtle.importKey(
+    'raw',
+    encoder.encode(secret),
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign']
+  );
+  var data = [file, orderID, expires].join('|');
+  var signature = await crypto.subtle.sign('HMAC', key, encoder.encode(data));
+  return base64Url(new Uint8Array(signature));
+}
+
+async function createDownloadUrl(request, env, orderID) {
+  var expires = Math.floor(Date.now() / 1000) + DOWNLOAD_TOKEN_SECONDS;
+  var token = await signDownloadToken(env, PAID_GUIDE_FILE, orderID, String(expires));
+  var baseUrl = env.PUBLIC_SITE_URL || new URL(request.url).origin;
+  var url = new URL('/pdfs/' + PAID_GUIDE_FILE, baseUrl);
+  url.searchParams.set('order', orderID);
+  url.searchParams.set('expires', String(expires));
+  url.searchParams.set('token', token);
+  return url.toString();
+}
+
+function expectedPayeeMatches(env, payee) {
+  var expectedMerchantId = env.PAYPAL_MERCHANT_ID || env.PAYPAL_PAYEE_MERCHANT_ID || '';
+  var expectedEmail = env.PAYPAL_PAYEE_EMAIL || '';
+
+  if (!expectedMerchantId && !expectedEmail) {
+    console.error('PayPal payee validation requires PAYPAL_MERCHANT_ID or PAYPAL_PAYEE_EMAIL.');
+    return false;
+  }
+
+  if (expectedMerchantId && payee?.merchant_id !== expectedMerchantId) return false;
+  if (expectedEmail && (payee?.email_address || '').toLowerCase() !== expectedEmail.toLowerCase()) return false;
+  return true;
+}
+
 export async function onRequest(context) {
   const { request, env } = context;
 
@@ -70,13 +129,15 @@ export async function onRequest(context) {
     const { access_token } = await tokenRes.json();
 
     // 步骤 2：Capture 订单（真正扣款）
+    const paypalRequestId = `capture-${orderID}`;
     const captureRes = await fetch(
       `${paypalBase}/v2/checkout/orders/${orderID}/capture`,
       {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${access_token}`,
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'PayPal-Request-Id': paypalRequestId
         },
         body: '{}'
       }
@@ -86,16 +147,24 @@ export async function onRequest(context) {
 
     // 步骤 3：验证付款结果
     const isCompleted = captureData.status === 'COMPLETED';
-    const capture = captureData.purchase_units?.[0]?.payments?.captures?.[0];
+    const purchaseUnit = captureData.purchase_units?.[0];
+    const capture = purchaseUnit?.payments?.captures?.[0];
+    const payee = purchaseUnit?.payee || capture?.payee;
     const captureOk = capture?.status === 'COMPLETED';
-    const amountOk = capture?.amount?.value === '7.99';
+    const amountOk = capture?.amount?.value === PAID_GUIDE_PRICE;
+    const currencyOk = capture?.amount?.currency_code === PAID_GUIDE_CURRENCY;
+    const payeeOk = expectedPayeeMatches(env, payee);
 
-    if (!isCompleted || !captureOk || !amountOk) {
+    if (!isCompleted || !captureOk || !amountOk || !currencyOk || !payeeOk) {
       console.error('Verification failed:', {
         orderCompleted: isCompleted,
         captureOk,
         amountOk,
-        amount: capture?.amount?.value
+        currencyOk,
+        payeeOk,
+        amount: capture?.amount?.value,
+        currency: capture?.amount?.currency_code,
+        payeeMerchantId: payee?.merchant_id
       });
       return new Response(JSON.stringify({ ok: false, error: 'Payment verification failed' }), {
         status: 200,
@@ -104,11 +173,11 @@ export async function onRequest(context) {
     }
 
     const transactionId = capture.id;
+    const pdfUrl = await createDownloadUrl(request, env, orderID);
 
     // 步骤 4：发邮件
     const resendKey = env.RESEND_API_KEY;
     if (resendKey) {
-      const pdfUrl = 'https://www.folkcalm.com/pdfs/25-Chinese-Household-Remedies-Guide.pdf';
       const html = `<div style="font-family: Georgia, serif; max-width: 600px; padding: 20px; background: #FDF8F0;">
 <h2 style="color: #5C3317;">Thank You for Your Purchase</h2>
 <p style="color: #A0522D; font-style: italic;">The Folk Calm Kitchen — 25 Chinese Household Remedies</p>
@@ -138,7 +207,7 @@ export async function onRequest(context) {
 
     return new Response(JSON.stringify({
       ok: true,
-      downloadUrl: 'pdfs/25-Chinese-Household-Remedies-Guide.pdf',
+      downloadUrl: pdfUrl,
       transactionId: transactionId
     }), {
       status: 200,
