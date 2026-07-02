@@ -84,7 +84,7 @@
     document.getElementById('confirm-pdf-btn').addEventListener('click', function() {
         var email = document.getElementById('buyer-email').value.trim();
         if (!email) { alert('Please enter your email.'); return; }
-        if (!email.includes('@')) { alert('Please enter a valid email.'); return; }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { alert('Please enter a valid email.'); return; }
         if (!orderID) { alert('Please complete the PayPal payment first.'); return; }
 
         document.getElementById('send-status').textContent = 'Processing...';

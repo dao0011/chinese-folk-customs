@@ -29,7 +29,7 @@ export async function onRequest(context) {
       headers: { 'Content-Type': 'application/json' }
     });
   }
-  if (!email || !email.includes('@')) {
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return new Response(JSON.stringify({ ok: false, error: 'Invalid email' }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' }

@@ -9,7 +9,7 @@ var PAGE_HTML = [
 '    <meta name="robots" content="noindex, nofollow">',
 '    <link rel="icon" href="favicon.ico" type="image/x-icon">',
 '    <link rel="stylesheet" href="css/styles.css">',
-'    <script src="js/components.js?v=3" defer></script>',
+'    <script src="js/components.js?v=8" defer></script>',
 '</head>',
 '<body>',
 '    <a href="#main" class="skip-link">Skip to main content</a>',

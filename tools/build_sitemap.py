@@ -28,6 +28,10 @@ PAGES = [
     ("https://www.folkcalm.com/article-soap-pods.html", "article-soap-pods.html", "monthly", "0.8"),
     ("https://www.folkcalm.com/article-mung-bean-soup.html", "article-mung-bean-soup.html", "monthly", "0.8"),
     ("https://www.folkcalm.com/article-chrysanthemum-tea.html", "article-chrysanthemum-tea.html", "monthly", "0.8"),
+    ("https://www.folkcalm.com/article-warm-towel-compress.html", "article-warm-towel-compress.html", "monthly", "0.8"),
+    ("https://www.folkcalm.com/article-pear-water-night-cough.html", "article-pear-water-night-cough.html", "monthly", "0.8"),
+    ("https://www.folkcalm.com/article-tremella-soup.html", "article-tremella-soup.html", "monthly", "0.8"),
+    ("https://www.folkcalm.com/article-sour-plum-drink.html", "article-sour-plum-drink.html", "monthly", "0.8"),
     # Static pages
     ("https://www.folkcalm.com/disclaimer.html", "disclaimer.html", "yearly", "0.4"),
     ("https://www.folkcalm.com/about.html", "about.html", "monthly", "0.6"),
