@@ -1,4 +1,9 @@
 const PAID_GUIDE_FILE = '25-Chinese-Household-Remedies-Guide.pdf';
+const GONE_PDFS = new Set([
+  'Grandmothers-Household-Shelf-Guide.pdf',
+  'Grandmothers-Kitchen-Toolkit-Guide.pdf',
+  'Quiet-Rules-of-the-Chinese-Table-Guide.pdf',
+]);
 
 function getTokenSecret(env) {
   return env.PDF_TOKEN_SECRET || env.PAYPAL_CLIENT_SECRET || '';
@@ -68,6 +73,16 @@ function forbidden() {
   });
 }
 
+function gone() {
+  return new Response('Gone', {
+    status: 410,
+    headers: {
+      'Cache-Control': 'no-store',
+      'X-Content-Type-Options': 'nosniff',
+    },
+  });
+}
+
 export async function onRequest(context) {
   var request = context.request;
   var env = context.env;
@@ -79,6 +94,10 @@ export async function onRequest(context) {
       status: 405,
       headers: { 'Allow': 'GET, HEAD' },
     });
+  }
+
+  if (GONE_PDFS.has(file)) {
+    return gone();
   }
 
   if (file !== PAID_GUIDE_FILE) {
