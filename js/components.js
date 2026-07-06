@@ -38,7 +38,8 @@
     { url: 'article-salt-water-gargle.html', title: 'Salt Water Gargle: The Glass by Every Toothbrush', desc: 'Half a glass of warm water, a pinch of coarse salt — the morning gargle passed down through three generations.', img: 'images/salt-water-gargle.webp', date: '2026-07-02' },
     { url: 'article-longan-red-date-tea.html', title: 'Longan Red Date Tea: The Goddess Tea of the Hutong', desc: 'Dried longan and red dates simmered into deep red water — the pot my grandmother carried door to door.', img: 'images/longan-red-date-tea.webp', date: '2026-07-01' },
     { url: 'article-tremella-soup.html', title: 'The Pale Fungus That Made a Beauty of Every Woman in the Hutong', desc: 'A dried knot of white fungus, soaked four hours and simmered until the water turned to silk.', img: 'images/tremella-soup.webp', date: '2026-06-29' },
-    { url: 'article-ginger-scalp-rub.html', title: 'Ginger on the Scalp', desc: 'Every Sunday, a fresh-cut knob of ginger rubbed into the hairline. She said it woke the roots up.', img: 'images/ginger-scalp-rub.webp', date: '2026-06-30' }
+    { url: 'article-ginger-scalp-rub.html', title: 'Ginger on the Scalp', desc: 'Every Sunday, a fresh-cut knob of ginger rubbed into the hairline. She said it woke the roots up.', img: 'images/ginger-scalp-rub.webp', date: '2026-06-30' },
+    { url: 'article-lotus-root-water.html', title: 'Lotus Root Water', desc: 'Lotus root sliced into water and warmed slowly - a pale summer sip from the Chinese kitchen.', img: 'images/lotus-root-water.webp', date: '2026-07-06' }
   ];
 
   function isActive(page) {
@@ -157,9 +158,9 @@
     if (!el) return;
     el.className = 'related-articles';
 
-    // Filter out current page, shuffle, take 6
-    // Filter out current page（兼容带/不带 .html 的 URL）
+    var today = new Date().toISOString().split('T')[0];
     var filtered = articles.filter(function (a) {
+      if (a.date > today) return false;
       if (a.url === path) return false;
       if (path && a.url === path + '.html') return false;
       if (a.url.replace(/\.html$/, '') === path.replace(/\.html$/, '')) return false;

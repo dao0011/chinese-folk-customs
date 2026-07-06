@@ -32,12 +32,13 @@ document.addEventListener('DOMContentLoaded', function () {
             { title: 'Mung Bean Soup for Summer Afternoons',   url: 'article-mung-bean-soup.html',             keywords: 'mung bean soup green bean summer cooling Chinese folk food traditional kitchen seasonal eating heat relief afternoon' },
             { title: 'Chrysanthemum Tea for Autumn Dryness',     url: 'article-chrysanthemum-tea.html',          keywords: 'chrysanthemum tea autumn ritual autumn dryness cooling tea Chinese folk tea seasonal habits traditional beverage zao chrysanthemum flower steam' },
             { title: "A Warm Towel Over the Eyes", url: "article-warm-towel-compress.html", keywords: 'warm towel compress eye rest evening ritual quiet reset hot water grandmother sewing' },
-            { title: "When the Cough Wouldn't Stop, Grandma Went to the Kitchen", url: "article-pear-water-night-cough.html", keywords: 'pear water rock sugar night cough Chinese kitchen remedy grandmother folk' },
+            { title: "When the Cough Wouldn't Stop, Grandma Went to the Kitchen", url: "article-pear-water-night-cough.html", keywords: 'pear water rock sugar night cough Chinese kitchen custom grandmother folk' },
             { title: "The Pale Fungus That Made a Beauty of Every Woman in the Hutong", url: "article-tremella-soup.html", keywords: 'tremella soup snow fungus white fungus beauty food hutong kitchen collagen' },
             { title: "The Dark Amber Drink That Cooled a Beijing Summer", url: "article-sour-plum-drink.html", keywords: 'sour plum drink suan mei tang smoked plum hawthorn osmanthus summer drink Beijing hutong' },
             { title: "Salt Water Gargle: The Glass by Every Toothbrush", url: "article-salt-water-gargle.html", keywords: 'salt water gargle morning rinse throat cleaning everyday ritual coarse salt grandmother' },
             { title: "Longan Red Date Tea: The Goddess Tea of the Hutong", url: "article-longan-red-date-tea.html", keywords: 'longan red date tea goddess tea hutong kitchen blood nourishment dried longan simmered drink' },
             { title: "The Bamboo Wife — China's Forgotten Summer Cooler", url: "article-bamboo-wife.html", keywords: 'bamboo wife zhu furen bamboo body pillow summer cooling Chinese folk object traditional sleep aid' },
+            { title: 'Lotus Root Water', url: 'article-lotus-root-water.html', date: '2026-07-06', keywords: 'lotus root water summer sip Chinese kitchen food custom pale drink' },
             { title: 'Categories - Folk Habits',                 url: 'categories.html',                              keywords: 'categories kitchen comforts compresses cloth warmth ginger tea' },
             { title: 'About Folk Calm',                          url: 'about.html',                                   keywords: 'about cultural archive mission methodology' },
             { title: 'Disclaimer',                               url: 'disclaimer.html',                              keywords: 'disclaimer legal cultural record boundaries' },
@@ -50,7 +51,9 @@ document.addEventListener('DOMContentLoaded', function () {
             var q = query.toLowerCase().trim();
             if (q.length < 2) { hideResults(); return; }
 
+            var today = new Date().toISOString().split('T')[0];
             var hits = sitePages.filter(function (p) {
+                if (p.date && p.date > today) return false;
                 return p.title.toLowerCase().indexOf(q) !== -1 || p.keywords.indexOf(q) !== -1;
             });
 
@@ -114,7 +117,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
             var pinBtn = document.createElement('a');
             pinBtn.className = 'pinterest-save';
-            pinBtn.href = 'https://pinterest.com/pin/create/button/?url=' + pageUrl + '&media=' + encodeURIComponent(img.src) + '&description=' + pageTitle;
+            var pinMedia = img.getAttribute('data-pin-media') || img.src;
+            pinBtn.href = 'https://pinterest.com/pin/create/button/?url=' + pageUrl + '&media=' + encodeURIComponent(pinMedia) + '&description=' + pageTitle;
             pinBtn.target = '_blank';
             pinBtn.rel = 'noopener noreferrer';
             pinBtn.title = 'Save to Pinterest';
@@ -138,5 +142,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 window.scrollTo({ top: el.offsetTop - 80, behavior: 'smooth' });
             }
         });
+    });
+
+    document.querySelectorAll('[data-publish-date]').forEach(function (el) {
+        var today = new Date().toISOString().split('T')[0];
+        if (el.getAttribute('data-publish-date') > today) {
+            el.hidden = true;
+        }
     });
 });
