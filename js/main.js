@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
             { title: "Longan Red Date Tea: The Goddess Tea of the Hutong", url: "article-longan-red-date-tea.html", keywords: 'longan red date tea goddess tea hutong kitchen blood nourishment dried longan simmered drink' },
             { title: "The Bamboo Wife — China's Forgotten Summer Cooler", url: "article-bamboo-wife.html", keywords: 'bamboo wife zhu furen bamboo body pillow summer cooling Chinese folk object traditional sleep aid' },
             { title: 'Lotus Root Water', url: 'article-lotus-root-water.html', date: '2026-07-06', keywords: 'lotus root water summer sip Chinese kitchen food custom pale drink' },
+            { title: 'Fresh Mint Cloth', url: 'article-mint-cool-cloth.html', date: '2026-07-07', keywords: 'mint cool cloth summer household practice Chinese folk custom cotton basin window' },
             { title: 'Categories - Folk Habits',                 url: 'categories.html',                              keywords: 'categories kitchen comforts compresses cloth warmth ginger tea' },
             { title: 'About Folk Calm',                          url: 'about.html',                                   keywords: 'about cultural archive mission methodology' },
             { title: 'Disclaimer',                               url: 'disclaimer.html',                              keywords: 'disclaimer legal cultural record boundaries' },

@@ -39,7 +39,8 @@
     { url: 'article-longan-red-date-tea.html', title: 'Longan Red Date Tea: The Goddess Tea of the Hutong', desc: 'Dried longan and red dates simmered into deep red water — the pot my grandmother carried door to door.', img: 'images/longan-red-date-tea.webp', date: '2026-07-01' },
     { url: 'article-tremella-soup.html', title: 'The Pale Fungus That Made a Beauty of Every Woman in the Hutong', desc: 'A dried knot of white fungus, soaked four hours and simmered until the water turned to silk.', img: 'images/tremella-soup.webp', date: '2026-06-29' },
     { url: 'article-ginger-scalp-rub.html', title: 'Ginger on the Scalp', desc: 'Every Sunday, a fresh-cut knob of ginger rubbed into the hairline. She said it woke the roots up.', img: 'images/ginger-scalp-rub.webp', date: '2026-06-30' },
-    { url: 'article-lotus-root-water.html', title: 'Lotus Root Water', desc: 'A few lotus root slices warmed in a side pot - a plain summer kitchen habit remembered through household behavior.', img: 'images/lotus-root-water.webp', date: '2026-07-06' }
+    { url: 'article-lotus-root-water.html', title: 'Lotus Root Water', desc: 'A few lotus root slices warmed in a side pot - a plain summer kitchen habit remembered through household behavior.', img: 'images/lotus-root-water.webp', date: '2026-07-06' },
+    { url: 'article-mint-cool-cloth.html', title: 'Fresh Mint Cloth', desc: 'Mint leaves, cool water, and a folded cotton cloth kept near the back door on hot afternoons.', img: 'images/mint-cool-cloth.webp', date: '2026-07-07' }
   ];
 
   function isActive(page) {
