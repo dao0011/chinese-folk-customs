@@ -41,6 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
             { title: 'Lotus Root Water', url: 'article-lotus-root-water.html', date: '2026-07-06', keywords: 'lotus root water summer sip Chinese kitchen food custom pale drink' },
             { title: 'Fresh Mint Cloth', url: 'article-mint-cool-cloth.html', date: '2026-07-07', keywords: 'mint cool cloth summer household practice Chinese folk custom cotton basin window' },
             { title: 'Black Sesame Walnut Paste', url: 'article-black-sesame-walnut-paste.html', date: '2026-07-08', keywords: 'black sesame walnut paste dark sweet bowl Chinese kitchen food custom mortar dessert' },
+            { title: 'Cassia Seed Pillow', url: 'article-cassia-seed-pillow.html', date: '2026-07-09', keywords: 'cassia seed pillow jue ming zi summer bedroom bamboo mat seed pillow' },
             { title: 'Categories - Folk Habits',                 url: 'categories.html',                              keywords: 'categories kitchen comforts compresses cloth warmth ginger tea' },
             { title: 'About Folk Calm',                          url: 'about.html',                                   keywords: 'about cultural archive mission methodology' },
             { title: 'Disclaimer',                               url: 'disclaimer.html',                              keywords: 'disclaimer legal cultural record boundaries' },

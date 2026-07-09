@@ -41,7 +41,8 @@
     { url: 'article-ginger-scalp-rub.html', title: 'Ginger on the Scalp', desc: 'Every Sunday, a fresh-cut knob of ginger rubbed into the hairline. She said it woke the roots up.', img: 'images/ginger-scalp-rub.webp', date: '2026-06-30' },
     { url: 'article-lotus-root-water.html', title: 'Lotus Root Water', desc: 'A few lotus root slices warmed in a side pot - a plain summer kitchen habit remembered through household behavior.', img: 'images/lotus-root-water.webp', date: '2026-07-06' },
     { url: 'article-mint-cool-cloth.html', title: 'Fresh Mint Cloth', desc: 'Mint leaves, cool water, and a folded cotton cloth kept near the back door on hot afternoons.', img: 'images/mint-cool-cloth.webp', date: '2026-07-07' },
-    { url: 'article-black-sesame-walnut-paste.html', title: 'Black Sesame Walnut Paste', desc: 'Black sesame, walnuts, and a stone mortar - the dark sweet bowl my grandmother made on damp days.', img: 'images/black-sesame-walnut-paste.webp', date: '2026-07-08' }
+    { url: 'article-black-sesame-walnut-paste.html', title: 'Black Sesame Walnut Paste', desc: 'Black sesame, walnuts, and a stone mortar - the dark sweet bowl my grandmother made on damp days.', img: 'images/black-sesame-walnut-paste.webp', date: '2026-07-08' },
+    { url: 'article-cassia-seed-pillow.html', title: 'Cassia Seed Pillow', desc: 'Cassia seeds inside a cotton cover - the firm summer pillow my grandmother kept beside the bamboo mat.', img: 'images/cassia-seed-pillow.webp', date: '2026-07-09' }
   ];
 
   function isActive(page) {
