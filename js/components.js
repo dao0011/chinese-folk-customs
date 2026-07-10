@@ -42,8 +42,128 @@
     { url: 'article-lotus-root-water.html', title: 'Lotus Root Water', desc: 'A few lotus root slices warmed in a side pot - a plain summer kitchen habit remembered through household behavior.', img: 'images/lotus-root-water.webp', date: '2026-07-06' },
     { url: 'article-mint-cool-cloth.html', title: 'Fresh Mint Cloth', desc: 'Mint leaves, cool water, and a folded cotton cloth kept near the back door on hot afternoons.', img: 'images/mint-cool-cloth.webp', date: '2026-07-07' },
     { url: 'article-black-sesame-walnut-paste.html', title: 'Black Sesame Walnut Paste', desc: 'Black sesame, walnuts, and a stone mortar - the dark sweet bowl my grandmother made on damp days.', img: 'images/black-sesame-walnut-paste.webp', date: '2026-07-08' },
-    { url: 'article-cassia-seed-pillow.html', title: 'Cassia Seed Pillow', desc: 'Cassia seeds inside a cotton cover - the firm summer pillow my grandmother kept beside the bamboo mat.', img: 'images/cassia-seed-pillow.webp', date: '2026-07-09' }
+    { url: 'article-cassia-seed-pillow.html', title: 'Cassia Seed Pillow', desc: 'Cassia seeds inside a cotton cover - the firm summer pillow my grandmother kept beside the bamboo mat.', img: 'images/cassia-seed-pillow.webp', date: '2026-07-09' },
+    { url: 'article-water-chestnut-sugarcane-water.html', title: 'Water Chestnut Sugarcane Water', desc: 'Water chestnuts, sugarcane, and a pale summer drink from southern Chinese kitchens.', img: 'images/water-chestnut-sugarcane-water.webp', date: '2026-07-10' }
   ];
+
+  var sidebarNotes = {
+    'article-water-chestnut-sugarcane-water.html': [
+      { url: 'article-sour-plum-drink.html', title: 'Sour Plum Drink', desc: 'A darker summer drink kept in jars and poured cold.' },
+      { url: 'article-mung-bean-soup.html', title: 'Mung Bean Soup', desc: 'Beans cooked until split, then left on the kitchen side.' },
+      { url: 'article-winter-melon-tea.html', title: 'Winter Melon Tea', desc: 'Another pale summer pot from the kitchen table.' }
+    ],
+    'article-lotus-root-water.html': [
+      { url: 'article-mung-bean-soup.html', title: 'Mung Bean Soup', desc: 'A summer pot left to cool beside other kitchen work.' },
+      { url: 'article-winter-melon-tea.html', title: 'Winter Melon Tea', desc: 'A light kitchen drink built around a market vegetable.' },
+      { url: 'article-sour-plum-drink.html', title: 'Sour Plum Drink', desc: 'A darker summer jar with a shopfront history.' }
+    ]
+  };
+
+  var objectNotes = {
+    'article-water-chestnut-sugarcane-water.html': [
+      { title: 'Water chestnuts', desc: 'Brown-skinned market tubers, peeled before they entered the pot.' },
+      { title: 'Sugarcane', desc: 'Short green sections cracked open for the water.' }
+    ],
+    'article-lotus-root-water.html': [
+      { title: 'Lotus root', desc: 'A wet-market root cut across its round windows.' },
+      { title: 'Side pot', desc: 'The small pot left near other stove work.' }
+    ]
+  };
+
+  var categoryAnchors = {
+    'Warm Foot Soaks': 'foot-soaks',
+    'Kitchen Comforts': 'kitchen-foods',
+    'Cloth Warmth': 'compresses',
+    'Sleep & Calm': 'sleep-calm',
+    'Everyday Rituals': 'everyday-rituals',
+    'Seasonal Comfort': 'seasonal-comfort'
+  };
+
+  function escHtml(value) {
+    return String(value || '').replace(/[&<>"']/g, function (ch) {
+      return {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      }[ch];
+    });
+  }
+
+  function isArticlePage() {
+    return /^article-[^/]+\.html$/.test(path);
+  }
+
+  function currentDateString() {
+    return new Date().toISOString().split('T')[0];
+  }
+
+  function getPublishedArticles() {
+    var today = currentDateString();
+    return articles.filter(function (a) {
+      return a.date <= today;
+    });
+  }
+
+  function getArticleRecord(url) {
+    for (var i = 0; i < articles.length; i++) {
+      if (articles[i].url === url) return articles[i];
+    }
+    return null;
+  }
+
+  function shortText(value, max) {
+    var text = String(value || '').replace(/\s+/g, ' ').trim();
+    if (text.length <= max) return text;
+    return text.slice(0, max - 1).replace(/\s+\S*$/, '') + '.';
+  }
+
+  function getArticleCategory() {
+    var meta = document.querySelector('meta[property="article:section"]');
+    if (meta && meta.content) return meta.content;
+    var crumbs = document.querySelectorAll('.breadcrumb a');
+    if (crumbs.length > 1) return crumbs[crumbs.length - 1].textContent.trim();
+    return 'Archive';
+  }
+
+  function formatArticleDate(value) {
+    if (!value) return '';
+    var parts = value.split('-');
+    if (parts.length !== 3) return value;
+    var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    var index = parseInt(parts[1], 10) - 1;
+    return (months[index] || parts[1]) + ' ' + parseInt(parts[2], 10) + ', ' + parts[0];
+  }
+
+  function getArticlePublishedDate() {
+    var meta = document.querySelector('meta[property="article:published_time"]');
+    return meta && meta.content ? meta.content : '';
+  }
+
+  function getSidebarNotesFor(page) {
+    if (sidebarNotes[page]) return sidebarNotes[page];
+
+    var fallback = getPublishedArticles().filter(function (a) {
+      return a.url !== page;
+    }).sort(function (a, b) {
+      return b.date.localeCompare(a.date);
+    }).slice(0, 3);
+
+    return fallback.map(function (a) {
+      return {
+        url: a.url,
+        title: a.title,
+        desc: shortText(a.desc, 82)
+      };
+    });
+  }
+
+  function getSidebarNoteUrls(page) {
+    return getSidebarNotesFor(page).map(function (note) {
+      return note.url;
+    });
+  }
 
   function isActive(page) {
     return path === page ? ' active' : '';
@@ -155,18 +275,88 @@
       '</div>';
   }
 
+  // ── Article Layout + Sidebar ────────────────────────────────────
+  function enhanceArticlePage() {
+    if (!isArticlePage()) return;
+
+    var main = document.getElementById('main') || document.querySelector('main.wrap');
+    if (!main) return;
+    var article = main.getElementsByTagName('article')[0];
+    if (!article || article.parentNode.className === 'article-layout') return;
+
+    main.classList.add('article-page-wrap');
+
+    var section = getArticleCategory();
+    var published = getArticlePublishedDate();
+    var lead = article.querySelector('.lead');
+    if (lead && !article.querySelector('.article-meta')) {
+      var metaLine = document.createElement('p');
+      metaLine.className = 'article-meta';
+      metaLine.textContent = section + (published ? ' · ' + formatArticleDate(published) : '');
+      lead.parentNode.insertBefore(metaLine, lead);
+    }
+
+    var layout = document.createElement('div');
+    layout.className = 'article-layout';
+    main.insertBefore(layout, article);
+    layout.appendChild(article);
+
+    var notes = getSidebarNotesFor(path);
+    var objects = objectNotes[path] || [];
+    var categoryId = categoryAnchors[section];
+    var categoryHref = categoryId ? 'categories.html#' + categoryId : 'categories.html';
+    var html =
+      '<aside class="article-sidebar" aria-label="Article side navigation">' +
+        '<section class="sidebar-section">' +
+          '<h2>Filed under</h2>' +
+          '<a class="sidebar-category" href="' + categoryHref + '">' + escHtml(section) + '</a>' +
+        '</section>' +
+        '<section class="sidebar-section">' +
+          '<h2>Related Notes</h2>' +
+          '<div class="sidebar-note-list">';
+
+    notes.forEach(function (note) {
+      html +=
+        '<a class="sidebar-note" href="' + note.url + '">' +
+          '<span class="sidebar-note-title">' + escHtml(note.title) + '</span>' +
+          '<span class="sidebar-note-desc">' + escHtml(note.desc) + '</span>' +
+        '</a>';
+    });
+    html += '</div></section>';
+
+    if (objects.length) {
+      html +=
+        '<section class="sidebar-section">' +
+          '<h2>Objects Mentioned</h2>' +
+          '<div class="sidebar-object-list">';
+      objects.forEach(function (item) {
+        html +=
+          '<div class="sidebar-object">' +
+            '<span class="sidebar-object-title">' + escHtml(item.title) + '</span>' +
+            '<span class="sidebar-object-desc">' + escHtml(item.desc) + '</span>' +
+          '</div>';
+      });
+      html += '</div></section>';
+    }
+
+    html += '</aside>';
+    layout.insertAdjacentHTML('beforeend', html);
+  }
+
   // ── Related Articles ─────────────────────────────────────────────
   function injectRelatedArticles() {
     var el = document.getElementById('related-articles');
     if (!el) return;
     el.className = 'related-articles';
 
-    var today = new Date().toISOString().split('T')[0];
+    var today = currentDateString();
+    var sidebarUrls = getSidebarNoteUrls(path);
     var filtered = articles.filter(function (a) {
       if (a.date > today) return false;
       if (a.url === path) return false;
       if (path && a.url === path + '.html') return false;
       if (a.url.replace(/\.html$/, '') === path.replace(/\.html$/, '')) return false;
+      if (sidebarUrls.indexOf(a.url) !== -1) return false;
       return true;
     });
     for (var i = filtered.length - 1; i > 0; i--) {
@@ -175,7 +365,7 @@
       filtered[i] = filtered[j];
       filtered[j] = tmp;
     }
-    filtered = filtered.slice(0, 6);
+    filtered = filtered.slice(0, 2);
 
     var html = '<h3>Continue Reading</h3><div class="related-grid">';
     filtered.forEach(function (a) {
@@ -263,6 +453,7 @@
     injectHeader();
     injectFooter();
     injectEmailCta();
+    enhanceArticlePage();
     injectRelatedArticles();
     injectLatestArticles();
     injectSocialShare();
