@@ -3,106 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="robots" content="noindex, nofollow">
-    <title>25 Chinese Household Remedies — Folk Calm</title>
-    <meta name="description" content="A 28-page digital guide documenting 25 home practices from Chinese folk tradition.">
+    <title>The Folk Calm Kitchen - Digital Guide</title>
+    <meta name="description" content="A digital guide documenting Chinese food traditions and inherited household practices.">
+    <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://www.folkcalm.com/remedies-guide.html">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="css/styles.css?v=10">
-    <script src="js/components.js?v=8" defer></script>
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="stylesheet" href="css/styles.css?v=13">
     <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "0b45f4fab94e4473baaac9549c0c5b5f"}'></script>
 </head>
-<body>
+<body class="product-page">
     <a href="#main" class="skip-link">Skip to main content</a>
-    <div id="site-disclaimer-banner"></div>
-    <div id="site-header"></div>
 
-    <main id="main" class="wrap">
-        <nav class="breadcrumb"><a href="/">Home</a> · <span>25 Household Remedies</span></nav>
-        <article>
-            <h1>The Folk Calm Kitchen</h1>
-            <p class="lead">25 Chinese Household Remedies — A Digital Guide</p>
+    <header class="product-masthead">
+        <a class="home-brand" href="index.html" aria-label="Folk Calm home">Folk Calm <img class="home-seal-image" src="images/folk-calm-seal.png" alt=""></a>
+        <nav class="product-nav" aria-label="Main navigation">
+            <a href="categories.html">Archive</a>
+            <a href="index.html#categories">Categories</a>
+            <a href="index.html#guides">Guides</a>
+            <a href="index.html#objects">Objects</a>
+            <a href="about.html">About</a>
+        </nav>
+    </header>
 
-            <div style="max-width:600px;margin:2rem auto;padding:2rem;background:#FDF8F0;border-radius:8px;border:1px solid #D4C4B0;">
-                <h2 style="color:#5C3317;margin-top:0;">What's Inside</h2>
-                <p><strong>Part I — Simmered Preparations:</strong><br>
-                Mung Bean Soup, Winter Melon Tea, Sour Jujube Seed Tea, Yam Porridge, Millet Porridge, Pear Water, Lotus Seed Soup, Tremella Soup, Longan Tea, Coix Seed Porridge.</p>
-                <p><strong>Part II — Folk Practices:</strong><br>
-                Ginger Fever Patch, Rice Vinegar Hiccups, Perilla Decoction, Sichuan Peppercorn Rinse, Willow Leaf Wash, and more.</p>
-                <p style="color:#A0522D;font-style:italic;">28 pages. Cultural documentation, not medical advice.</p>
-                <hr style="border-color:#D4C4B0;">
+    <main id="main" class="product-main">
+        <nav class="product-breadcrumb" aria-label="Breadcrumb"><a href="index.html">Home</a><span aria-hidden="true">/</span><a href="index.html#guides">PDF Library</a><span aria-hidden="true">/</span><span>The Folk Calm Kitchen</span></nav>
 
-                <div style="text-align:center;margin:2rem 0;">
-                    <p style="font-size:1.3rem;color:#5C3317;"><strong>$7.99</strong></p>
-
-                    <!-- PayPal 按钮区域 -->
-                    <div id="paypal-button-container" style="margin:1rem 0; min-height:40px;"></div>
-                    <p id="paypal-status" style="color:#888;font-size:0.85rem;margin-top:0.5rem;"></p>
-
-                    <!-- 付款成功后显示：邮箱 + 确认按钮 -->
-                    <div id="post-payment-section" style="display:none; margin-top:1.5rem;">
-                        <p style="color:#A0522D;">Payment authorized — enter your email to receive the PDF:</p>
-                        <input id="buyer-email" type="email" placeholder="your@email.com" style="padding:10px;width:260px;border:1px solid #D4C4B0;border-radius:6px;font-size:1rem;">
-                        <button id="confirm-pdf-btn" style="margin:8px 0 0 6px;padding:10px 24px;background:#A0522D;color:#fff;border:none;border-radius:6px;font-size:1rem;cursor:pointer;">Confirm & Get PDF</button>
-                        <p id="send-status" style="color:#888;font-size:0.85rem;margin-top:0.5rem;"></p>
-                    </div>
-
-                    <!-- PayPal SDK -->
-                    <script src="https://www.paypal.com/sdk/js?client-id=AYqdC1YbsOnJJy8xc1f0-lcc7MYWh9J9HV72O-yX_HwZYie3qkqUZiUwjzlxY2zuNgFPPQHEOYTxCbsJ&currency=USD&disable-funding=venmo,credit,paylater" data-sdk-integration-source="button-factory"></script>
-                    <script>
-                    var orderID = null;
-
-                    paypal.Buttons({
-                        createOrder: function(data, actions) {
-                            return actions.order.create({
-                                purchase_units: [{
-                                    amount: { value: '7.99' }
-                                }]
-                            });
-                        },
-                        onApprove: function(data) {
-                            orderID = data.orderID;
-                            document.getElementById('paypal-status').innerHTML = '<span style="color:green;">Payment authorized.</span>';
-                            document.getElementById('post-payment-section').style.display = 'block';
-                        },
-                        onCancel: function() {
-                            document.getElementById('paypal-status').textContent = 'Payment cancelled.';
-                        },
-                        onError: function(err) {
-                            document.getElementById('paypal-status').textContent = 'Payment error. Please try again.';
-                        }
-                    }).render('#paypal-button-container');
-                    </script>
+        <section class="product-overview" aria-labelledby="product-title">
+            <div class="product-book-stage" aria-label="The Folk Calm Kitchen book cover">
+                <div class="product-book">
+                    <span class="product-book-binding" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+                    <small>Folk Calm Cultural Archive</small>
+                    <strong>The Folk Calm<br>Kitchen</strong>
+                    <em>Chinese household traditions</em>
+                    <span class="product-book-rule" aria-hidden="true"></span>
+                    <p>Food traditions<br>and folk practices</p>
+                    <b>Digital edition</b>
                 </div>
             </div>
-        </article>
+
+            <article class="product-summary">
+                <p class="home-eyebrow">Digital reading guide</p>
+                <h1 id="product-title">The Folk Calm Kitchen</h1>
+                <p class="product-lead">A digital record of foods, ingredients, and inherited household practices from Chinese kitchen traditions.</p>
+
+                <dl class="product-facts">
+                    <div><dt>Format</dt><dd>PDF download</dd></div>
+                    <div><dt>Kitchen</dt><dd>Food traditions</dd></div>
+                    <div><dt>Household</dt><dd>Folk practices</dd></div>
+                </dl>
+
+                <div class="product-purchase">
+                    <p class="product-price"><span>Digital edition</span><strong>US $7.99</strong></p>
+                    <div id="paypal-button-container" class="product-paypal"></div>
+                    <p id="paypal-status" class="product-status" aria-live="polite"></p>
+
+                    <div id="post-payment-section" class="product-delivery" hidden>
+                        <label for="buyer-email">Email address for the PDF</label>
+                        <input id="buyer-email" type="email" placeholder="your@email.com" autocomplete="email">
+                        <button id="confirm-pdf-btn" type="button">Confirm email</button>
+                        <p id="send-status" class="product-status" aria-live="polite"></p>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <section class="product-contents" aria-labelledby="contents-title">
+            <div class="product-section-intro">
+                <p class="home-eyebrow">A short history</p>
+                <h2 id="contents-title">A history kept at home</h2>
+                <p>The guide follows food traditions kept near the stove and folk practices remembered through ordinary household objects.</p>
+            </div>
+            <div class="product-content-columns">
+                <section>
+                    <p class="product-part">Written records</p>
+                    <h3>From old texts to the kitchen</h3>
+                    <p>Chinese food traditions moved between materia medica, seasonal calendars, regional cookbooks, and handwritten household notes. An ingredient described on the page could later appear as a plain drink or bowl prepared at home. The pages follow that quieter passage from written description to household use.</p>
+                </section>
+                <section>
+                    <p class="product-part">Household memory</p>
+                    <h3>Stories held by ordinary objects</h3>
+                    <p>Many folk practices survived through repeated household actions rather than formal instruction. A cloth, cup, basin, or warming vessel could carry a local custom from one generation to the next, with details changing from place to place. The guide records the histories around those actions and the settings in which they were remembered.</p>
+                </section>
+            </div>
+        </section>
+
+        <section class="product-reading-note" aria-labelledby="reading-note-title">
+            <h2 id="reading-note-title">Reading note</h2>
+            <p>This edition documents inherited household customs as cultural material. Historical practices are presented in their original domestic context and are not instructions for personal use.</p>
+            <a href="disclaimer.html">Read the site notice <span aria-hidden="true">&#8594;</span></a>
+        </section>
     </main>
 
-    <div id="site-footer"></div>
-    <script src="js/main.js" defer></script>
-    <script>
-    document.getElementById('confirm-pdf-btn').addEventListener('click', function() {
-        var email = document.getElementById('buyer-email').value.trim();
-        if (!email) { alert('Please enter your email.'); return; }
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { alert('Please enter a valid email.'); return; }
-        if (!orderID) { alert('Please complete the PayPal payment first.'); return; }
+    <footer class="product-footer">
+        <a class="home-brand home-brand-footer" href="index.html">Folk Calm</a>
+        <nav aria-label="Footer navigation">
+            <a href="privacy-policy.html">Privacy</a>
+            <a href="terms-of-use.html">Terms</a>
+            <a href="affiliate-disclosure.html">Affiliate disclosure</a>
+            <a href="about.html">Contact</a>
+        </nav>
+        <p>&copy; <span id="product-year"></span> Folk Calm</p>
+    </footer>
 
-        document.getElementById('send-status').textContent = 'Processing...';
-        fetch('/capture-order', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ orderID: orderID, email: email })
-        }).then(function(r) { return r.json(); })
-        .then(function(data) {
-            if (data.ok) {
-                document.getElementById('send-status').innerHTML = '<span style="color:green;">&#10003; Payment confirmed.</span><br><a href="' + data.downloadUrl + '">Download PDF</a><br><span style="color:#888;font-size:0.8rem;">A download link has also been sent to your email.</span>';
-            } else {
-                document.getElementById('send-status').textContent = 'Something went wrong. Contact guide@folkcalm.com (Error: ' + (data.error || 'unknown') + ')';
+    <script src="https://www.paypal.com/sdk/js?client-id=AYqdC1YbsOnJJy8xc1f0-lcc7MYWh9J9HV72O-yX_HwZYie3qkqUZiUwjzlxY2zuNgFPPQHEOYTxCbsJ&currency=USD&disable-funding=venmo,credit,paylater" data-sdk-integration-source="button-factory"></script>
+    <script>
+    (function () {
+        'use strict';
+
+        var orderID = null;
+        var postPayment = document.getElementById('post-payment-section');
+        var paypalStatus = document.getElementById('paypal-status');
+        var sendStatus = document.getElementById('send-status');
+        var confirmButton = document.getElementById('confirm-pdf-btn');
+
+        document.getElementById('product-year').textContent = new Date().getFullYear();
+
+        if (window.paypal) {
+            paypal.Buttons({
+                createOrder: function (data, actions) {
+                    return actions.order.create({ purchase_units: [{ amount: { value: '7.99' } }] });
+                },
+                onApprove: function (data) {
+                    orderID = data.orderID;
+                    paypalStatus.textContent = 'Payment authorized. Confirm the delivery email below.';
+                    postPayment.hidden = false;
+                },
+                onCancel: function () {
+                    paypalStatus.textContent = 'Payment cancelled.';
+                },
+                onError: function () {
+                    paypalStatus.textContent = 'Payment error. Please try again.';
+                }
+            }).render('#paypal-button-container');
+        } else {
+            paypalStatus.textContent = 'The payment button could not load. Please refresh the page.';
+        }
+
+        confirmButton.addEventListener('click', function () {
+            var email = document.getElementById('buyer-email').value.trim();
+            if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                sendStatus.textContent = 'Enter a valid email address.';
+                return;
             }
-        }).catch(function() {
-            document.getElementById('send-status').textContent = 'Network error. Please try again.';
+            if (!orderID) {
+                sendStatus.textContent = 'Complete the PayPal payment first.';
+                return;
+            }
+
+            confirmButton.disabled = true;
+            sendStatus.textContent = 'Processing...';
+            fetch('/capture-order', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ orderID: orderID, email: email })
+            }).then(function (response) {
+                return response.json();
+            }).then(function (data) {
+                if (!data.ok) throw new Error(data.error || 'unknown');
+                sendStatus.innerHTML = 'Payment confirmed. <a href="' + data.downloadUrl + '">Download PDF</a>. A link was also sent to your email.';
+            }).catch(function () {
+                confirmButton.disabled = false;
+                sendStatus.textContent = 'Something went wrong. Contact guide@folkcalm.com.';
+            });
         });
-    });
+    })();
     </script>
 </body>
 </html>

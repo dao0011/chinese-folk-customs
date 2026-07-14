@@ -72,7 +72,7 @@ export async function onRequest({ request, env }) {
     return new Response('Please enter a valid email address.', { status: 400 });
   }
 
-  var pdfUrl = 'https://www.folkcalm.com/pdfs/10-Ancient-Chinese-Evening-Habits-Guide.pdf';
+  var pdfUrl = 'https://www.folkcalm.com/pdfs/Ten-Objects-from-the-Chinese-Summer-Home-Guide.pdf?v=2';
   var unsubscribeUrl = 'https://www.folkcalm.com/unsubscribe';
   var unsubscribeMailto = 'mailto:unsubscribe@folkcalm.com?subject=Unsubscribe';
   var resendKey = env.RESEND_API_KEY;
@@ -101,14 +101,14 @@ export async function onRequest({ request, env }) {
       body: JSON.stringify({
         from: from,
         to: [email],
-        subject: 'Your Free Guide: 10 Ancient Chinese Evening Habits',
+        subject: 'Your Folk Calm Guide: Ten Objects from the Chinese Summer Home',
         headers: {
           'List-Unsubscribe': '<' + unsubscribeMailto + '>, <' + unsubscribeUrl + '>',
         },
         html: [
           '<div style="font-family: Georgia, serif; max-width: 600px; margin: 0 auto; padding: 20px;">',
-          '<h2 style="color: #5C3317;">Thank you for subscribing!</h2>',
-          '<p>Here is your free cultural guide, as promised:</p>',
+          '<h2 style="color: #5C3317;">Your subscriber guide is ready.</h2>',
+          '<p>This issue records ten objects from Chinese summer homes: a bamboo fan, enamel basin, bamboo mat, food cover, rattan stool, and other familiar things.</p>',
           '<p style="margin: 24px 0;">',
           '<a href="' + pdfUrl + '" style="background: #A0522D; color: #fff; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-size: 16px;">Download Your Free Guide →</a>',
           '</p>',

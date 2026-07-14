@@ -186,7 +186,7 @@ export async function onRequest(context) {
 <a href="${pdfUrl}" style="background: #A0522D; color: #fff; padding: 14px 32px; text-decoration: none; border-radius: 6px; font-size: 15px;">Download Your PDF</a>
 </div>
 <p style="color: #888; font-size: 12px; margin-top: 20px;">Transaction: ${transactionId}</p>
-<p style="color: #888; font-size: 12px;">This is a cultural documentation, not medical advice.</p>
+<p style="color: #888; font-size: 12px;">This is cultural documentation, not professional guidance.</p>
 <p style="margin-top: 16px;">— Folk Calm</p>
 </div>`;
 
