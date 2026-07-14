@@ -2,7 +2,7 @@
 // POST /capture-order
 // Body: { orderID: string, email: string }
 
-const PAID_GUIDE_FILE = '25-Chinese-Household-Remedies-Guide.pdf';
+const PAID_GUIDE_FILE = 'The-Folk-Calm-Kitchen-Guide.pdf';
 const PAID_GUIDE_PRICE = '7.99';
 const PAID_GUIDE_CURRENCY = 'USD';
 const DOWNLOAD_TOKEN_SECONDS = 7 * 24 * 60 * 60;

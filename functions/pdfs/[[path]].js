@@ -1,4 +1,4 @@
-const PAID_GUIDE_FILE = '25-Chinese-Household-Remedies-Guide.pdf';
+const PAID_GUIDE_FILE = 'The-Folk-Calm-Kitchen-Guide.pdf';
 const GONE_PDFS = new Set([
   'Grandmothers-Household-Shelf-Guide.pdf',
   'Grandmothers-Kitchen-Toolkit-Guide.pdf',
