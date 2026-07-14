@@ -3,6 +3,7 @@ const GONE_PDFS = new Set([
   'Grandmothers-Household-Shelf-Guide.pdf',
   'Grandmothers-Kitchen-Toolkit-Guide.pdf',
   'Quiet-Rules-of-the-Chinese-Table-Guide.pdf',
+  '25-Chinese-Household-Remedies-Guide.pdf',
 ]);
 
 function getTokenSecret(env) {
