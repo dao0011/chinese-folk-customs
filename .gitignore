@@ -37,9 +37,7 @@ images/pin-*
 images/pinterest-*-pin.jpg
 images/sunning-the-back.*
 
-# PDF build artifacts (gitignored, kept locally)
-images/pdf_gen/
-pdfs/_preview_*
+# PDF build artifacts (free guides deployed, paid guide kept locally)
 pdfs/Grandmothers-*.pdf
 pdfs/Quiet-Rules-*.pdf
 
