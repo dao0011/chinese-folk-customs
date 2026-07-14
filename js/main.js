@@ -11,7 +11,9 @@ document.addEventListener('DOMContentLoaded', function () {
     if (searchInput && searchButton && searchResults) {
         var sitePages = [
             { title: 'Evening Foot Soak Tradition',             url: 'index.html',                                   keywords: 'foot soak evening basin warm water household practice' },
+            { title: 'Dried Mugwort and the Evening Foot Basin',               url: 'article-mugwort-foot-soak.html',               keywords: 'dried mugwort, Chinese household custom, evening foot basin, Dragon Boat Festival, Folk Calm' },
             { title: 'Ginger and Red Dates After Dinner',                 url: 'article-ginger-tea.html',                      keywords: 'ginger red date drink, Chinese after dinner custom, kitchen tea history, Folk Calm' },
+            { title: 'Plain Rice Congee and the Everyday Pot',                  url: 'article-rice-congee.html',                     keywords: 'plain rice congee, Chinese household food, rice porridge history, everyday kitchen, Folk Calm' },
             { title: 'The Coarse Salt Warming Bag',                    url: 'article-salt-warm-pack.html',                  keywords: 'coarse salt bag, Chinese household warmth, cloth warming custom, winter home object, Folk Calm' },
             { title: 'Yam and Millet in the Northern Porridge Pot',          url: 'article-yam-millet-porridge.html',             keywords: 'yam millet porridge, northern Chinese breakfast, Chinese yam food history, Folk Calm' },
             { title: 'Sichuan Peppercorn in the Winter Foot Basin',             url: 'article-sichuan-peppercorn-foot-soak.html',    keywords: 'Sichuan peppercorn foot basin, Chinese winter custom, warm water household practice, Folk Calm' },

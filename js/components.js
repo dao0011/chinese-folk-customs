@@ -14,7 +14,9 @@
 
   // 文章元数据（共享数据源，Related Articles + Latest Articles 共用）
   var articles = [
+    { url: 'article-mugwort-foot-soak.html', title: 'Dried Mugwort and the Evening Foot Basin', desc: 'The herb seller tied dried mugwort with red cotton thread before placing it in my market bag. She pressed the bundle flat so the brittle leaves would not scatter among the vegetables.', img: 'images/warm-foot-soak-basin.webp', date: '2020-01-01' },
     { url: 'article-ginger-tea.html', title: 'Ginger and Red Dates After Dinner', desc: 'After dinner my grandmother cleared the bowls, cut ginger on the board that still smelled of scallion, and dropped red dates into a small enamel pot. The first cup went to the family member still sitting at the table.', img: 'images/ginger-date-tea.webp', date: '2020-01-01' },
+    { url: 'article-rice-congee.html', title: 'Plain Rice Congee and the Everyday Pot', desc: 'At the grain stall, I asked why two sacks of white rice carried different prices. The seller rubbed a few grains between her fingers, then told me which one her family used for the breakfast pot.', img: 'images/rice-congee-kitchen.webp', date: '2020-01-01' },
     { url: 'article-salt-warm-pack.html', title: 'The Coarse Salt Warming Bag', desc: 'My grandmother made her salt bag from a worn cotton pillowcase. On winter evenings she warmed the coarse crystals in the kitchen, tested the bundle against her wrist, and carried it to the chair beside the television.', img: 'images/salt-warm-pack.webp', date: '2020-01-01' },
     { url: 'article-winter-melon-tea.html', title: 'Winter Melon Tea on the Autumn Counter', desc: 'The preserved-fruit seller cut a dark slab of winter-melon sugar with a broad knife and wrapped it in waxed paper. I carried the sticky parcel home separately from the tea and grain.', img: 'images/winter-melon-tea.webp', date: '2026-05-25' },
     { url: 'article-yam-millet-porridge.html', title: 'Yam and Millet in the Northern Porridge Pot', desc: 'A northern grain seller split a piece of dried yam to show me its chalky center, then swept yellow millet into a paper bag. At home, the two colors stayed distinct until the breakfast pot began to thicken.', img: 'images/yam-millet-porridge.webp', date: '2026-05-20' },
@@ -57,10 +59,10 @@
   var sidebarNotes = {
     'article-bamboo-wife.html': related('article-cassia-seed-pillow.html', 'article-bedding-airing.html', 'article-mint-cool-cloth.html'),
     'article-bedding-airing.html': related('article-cassia-seed-pillow.html', 'article-bamboo-wife.html', 'article-post-lunch-pause.html'),
-    'article-black-sesame-walnut-paste.html': related('article-yam-millet-porridge.html', 'article-tremella-soup.html', 'article-longan-red-date-tea.html'),
+    'article-black-sesame-walnut-paste.html': related('article-rice-congee.html', 'article-tremella-soup.html', 'article-longan-red-date-tea.html'),
     'article-cassia-seed-pillow.html': related('article-bamboo-wife.html', 'article-bedding-airing.html', 'article-sour-jujube-seed-tea.html'),
     'article-chrysanthemum-tea.html': related('article-goji-berry-tea.html', 'article-sour-plum-drink.html', 'article-winter-melon-tea.html'),
-    'article-ginger-foot-soak.html': related('article-sichuan-peppercorn-foot-soak.html', 'article-ginger-foot-soak.html', 'article-salt-warm-pack.html'),
+    'article-ginger-foot-soak.html': related('article-mugwort-foot-soak.html', 'article-sichuan-peppercorn-foot-soak.html', 'article-salt-warm-pack.html'),
     'article-ginger-scalp-rub.html': related('article-rice-water-rinse.html', 'article-soap-pods.html', 'article-warm-towel-compress.html'),
     'article-ginger-tea.html': related('article-longan-red-date-tea.html', 'article-scallion-white-root.html', 'article-morning-warm-water.html'),
     'article-goji-berry-tea.html': related('article-chrysanthemum-tea.html', 'article-longan-red-date-tea.html', 'article-morning-warm-water.html'),
@@ -68,16 +70,18 @@
     'article-lotus-root-water.html': related('article-water-chestnut-sugarcane-water.html', 'article-mung-bean-soup.html', 'article-winter-melon-tea.html'),
     'article-mint-cool-cloth.html': related('article-warm-towel-compress.html', 'article-bamboo-wife.html', 'article-bedding-airing.html'),
     'article-morning-warm-water.html': related('article-goji-berry-tea.html', 'article-salt-water-gargle.html', 'article-post-meal-walk.html'),
-    'article-moxibustion-home.html': related('article-ginger-foot-soak.html', 'article-salt-warm-pack.html', 'article-sichuan-peppercorn-foot-soak.html'),
+    'article-moxibustion-home.html': related('article-mugwort-foot-soak.html', 'article-salt-warm-pack.html', 'article-ginger-foot-soak.html'),
+    'article-mugwort-foot-soak.html': related('article-ginger-foot-soak.html', 'article-sichuan-peppercorn-foot-soak.html', 'article-moxibustion-home.html'),
     'article-mung-bean-soup.html': related('article-sour-plum-drink.html', 'article-winter-melon-tea.html', 'article-water-chestnut-sugarcane-water.html'),
     'article-pear-water-night-cough.html': related('article-sour-jujube-seed-tea.html', 'article-tremella-soup.html', 'article-warm-towel-compress.html'),
     'article-post-lunch-pause.html': related('article-post-meal-walk.html', 'article-bedding-airing.html', 'article-warm-towel-compress.html'),
     'article-post-meal-walk.html': related('article-post-lunch-pause.html', 'article-ginger-tea.html', 'article-morning-warm-water.html'),
+    'article-rice-congee.html': related('article-yam-millet-porridge.html', 'article-morning-warm-water.html', 'article-mung-bean-soup.html'),
     'article-rice-water-rinse.html': related('article-soap-pods.html', 'article-ginger-scalp-rub.html', 'article-bedding-airing.html'),
     'article-salt-warm-pack.html': related('article-warm-towel-compress.html', 'article-ginger-foot-soak.html', 'article-moxibustion-home.html'),
     'article-salt-water-gargle.html': related('article-morning-warm-water.html', 'article-soap-pods.html', 'article-warm-towel-compress.html'),
     'article-scallion-white-root.html': related('article-ginger-tea.html', 'article-morning-warm-water.html', 'article-ginger-foot-soak.html'),
-    'article-sichuan-peppercorn-foot-soak.html': related('article-ginger-foot-soak.html', 'article-sichuan-peppercorn-foot-soak.html', 'article-salt-warm-pack.html'),
+    'article-sichuan-peppercorn-foot-soak.html': related('article-ginger-foot-soak.html', 'article-mugwort-foot-soak.html', 'article-salt-warm-pack.html'),
     'article-soap-pods.html': related('article-rice-water-rinse.html', 'article-ginger-scalp-rub.html', 'article-bedding-airing.html'),
     'article-sour-jujube-seed-tea.html': related('article-cassia-seed-pillow.html', 'article-warm-towel-compress.html', 'article-pear-water-night-cough.html'),
     'article-sour-plum-drink.html': related('article-mung-bean-soup.html', 'article-winter-melon-tea.html', 'article-water-chestnut-sugarcane-water.html'),
@@ -85,7 +89,7 @@
     'article-warm-towel-compress.html': related('article-sour-jujube-seed-tea.html', 'article-cassia-seed-pillow.html', 'article-post-lunch-pause.html'),
     'article-water-chestnut-sugarcane-water.html': related('article-lotus-root-water.html', 'article-sour-plum-drink.html', 'article-mung-bean-soup.html'),
     'article-winter-melon-tea.html': related('article-mung-bean-soup.html', 'article-sour-plum-drink.html', 'article-lotus-root-water.html'),
-    'article-yam-millet-porridge.html': related('article-yam-millet-porridge.html', 'article-morning-warm-water.html', 'article-black-sesame-walnut-paste.html')
+    'article-yam-millet-porridge.html': related('article-rice-congee.html', 'article-morning-warm-water.html', 'article-black-sesame-walnut-paste.html')
   };
 
   var objectNotes = {
