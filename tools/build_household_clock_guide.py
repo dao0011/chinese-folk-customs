@@ -136,7 +136,7 @@ ITEMS = [
     {
         "num": "08",
         "title": "The Lamp-Lit Table",
-        "subtitle": "The second meal, the shared dish",
+        "subtitle": "The third meal, the shared dish",
         "image": "guide6_08_lamp_table.jpg",
         "body": (
             "Dinner was the most complete meal. The lamp was lit, dishes were set out, and the family sat down together. "
