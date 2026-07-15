@@ -72,7 +72,7 @@ export async function onRequest({ request, env }) {
     return new Response('Please enter a valid email address.', { status: 400 });
   }
 
-  var pdfUrl = 'https://www.folkcalm.com/pdfs/The-Household-Clock-Ten-Quiet-Hours-Guide.pdf?v=1';
+  var pdfUrl = 'https://www.folkcalm.com/pdfs/Ten-Objects-from-the-Chinese-Summer-Home-Guide.pdf?v=1';
   var unsubscribeUrl = 'https://www.folkcalm.com/unsubscribe';
   var unsubscribeMailto = 'mailto:unsubscribe@folkcalm.com?subject=Unsubscribe';
   var resendKey = env.RESEND_API_KEY;
@@ -101,7 +101,7 @@ export async function onRequest({ request, env }) {
       body: JSON.stringify({
         from: from,
         to: [email],
-        subject: 'Your Folk Calm Guide: The Household Clock',
+        subject: 'Your Folk Calm Guide: Ten Objects from the Chinese Summer Home',
         headers: {
           'List-Unsubscribe': '<' + unsubscribeMailto + '>, <' + unsubscribeUrl + '>',
         },
