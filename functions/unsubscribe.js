@@ -49,9 +49,11 @@ function redirectToUnsubscribe(request, search) {
 
 export async function onRequest({ request, env }) {
   if (request.method === 'GET') {
-    var url = new URL(request.url);
-    url.pathname = '/unsubscribe.html';
-    return env.ASSETS.fetch(new Request(url, request));
+    // Delegate to ASSETS: Cloudflare Pages Pretty URLs rule serves
+    // /unsubscribe.html content at /unsubscribe automatically.
+    // (Using '/unsubscribe.html' as pathname would trigger a 308 redirect
+    // back to /unsubscribe, creating an infinite loop.)
+    return env.ASSETS.fetch(request);
   }
 
   if (request.method !== 'POST') {
