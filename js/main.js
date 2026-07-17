@@ -48,6 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
             { title: 'Ginger Beneath the Folded Belly Cloth', url: 'article-ginger-on-the-belly.html', date: '2026-07-14', keywords: 'ginger belly cloth, Chinese warmth custom, cotton kitchen square, household record, Folk Calm' },
             { title: 'Honey and White Radish in a Lidded Jar', url: 'article-honey-white-radish-water.html', date: '2026-07-15', keywords: 'honey white radish water, Chinese kitchen jar, market vegetable custom, household record, Folk Calm' },
             { title: 'Potato Slices and the Folded Handkerchief', url: 'article-potato-slices-forehead.html', date: '2026-07-16', keywords: 'potato forehead cloth, Chinese summer custom, household handkerchief, Folk Calm' },
+            { title: 'Hawthorn Water at the Dried-Fruit Counter', url: 'article-hawthorn-water.html', date: '2026-07-17', keywords: 'hawthorn water, Chinese dried fruit drink, hawthorn slice custom, Folk Calm' },
             { title: 'Categories - Folk Habits',                 url: 'categories.html',                              keywords: 'categories kitchen comforts compresses cloth warmth ginger tea' },
             { title: 'About Folk Calm',                          url: 'about.html',                                   keywords: 'about cultural archive mission methodology' },
             { title: 'Disclaimer',                               url: 'disclaimer.html',                              keywords: 'disclaimer legal cultural record boundaries' },
