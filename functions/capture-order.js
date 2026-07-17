@@ -2,6 +2,8 @@
 // POST /capture-order
 // Body: { orderID: string, email: string }
 
+import { callResend } from './_lib/resend.js';
+
 const PAID_GUIDE_FILE = 'The-Folk-Calm-Kitchen-Guide.pdf';
 const PAID_GUIDE_PRICE = '7.99';
 const PAID_GUIDE_CURRENCY = 'USD';
@@ -190,18 +192,11 @@ export async function onRequest(context) {
 <p style="margin-top: 16px;">— Folk Calm</p>
 </div>`;
 
-      await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${resendKey}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          from: 'Folk Calm <guide@folkcalm.com>',
-          to: [email],
-          subject: 'Your Guide: 25 Chinese Household Remedies',
-          html: html
-        })
+      await callResend(resendKey, '/emails', 'POST', {
+        from: 'Folk Calm <guide@folkcalm.com>',
+        to: [email],
+        subject: 'Your Guide: 25 Chinese Household Remedies',
+        html: html
       });
     }
 

@@ -1,17 +1,10 @@
-async function createOrResubscribeContact(email, resendKey) {
-  var headers = {
-    'Authorization': 'Bearer ' + resendKey,
-    'Content-Type': 'application/json',
-  };
+import { callResend } from './_lib/resend.js';
 
+async function createOrResubscribeContact(email, resendKey) {
   try {
-    var createRes = await fetch('https://api.resend.com/contacts', {
-      method: 'POST',
-      headers: headers,
-      body: JSON.stringify({
-        email: email,
-        unsubscribed: false,
-      }),
+    var createRes = await callResend(resendKey, '/contacts', 'POST', {
+      email: email,
+      unsubscribed: false,
     });
 
     if (createRes.ok) {
@@ -24,12 +17,8 @@ async function createOrResubscribeContact(email, resendKey) {
     // 联系人已存在（409 Conflict）—— 尝试恢复订阅，失败可降级
     if (createStatus === 409 || createStatus === 422) {
       try {
-        var updateRes = await fetch('https://api.resend.com/contacts/' + encodeURIComponent(email), {
-          method: 'PATCH',
-          headers: headers,
-          body: JSON.stringify({
-            unsubscribed: false,
-          }),
+        var updateRes = await callResend(resendKey, '/contacts/' + encodeURIComponent(email), 'PATCH', {
+          unsubscribed: false,
         });
 
         if (updateRes.ok) {
@@ -92,32 +81,25 @@ export async function onRequest({ request, env }) {
 
   try {
     // 第二步：发欢迎邮件（失败可降级，联系人已入库）
-    var res = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
+    var res = await callResend(resendKey, '/emails', 'POST', {
+      from: from,
+      to: [email],
+      subject: 'Your Free Guide: 10 Ancient Chinese Evening Habits',
       headers: {
-        'Authorization': 'Bearer ' + resendKey,
-        'Content-Type': 'application/json',
+        'List-Unsubscribe': '<' + unsubscribeMailto + '>, <' + unsubscribeUrl + '>',
       },
-      body: JSON.stringify({
-        from: from,
-        to: [email],
-        subject: 'Your Free Guide: 10 Ancient Chinese Evening Habits',
-        headers: {
-          'List-Unsubscribe': '<' + unsubscribeMailto + '>, <' + unsubscribeUrl + '>',
-        },
-        html: [
-          '<div style="font-family: Georgia, serif; max-width: 600px; margin: 0 auto; padding: 20px;">',
-          '<h2 style="color: #5C3317;">Your subscriber guide is ready.</h2>',
-          '<p>This guide walks through ten traditional Chinese evening routines — foot soaks, kitchen sips, quiet wind-down habits — each recorded as a small domestic custom passed through generations.</p>',
-          '<p style="margin: 24px 0;">',
-          '<a href="' + pdfUrl + '" style="background: #A0522D; color: #fff; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-size: 16px;">Download Your Free Guide →</a>',
-          '</p>',
-          '<p style="color: #6B5B4A; font-size: 14px;">Or copy this link: <a href="' + pdfUrl + '">' + pdfUrl + '</a></p>',
-          '<hr style="border: 1px solid #e0d5c5; margin: 24px 0;">',
-          '<p style="color: #888; font-size: 12px;">You received this email because you subscribed at Folk Calm. <a href="https://www.folkcalm.com/privacy-policy.html">Privacy Policy</a> · <a href="' + unsubscribeUrl + '">Unsubscribe</a> or reply STOP.</p>',
-          '</div>',
-        ].join(''),
-      }),
+      html: [
+        '<div style="font-family: Georgia, serif; max-width: 600px; margin: 0 auto; padding: 20px;">',
+        '<h2 style="color: #5C3317;">Your subscriber guide is ready.</h2>',
+        '<p>This guide walks through ten traditional Chinese evening routines — foot soaks, kitchen sips, quiet wind-down habits — each recorded as a small domestic custom passed through generations.</p>',
+        '<p style="margin: 24px 0;">',
+        '<a href="' + pdfUrl + '" style="background: #A0522D; color: #fff; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-size: 16px;">Download Your Free Guide →</a>',
+        '</p>',
+        '<p style="color: #6B5B4A; font-size: 14px;">Or copy this link: <a href="' + pdfUrl + '">' + pdfUrl + '</a></p>',
+        '<hr style="border: 1px solid #e0d5c5; margin: 24px 0;">',
+        '<p style="color: #888; font-size: 12px;">You received this email because you subscribed at Folk Calm. <a href="https://www.folkcalm.com/privacy-policy.html">Privacy Policy</a> · <a href="' + unsubscribeUrl + '">Unsubscribe</a> or reply STOP.</p>',
+        '</div>',
+      ].join(''),
     });
 
     var body = await res.text();

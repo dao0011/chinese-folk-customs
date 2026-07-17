@@ -1,15 +1,8 @@
-async function markContactUnsubscribed(email, resendKey) {
-  var headers = {
-    'Authorization': 'Bearer ' + resendKey,
-    'Content-Type': 'application/json',
-  };
+import { callResend } from './_lib/resend.js';
 
-  var updateRes = await fetch('https://api.resend.com/contacts/' + encodeURIComponent(email), {
-    method: 'PATCH',
-    headers: headers,
-    body: JSON.stringify({
-      unsubscribed: true,
-    }),
+async function markContactUnsubscribed(email, resendKey) {
+  var updateRes = await callResend(resendKey, '/contacts/' + encodeURIComponent(email), 'PATCH', {
+    unsubscribed: true,
   });
 
   if (updateRes.ok) {
@@ -19,13 +12,9 @@ async function markContactUnsubscribed(email, resendKey) {
   var updateBody = await updateRes.text();
 
   if (updateRes.status === 404) {
-    var createRes = await fetch('https://api.resend.com/contacts', {
-      method: 'POST',
-      headers: headers,
-      body: JSON.stringify({
-        email: email,
-        unsubscribed: true,
-      }),
+    var createRes = await callResend(resendKey, '/contacts', 'POST', {
+      email: email,
+      unsubscribed: true,
     });
 
     if (createRes.ok) {
