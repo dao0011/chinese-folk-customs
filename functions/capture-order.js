@@ -86,13 +86,13 @@ export async function onRequest(context) {
   const { orderID, email } = body;
   if (!orderID) {
     return new Response(JSON.stringify({ ok: false, error: 'Missing orderID' }), {
-      status: 200,
+      status: 400,
       headers: { 'Content-Type': 'application/json' }
     });
   }
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return new Response(JSON.stringify({ ok: false, error: 'Invalid email' }), {
-      status: 200,
+      status: 400,
       headers: { 'Content-Type': 'application/json' }
     });
   }
@@ -101,7 +101,7 @@ export async function onRequest(context) {
   const clientSecret = env.PAYPAL_CLIENT_SECRET;
   if (!clientId || !clientSecret) {
     return new Response(JSON.stringify({ ok: false, error: 'Payment service unavailable' }), {
-      status: 200,
+      status: 503,
       headers: { 'Content-Type': 'application/json' }
     });
   }
@@ -123,7 +123,7 @@ export async function onRequest(context) {
     if (!tokenRes.ok) {
       console.error('PayPal token error:', await tokenRes.text());
       return new Response(JSON.stringify({ ok: false, error: 'Payment service error, please retry' }), {
-        status: 200,
+        status: 502,
         headers: { 'Content-Type': 'application/json' }
       });
     }
@@ -169,7 +169,7 @@ export async function onRequest(context) {
         payeeMerchantId: payee?.merchant_id
       });
       return new Response(JSON.stringify({ ok: false, error: 'Payment verification failed' }), {
-        status: 200,
+        status: 400,
         headers: { 'Content-Type': 'application/json' }
       });
     }
@@ -212,7 +212,7 @@ export async function onRequest(context) {
   } catch (e) {
     console.error('Capture error:', e);
     return new Response(JSON.stringify({ ok: false, error: 'Network error, please retry' }), {
-      status: 200,
+      status: 500,
       headers: { 'Content-Type': 'application/json' }
     });
   }

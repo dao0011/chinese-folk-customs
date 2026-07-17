@@ -35,7 +35,10 @@
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <link rel="stylesheet" href="css/styles.css?v=15">
-    <script src="js/components.js?v=11" defer></script>
+    <link rel="preconnect" href="https://api.resend.com" crossorigin="anonymous">
+    <link rel="dns-prefetch" href="//api.resend.com">
+    <script src="js/articles-data.js?v=1" defer></script>
+    <script src="js/components.js?v=12" defer></script>
     <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "0b45f4fab94e4473baaac9549c0c5b5f"}'></script>
 </head>
 <body class="home-page">
@@ -259,7 +262,7 @@
     </footer>
 
     <div id="site-footer"></div>
-    <script src="js/main.js" defer></script>
+    <script src="js/main.js?v=2" defer></script>
     <script>document.getElementById('home-year').textContent = new Date().getFullYear();</script>
 </body>
 </html>

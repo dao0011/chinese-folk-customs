@@ -1,5 +1,21 @@
+// Cloudflare Function: /unsubscribe endpoint
+//
+// Two responsibilities, split by HTTP method:
+//   GET  — serve the static unsubscribe.html page (delegated to ASSETS so
+//          Cloudflare Pages Pretty URLs rule serves /unsubscribe.html at
+//          /unsubscribe without a 308 redirect loop).
+//   POST — process the unsubscribe form: validate the email, mark the
+//          Resend contact as unsubscribed (create-on-404 fallback), then
+//          redirect back to /unsubscribe with ?sent=1 or ?error=1.
+//
+// The HTML page reads ?sent=1 / ?error=1 from the query string and shows
+// the matching panel (unsubscribe-sent / unsubscribe-error / unsubscribe-form).
+
 import { callResend } from './_lib/resend.js';
 
+// Mark a Resend contact as unsubscribed.
+// Tries PATCH first; if the contact does not exist (404), creates it with
+// unsubscribed=true. Any other failure throws and the caller shows ?error=1.
 async function markContactUnsubscribed(email, resendKey) {
   var updateRes = await callResend(resendKey, '/contacts/' + encodeURIComponent(email), 'PATCH', {
     unsubscribed: true,
@@ -29,6 +45,8 @@ async function markContactUnsubscribed(email, resendKey) {
   throw new Error('Contact unsubscribe failed');
 }
 
+// 302-redirect back to /unsubscribe with a query string flag (?sent=1 or ?error=1).
+// We always come back to the same page so the user sees the result inline.
 function redirectToUnsubscribe(request, search) {
   var url = new URL(request.url);
   url.pathname = '/unsubscribe';
