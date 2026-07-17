@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (hits.length === 0) {
                 var noResultsDiv = document.createElement('div');
                 noResultsDiv.className = 'no-results';
-                noResultsDiv.textContent = 'No results found for "' + escHtml(query) + '". Try: foot soak, mugwort, ginger tea.';
+                noResultsDiv.textContent = 'No results found for "' + query + '". Try: foot soak, mugwort, ginger tea.';
                 noResultsDiv.style.cssText = 'padding:12px;color:#666;font-size:0.9rem;';
                 searchResults.appendChild(noResultsDiv);
             } else {
@@ -90,12 +90,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         function hideResults() {
             searchResults.style.display = 'none';
-        }
-
-        function escHtml(s) {
-            var div = document.createElement('div');
-            div.textContent = s;
-            return div.textContent;
         }
 
         searchButton.addEventListener('click', function () {

@@ -240,81 +240,6 @@
     el.className = 'site-disclaimer-banner';
   }
 
-  // ── Header ─────────────────────────────────────────────────────
-  function injectHeader() {
-    var el = document.getElementById('site-header');
-    if (!el) return;
-    var guideHref = path === 'index.html' ? '#subscribe' : '/#subscribe';
-
-    // Only show search on index.html
-    var searchHTML = (path === 'index.html' || path === '')
-      ? '<div class="search-container">' +
-          '<div class="search-form-inline">' +
-            '<input type="text" id="search-input" placeholder="Search for customs, items, or traditions…" aria-label="Search this site">' +
-            '<button id="search-button">Search</button>' +
-          '</div>' +
-          '<div id="search-results" class="search-results" aria-live="polite"></div>' +
-        '</div>'
-      : '';
-
-    el.className = 'site-header';
-    el.innerHTML =
-      '<div class="container">' +
-        '<h1>Folk Calm</h1>' +
-        '<p class="subtitle">Old habits from a Sichuan kitchen, written down so I don\'t forget</p>' +
-        '<nav class="main-nav" aria-label="Main navigation">' +
-          '<button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation">☰ Menu</button>' +
-          '<ul>' +
-            '<li><a href="index.html" class="nav-link' + isActive('index.html') + '"' + ariaCurrent('index.html') + '>Home</a></li>' +
-            '<li><a href="categories.html" class="nav-link' + isActive('categories.html') + '"' + ariaCurrent('categories.html') + '>Archive</a></li>' +
-            '<li><a href="about.html" class="nav-link' + isActive('about.html') + '"' + ariaCurrent('about.html') + '>About</a></li>' +
-            '<li><a href="' + guideHref + '" class="nav-link">Free Guide</a></li>' +
-            '<li><a href="remedies-guide.html" class="nav-link' + isActive('remedies-guide.html') + '"' + ariaCurrent('remedies-guide.html') + '>Shop</a></li>' +
-          '</ul>' +
-        '</nav>' +
-        searchHTML +
-      '</div>';
-  }
-
-  // ── Footer ──────────────────────────────────────────────────────
-  function injectFooter() {
-    var el = document.getElementById('site-footer');
-    if (!el) return;
-    el.className = 'site-footer';
-    el.innerHTML =
-      '<div class="container">' +
-        '<div class="footer-content">' +
-          '<div class="footer-section">' +
-            '<h4>About This Site</h4>' +
-            '<p>This website serves as a digital archive of traditional Chinese household customs and family routines passed down through generations. <a href="about.html">Learn more →</a></p>' +
-          '</div>' +
-          '<div class="footer-section">' +
-            '<h4>Legal & Compliance</h4>' +
-            '<ul>' +
-              '<li><a href="disclaimer.html">Full Disclaimer</a></li>' +
-              '<li><a href="privacy-policy.html">Privacy Policy</a></li>' +
-              '<li><a href="affiliate-disclosure.html">Affiliate Disclosure</a></li>' +
-              '<li><a href="terms-of-use.html">Terms of Use</a></li>' +
-            '</ul>' +
-          '</div>' +
-        '</div>' +
-        '<div class="full-disclaimer">' +
-          '<h4>Cultural Documentation Notice</h4>' +
-          '<p>This website documents historical Chinese folk customs for educational and cultural interest only. All content is based on historical records and oral traditions. It is not personal advice, guidance, or a recommendation for any action. Historical texts reflect ancient worldviews and are not guides for contemporary living.</p>' +
-        '</div>' +
-        '<div class="affiliate-footer-note">' +
-          '<p>If you buy something through certain links, I get a few cents. It doesn\'t change what you pay. I only link to things I\'d use in my own kitchen. <a href="affiliate-disclosure.html">Full disclosure →</a></p>' +
-        '</div>' +
-        '<div class="copyright">' +
-          '<p>&copy; <span id="y"></span> Folk Calm. Written in Chengdu, China.</p>' +
-        '</div>' +
-      '</div>';
-
-    // Set copyright year
-    var ySpan = document.getElementById('y');
-    if (ySpan) ySpan.textContent = new Date().getFullYear();
-  }
-
   // ── Email Signup CTA (article pages) ────────────────────────────
   function injectEmailCta() {
     var el = document.getElementById('email-signup-cta');
@@ -586,17 +511,6 @@
     injectSocialShare();
     injectAffiliateDisclosure();
 
-    // Re-bind mobile nav toggle
-    var navToggle = document.querySelector('.nav-toggle');
-    var navUl = document.querySelector('.main-nav ul');
-    if (navToggle && navUl) {
-      navToggle.addEventListener('click', function () {
-        navUl.classList.toggle('open');
-        var isOpen = navUl.classList.contains('open');
-        this.textContent = isOpen ? '✕ Close' : '☰ Menu';
-        this.setAttribute('aria-expanded', isOpen);
-      });
-    }
   }
 
   // Run as soon as DOM is ready
