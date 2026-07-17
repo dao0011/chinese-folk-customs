@@ -108,7 +108,7 @@ export async function onRequest({ request, env }) {
         html: [
           '<div style="font-family: Georgia, serif; max-width: 600px; margin: 0 auto; padding: 20px;">',
           '<h2 style="color: #5C3317;">Your subscriber guide is ready.</h2>',
-          '<p>This issue follows ten quiet hours of a Chinese household day - from the first kettle before dawn to the last lamp at night - and how each moment kept the home in rhythm.</p>',
+          '<p>This guide walks through ten traditional Chinese evening routines — foot soaks, kitchen sips, quiet wind-down habits — each recorded as a small domestic custom passed through generations.</p>',
           '<p style="margin: 24px 0;">',
           '<a href="' + pdfUrl + '" style="background: #A0522D; color: #fff; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-size: 16px;">Download Your Free Guide →</a>',
           '</p>',
