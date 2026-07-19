@@ -29,11 +29,11 @@ images/hair-combing-ritual.*
 images/hero-bg-soft.webp
 images/kitchen-tools/
 images/pattern-*.svg
+# Pinterest pin images (local only, never deployed)
+images/pinterest/
+
+# Historical pin patterns (keep for existing files in images/)
 images/pin-*
-!images/pin-lotus-root-water.webp
-!images/pin-mint-cool-cloth.webp
-!images/pin-black-sesame-walnut-paste.webp
-!images/pin-cassia-seed-pillow.webp
 images/pinterest-*-pin.jpg
 images/sunning-the-back.*
 
