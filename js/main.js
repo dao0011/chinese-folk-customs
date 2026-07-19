@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
             var q = query.toLowerCase().trim();
             if (q.length < 2) { hideResults(); return; }
 
-            var today = new Date().toISOString().split('T')[0];
+            var today = new Date().toLocaleDateString('en-CA');
             var hits = sitePages.filter(function (p) {
                 if (p.date && p.date > today) return false;
                 return p.title.toLowerCase().indexOf(q) !== -1 || p.keywords.indexOf(q) !== -1;
@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     document.querySelectorAll('[data-publish-date]').forEach(function (el) {
-        var today = new Date().toISOString().split('T')[0];
+        var today = new Date().toLocaleDateString('en-CA');
         if (el.getAttribute('data-publish-date') > today) {
             el.hidden = true;
         }
