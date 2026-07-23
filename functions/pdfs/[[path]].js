@@ -1,3 +1,5 @@
+import { secureResponse, withSecurityHeaders } from '../_lib/http.js';
+
 const PAID_GUIDE_FILE = 'The-Folk-Calm-Kitchen-Guide.pdf';
 const GONE_PDFS = new Set([
   'Grandmothers-Household-Shelf-Guide.pdf',
@@ -64,24 +66,36 @@ function assetRequestWithoutToken(request) {
   return new Request(url.toString(), request);
 }
 
-function forbidden() {
-  return new Response('Forbidden', {
+function forbidden(request) {
+  return secureResponse(request.method === 'HEAD' ? null : 'Forbidden', {
     status: 403,
+    headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+  });
+}
+
+function gone(request) {
+  return secureResponse(request.method === 'HEAD' ? null : 'Gone', {
+    status: 410,
+    headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+  });
+}
+
+function hiddenNotFound(request) {
+  return secureResponse(request.method === 'HEAD' ? null : 'Not Found', {
+    status: 404,
     headers: {
-      'Cache-Control': 'no-store',
-      'X-Content-Type-Options': 'nosniff',
+      'Content-Type': 'text/plain; charset=utf-8',
+      'X-Robots-Tag': 'noindex, nofollow',
     },
   });
 }
 
-function gone() {
-  return new Response('Gone', {
-    status: 410,
-    headers: {
-      'Cache-Control': 'no-store',
-      'X-Content-Type-Options': 'nosniff',
-    },
-  });
+function isPrivateFile(file) {
+  var lower = file.toLowerCase();
+  var segments = lower.split('/');
+  return segments.some(function (segment) {
+    return segment.startsWith('.') || segment.startsWith('_');
+  }) || /\.(?:bat|cmd|lock|log|md|ps1|py|pyc|pyo|sh|toml|ya?ml)$/.test(lower);
 }
 
 export async function onRequest(context) {
@@ -91,14 +105,18 @@ export async function onRequest(context) {
   var file = decodeURIComponent(url.pathname.replace(/^\/pdfs\//, ''));
 
   if (request.method !== 'GET' && request.method !== 'HEAD') {
-    return new Response('Method not allowed', {
+    return secureResponse('Method not allowed', {
       status: 405,
       headers: { 'Allow': 'GET, HEAD' },
     });
   }
 
+  if (isPrivateFile(file)) {
+    return hiddenNotFound(request);
+  }
+
   if (GONE_PDFS.has(file)) {
-    return gone();
+    return gone(request);
   }
 
   if (file !== PAID_GUIDE_FILE) {
@@ -107,28 +125,19 @@ export async function onRequest(context) {
 
   try {
     if (!(await hasValidToken(request, env, file))) {
-      return forbidden();
+      return forbidden(request);
     }
   } catch (e) {
     console.error('PDF token verification error:', e);
-    return new Response('Download unavailable', {
+    return secureResponse('Download unavailable', {
       status: 500,
-      headers: {
-        'Cache-Control': 'no-store',
-        'X-Content-Type-Options': 'nosniff',
-      },
+      headers: { 'Content-Type': 'text/plain; charset=utf-8' },
     });
   }
 
   var assetRes = await env.ASSETS.fetch(assetRequestWithoutToken(request));
-  var headers = new Headers(assetRes.headers);
-  headers.set('Cache-Control', 'private, no-store');
-  headers.set('Content-Disposition', 'attachment; filename="' + PAID_GUIDE_FILE + '"');
-  headers.set('X-Content-Type-Options', 'nosniff');
-
-  return new Response(assetRes.body, {
-    status: assetRes.status,
-    statusText: assetRes.statusText,
-    headers: headers,
+  return withSecurityHeaders(assetRes, {
+    'Cache-Control': 'private, no-store',
+    'Content-Disposition': 'attachment; filename="' + PAID_GUIDE_FILE + '"',
   });
 }

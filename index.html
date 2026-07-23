@@ -34,7 +34,7 @@
 
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    <link rel="stylesheet" href="css/styles.css?v=15">
+    <link rel="stylesheet" href="css/styles.css?v=16">
     <link rel="preconnect" href="https://api.resend.com" crossorigin="anonymous">
     <link rel="dns-prefetch" href="//api.resend.com">
     <script src="js/articles-data.js?v=1" defer></script>
@@ -123,10 +123,11 @@
                 <section class="home-pdf-intro" aria-labelledby="guides-title">
                     <p class="home-eyebrow">Reading room</p>
                     <h2 id="guides-title">PDF Library</h2>
-                    <p>Some illustrated records are sent free to subscribers. Longer collections remain available as paid downloads.</p>
+                    <p>New subscribers receive the same illustrated welcome guide by email. Longer collections remain available as paid downloads.</p>
                     <span class="home-rule" aria-hidden="true"></span>
-                    <p class="home-current-guide"><strong>Current free PDF</strong>Ten Objects from the Chinese Summer Home</p>
+                    <p class="home-current-guide"><strong>Free welcome PDF</strong>10 Ancient Chinese Evening Habits</p>
                     <form id="subscribe" class="home-guide-form" action="/subscribe" method="post">
+                        <input class="form-honeypot" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
                         <label for="home-email">Email address</label>
                         <div class="home-email-row">
                             <input id="home-email" type="email" name="email_address" placeholder="you@example.com" required>
@@ -137,17 +138,16 @@
                 </section>
                 <div class="home-library-display" aria-label="Free and paid Folk Calm PDF guides">
                     <figure class="home-library-leaf home-library-free-leaf">
-                        <figcaption>Free PDF</figcaption>
-                        <div class="home-free-cover" aria-label="Cover of Ten Objects from the Chinese Summer Home">
-                            <small>Subscriber Archive · Guide No. 5</small>
-                            <strong>Ten Objects from the Chinese Summer Home</strong>
+                        <figcaption>Free welcome PDF</figcaption>
+                        <div class="home-free-cover" aria-label="Cover of 10 Ancient Chinese Evening Habits">
+                            <small>Subscriber Welcome · Guide No. 1</small>
+                            <strong>10 Ancient Chinese Evening Habits</strong>
                             <span aria-hidden="true"></span>
-                            <div class="home-free-cover-objects" aria-hidden="true">
-                                <img src="images/pdf_gen/guide5_01_bamboo_fan.webp?v=20260714" alt="" loading="lazy">
-                                <img src="images/pdf_gen/guide5_02_enamel_basin.webp?v=20260714" alt="" loading="lazy">
-                                <img src="images/pdf_gen/guide5_07_rattan_stool.webp?v=20260714" alt="" loading="lazy">
+                            <div class="home-free-cover-titlemark" aria-hidden="true">
+                                <span lang="zh-Hans">十个古代中国晚间家庭习惯</span>
+                                <small>A cultural guide to traditional Chinese evening routines</small>
                             </div>
-                            <p>An illustrated record of household objects used through hot months.</p>
+                            <p>An illustrated welcome guide to ten routines remembered from Chinese household evenings.</p>
                         </div>
                     </figure>
                     <a class="home-library-book" href="remedies-guide.html" aria-label="View The Folk Calm Kitchen paid PDF guide">
@@ -262,7 +262,7 @@
     </footer>
 
     <div id="site-footer"></div>
-    <script src="js/main.js?v=2" defer></script>
+    <script src="js/main.js?v=3" defer></script>
     <script>document.getElementById('home-year').textContent = new Date().getFullYear();</script>
 </body>
 </html>

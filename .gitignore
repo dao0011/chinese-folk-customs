@@ -14,6 +14,7 @@ emails-sent-*.csv
 .vscode
 .claude/
 __pycache__/
+.venv/
 .ml_token
 send_now.py
 google*.html

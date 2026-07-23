@@ -93,7 +93,28 @@
   }
 
   function currentDateString() {
-    return new Date().toLocaleDateString('en-CA');
+    try {
+      var parts = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'Asia/Shanghai',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+      }).formatToParts(new Date());
+      var date = {};
+      parts.forEach(function (part) {
+        if (part.type !== 'literal') date[part.type] = part.value;
+      });
+      if (date.year && date.month && date.day) {
+        return date.year + '-' + date.month + '-' + date.day;
+      }
+    } catch (error) {
+      // Older browsers use the local calendar day below.
+    }
+
+    var now = new Date();
+    var month = String(now.getMonth() + 1).padStart(2, '0');
+    var day = String(now.getDate()).padStart(2, '0');
+    return now.getFullYear() + '-' + month + '-' + day;
   }
 
   function getPublishedArticles() {
@@ -212,6 +233,7 @@
         '<h3>Enjoyed this article? Get our free cultural guide</h3>' +
         '<p>A beautifully designed PDF documenting 10 ancient Chinese evening routines — delivered to your inbox.</p>' +
         '<form id="cta-email-form" class="email-cta-form" action="/subscribe" method="post">' +
+          '<input class="form-honeypot" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">' +
           '<input type="email" name="email_address" placeholder="Your email address" required aria-label="Email address">' +
           '<label class="gdpr-consent"><input type="checkbox" required> I agree to receive emails. Unsubscribe anytime. <a href="privacy-policy.html">Privacy Policy</a></label>' +
           '<button type="submit">Send Me the Free Guide</button>' +
@@ -358,7 +380,7 @@
     var el = document.getElementById('latest-articles');
     if (!el) return;
 
-    var today = new Date().toISOString().split('T')[0];
+    var today = currentDateString();
 
     var sorted = articles.filter(function (a) {
       return a.date <= today;

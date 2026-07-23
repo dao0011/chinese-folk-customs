@@ -209,7 +209,7 @@ body::after {
     transform: translateY(-1px);
 }
 
-/* --- Search (index only) --- */
+/* --- Shared search --- */
 .search-container {
     max-width: 560px;
     margin: 1.5rem auto 0;
@@ -277,6 +277,22 @@ body::after {
     padding: 8px;
     text-align: left;
 }
+
+/* Bot-trap fields submit normally but stay outside sight, focus, and a11y flow. */
+.form-honeypot {
+    position: absolute !important;
+    left: -10000px !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    border: 0 !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+.search-results:not([hidden]) {
+    display: block;
+}
 .search-results a {
     display: block;
     padding: 10px 12px;
@@ -297,6 +313,19 @@ body::after {
     font-size: 0.82rem;
     color: var(--light-text);
     margin-top: 2px;
+}
+
+.search-results .search-summary,
+.search-results .no-results {
+    margin: 0;
+    padding: 0.7rem 0.75rem;
+    color: var(--light-text);
+    font-size: 0.84rem;
+    line-height: 1.45;
+}
+
+.search-results .search-summary {
+    border-bottom: 1px solid rgba(79, 57, 37, 0.12);
 }
 
 /* --- Main Content Area --- */
@@ -3048,24 +3077,29 @@ body.home-page #site-disclaimer-banner {
     background: #a34833;
 }
 
-.home-free-cover-objects {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 3px;
+.home-free-cover-titlemark {
+    display: flex;
     margin-top: auto;
+    padding: clamp(1.2rem, 2.2vw, 2rem) 0;
+    flex-direction: column;
+    gap: 0.75rem;
+    color: #684734;
+    border-top: 1px solid rgba(104, 71, 52, 0.2);
+    border-bottom: 1px solid rgba(104, 71, 52, 0.2);
 }
 
-.home-free-cover-objects img {
-    display: block;
-    width: 100% !important;
-    height: clamp(54px, 5.2vw, 76px) !important;
-    aspect-ratio: 1 !important;
-    object-fit: cover !important;
-    border: 0 !important;
-    box-shadow: none !important;
-    mix-blend-mode: multiply;
-    filter: sepia(0.1) saturate(0.58) contrast(0.92) !important;
-    opacity: 0.9 !important;
+.home-free-cover-titlemark > span {
+    font-family: "Noto Serif SC", "Songti SC", "SimSun", serif;
+    font-size: clamp(0.84rem, 1.05vw, 1rem);
+    letter-spacing: 0.08em;
+    line-height: 1.65;
+}
+
+.home-free-cover-titlemark > small {
+    max-width: 18rem;
+    color: #718099;
+    font-size: clamp(0.52rem, 0.66vw, 0.66rem);
+    line-height: 1.5;
 }
 
 .home-free-cover p {
@@ -3770,6 +3804,123 @@ body:not(.home-page):not(.product-page) .site-disclaimer-banner {
     line-height: 1.7;
 }
 
+.archive-wrap > .archive-search {
+    display: grid;
+    grid-template-columns: minmax(190px, 0.46fr) minmax(0, 2.04fr);
+    gap: clamp(1.8rem, 3.6vw, 4.5rem);
+    align-items: end;
+    padding: 0 0 clamp(2.5rem, 4vw, 4rem);
+    border-top: 0;
+}
+
+.archive-search-copy h2 {
+    margin: 0;
+    color: #30251d;
+    font-size: clamp(1.45rem, 2vw, 2.05rem);
+    font-weight: 500;
+    line-height: 1.12;
+}
+
+.archive-search-copy .archive-eyebrow {
+    margin-bottom: 0.55rem;
+}
+
+.archive-search-form {
+    position: relative;
+    min-width: 0;
+}
+
+.archive-search-form > label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #59483a;
+    font-size: 0.86rem;
+    font-weight: 700;
+}
+
+.archive-search .search-form-inline {
+    gap: 0;
+}
+
+.archive-search #search-input {
+    min-width: 0;
+    min-height: 50px;
+    padding: 0.7rem 1rem;
+    color: #35291f;
+    background: #fbf8f1;
+    border: 1px solid #b8a692;
+    border-right: 0;
+    border-radius: 4px 0 0 4px;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1rem;
+}
+
+.archive-search #search-input::placeholder {
+    color: #8a7968;
+}
+
+.archive-search #search-input:focus {
+    position: relative;
+    z-index: 1;
+    color: #35291f;
+    background: #fffdf8;
+    border-color: #8f4934;
+    box-shadow: 0 0 0 3px rgba(156, 73, 52, 0.13);
+}
+
+.archive-search #search-button {
+    min-height: 50px;
+    padding: 0.7rem 1.35rem;
+    color: #fffaf3;
+    background: #91452f;
+    border: 1px solid #91452f;
+    border-radius: 0 4px 4px 0;
+    font-family: Georgia, "Times New Roman", serif;
+}
+
+.archive-search #search-button:hover,
+.archive-search #search-button:focus-visible {
+    background: #6f3424;
+    box-shadow: none;
+    transform: none;
+}
+
+.archive-search #search-button:focus-visible {
+    outline: 3px solid rgba(156, 73, 52, 0.25);
+    outline-offset: 2px;
+}
+
+.archive-search-help {
+    margin: 0.55rem 0 0;
+    color: #796959;
+    font-size: 0.8rem;
+    line-height: 1.45;
+}
+
+.archive-search .search-results {
+    top: calc(100% - 1.15rem);
+    right: 0;
+    width: 100%;
+    max-height: min(58vh, 430px);
+    margin-top: 0;
+    padding: 0.45rem;
+    background: #fffdf8;
+    border-color: rgba(79, 57, 37, 0.2);
+    border-radius: 4px;
+    box-shadow: 0 16px 36px rgba(69, 47, 28, 0.16);
+}
+
+.archive-search .search-results a {
+    padding: 0.72rem 0.75rem;
+    border-radius: 2px;
+}
+
+.archive-search .search-results a:hover,
+.archive-search .search-results a:focus-visible {
+    background: #eee5d7;
+    outline: 0;
+}
+
 .archive-wrap > section {
     display: grid;
     grid-template-columns: minmax(190px, 0.46fr) minmax(250px, 0.62fr) minmax(0, 1.42fr);
@@ -3993,6 +4144,16 @@ body:not(.home-page):not(.product-page) .site-disclaimer-banner {
         gap: 1.5rem;
     }
 
+    .archive-wrap > .archive-search {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .archive-search-copy,
+    .archive-search-form {
+        grid-column: 1;
+    }
+
     .archive-category-intro,
     .archive-category-visual,
     .archive-wrap .cat-list {
@@ -4033,7 +4194,114 @@ body:not(.home-page):not(.product-page) .site-disclaimer-banner {
         padding-top: 0.95rem;
     }
 
+    .archive-search .search-form-inline {
+        align-items: stretch;
+    }
+
+    .archive-search #search-button {
+        padding-right: 1rem;
+        padding-left: 1rem;
+    }
+
     .site-footer-modern {
         margin-top: 3rem;
+    }
+}
+
+/* Custom 404: a quiet missing record in the same editorial paper system. */
+.not-found-page .not-found-wrap {
+    width: min(100% - 3rem, 1180px);
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: clamp(4rem, 8vw, 8rem) 0 clamp(5rem, 9vw, 9rem);
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.not-found-sheet {
+    display: grid;
+    grid-template-columns: minmax(180px, 0.54fr) minmax(0, 1.46fr);
+    gap: clamp(2.5rem, 7vw, 7rem);
+    align-items: center;
+    padding: clamp(2.2rem, 5vw, 5rem);
+    background: #eee6d8;
+    border: 1px solid rgba(79, 57, 37, 0.14);
+    box-shadow: 0 18px 46px rgba(69, 47, 28, 0.09);
+}
+
+.not-found-code {
+    color: #a14a35;
+    font-size: clamp(5.5rem, 13vw, 10.5rem);
+    font-weight: 500;
+    letter-spacing: -0.08em;
+    line-height: 0.8;
+}
+
+.not-found-copy h1 {
+    max-width: 680px;
+    margin: 0;
+    color: #2b2119;
+    font-size: clamp(2.25rem, 4.7vw, 4.7rem);
+    font-weight: 500;
+    line-height: 1.02;
+}
+
+.not-found-copy > p:not(.archive-eyebrow) {
+    max-width: 620px;
+    margin: 1.3rem 0 0;
+    color: #625244;
+    font-size: 1.04rem;
+    line-height: 1.7;
+}
+
+.not-found-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 2rem;
+}
+
+.not-found-actions a {
+    display: inline-flex;
+    min-height: 46px;
+    padding: 0.65rem 1.1rem;
+    align-items: center;
+    justify-content: center;
+    color: #fffaf3;
+    background: #91452f;
+    border: 1px solid #91452f;
+    border-radius: 3px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.not-found-actions a + a {
+    color: #5d392b;
+    background: transparent;
+    border-color: rgba(93, 57, 43, 0.48);
+}
+
+.not-found-actions a:hover,
+.not-found-actions a:focus-visible {
+    color: #fffaf3;
+    background: #6f3424;
+    border-color: #6f3424;
+}
+
+@media (max-width: 700px) {
+    .not-found-page .not-found-wrap {
+        width: min(100% - 2rem, 680px);
+        padding-top: 2.5rem;
+    }
+
+    .not-found-sheet {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .not-found-code {
+        font-size: 5.6rem;
     }
 }

@@ -1,0 +1,4 @@
+# Version-controlled PDF and image build helpers.
+Pillow
+PyMuPDF
+reportlab

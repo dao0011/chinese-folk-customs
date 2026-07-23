@@ -24,9 +24,10 @@
     <meta name="twitter:description" content="Browse six groups of Chinese household records: kitchens, foot basins, cloth warmth, sleep, daily objects, and seasonal rooms.">
     <meta name="twitter:image" content="https://www.folkcalm.com/images/ginger-tea-cup.webp">
 
-    <link rel="stylesheet" href="css/styles.css?v=15">
+    <link rel="stylesheet" href="css/styles.css?v=16">
     <script src="js/articles-data.js?v=1" defer></script>
     <script src="js/components.js?v=12" defer></script>
+    <script src="js/main.js?v=3" defer></script>
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -55,7 +56,21 @@
             <p class="lead">Six groups organize the archive by room, object, and repeated household action.</p>
         </header>
 
-        <div id="searchResults" aria-live="polite"></div>
+        <section class="archive-search" aria-labelledby="archive-search-title">
+            <div class="archive-search-copy">
+                <p class="archive-eyebrow">Find a record</p>
+                <h2 id="archive-search-title">Search the archive</h2>
+            </div>
+            <form id="search-form" class="archive-search-form" role="search" novalidate>
+                <label for="search-input">Title, ingredient, object, or household custom</label>
+                <div class="search-form-inline">
+                    <input id="search-input" type="search" name="q" placeholder="Try foot basin, ginger, or summer room" autocomplete="off" minlength="2" aria-describedby="search-help" aria-controls="search-results" aria-expanded="false">
+                    <button id="search-button" type="submit">Search</button>
+                </div>
+                <p id="search-help" class="archive-search-help">Enter at least two letters. Notes dated after today remain hidden.</p>
+                <div id="search-results" class="search-results" role="region" aria-label="Archive search results" aria-live="polite" hidden></div>
+            </form>
+        </section>
 
         <section id="foot-soaks" aria-labelledby="foot-title">
             <div class="archive-category-intro">
@@ -159,12 +174,12 @@
                     <a href="article-star-anise-water.html">Star Anise in the Winter Cup</a>
                     <p class="cat-excerpt">Every winter my grandmother's sister arrived with a small cloth bag of star anise. She said the town shop's stock was stale and placed her own jar beside my grandmother's on the kitchen shelf.</p>
                 </li>
-                <li>
-                    <li data-publish-date="2026-07-22"><a href="article-walnut-rock-sugar-candy.html">Walnut Candy at the Kitchen Door</a>
+                <li data-publish-date="2026-07-22">
+                    <a href="article-walnut-rock-sugar-candy.html">Walnut Candy at the Kitchen Door</a>
                     <p class="cat-excerpt">My uncle was the one in the family who made walnut candy. He sat on a low stool at the kitchen door with a hammer and a cloth-wrapped block of rock sugar, while I crouched nearby waiting.</p>
                 </li>
-                <li>
-                    <li data-publish-date="2026-07-24"><a href="article-lily-bulb-sweet-soup.html">Lily Bulb from the Herb Counter</a>
+                <li data-publish-date="2026-07-24">
+                    <a href="article-lily-bulb-sweet-soup.html">Lily Bulb from the Herb Counter</a>
                     <p class="cat-excerpt">I went to the herb shop for fritillaria, but the woman behind the counter opened a different drawer and handed me dried lily bulb instead. She said it suited my grandmother better. She was not coughing, she was dry inside.</p>
                 </li>
             </ul>
@@ -195,8 +210,8 @@
                     <a href="article-soap-pods.html">Soap Pods at the Wash Basin</a>
                     <p class="cat-excerpt">The market vendor cracked a dried soap pod with a short wooden mallet and opened the dark shell toward me. I could see the sticky interior before I understood why these pods once hung beside wash basins.</p>
                 </li>
-                <li>
-                    <li data-publish-date="2026-07-23"><a href="article-salt-baked-orange.html">Salt Baked Orange at the Neighbor's Door</a>
+                <li data-publish-date="2026-07-23">
+                    <a href="article-salt-baked-orange.html">Salt Baked Orange at the Neighbor's Door</a>
                     <p class="cat-excerpt">On a winter night when I could not stop coughing, the downstairs neighbor knocked with a plate of two blackened oranges still steaming. She had cut a slit in each, filled it with salt, and baked them in the stove.</p>
                 </li>
                 <!-- hair-combing-ritual deferred until publish -->
@@ -232,8 +247,8 @@
                     <a href="article-potato-slices-forehead.html">Potato Slices and the Folded Handkerchief</a>
                     <p class="cat-excerpt">The older neighbor at the card table pushed her chair back, went to the kitchen, and returned with a paring knife, a shallow plate, and one peeled potato. She cut a broad slice, laid it across a forehead, and folded a cotton handkerchief over it.</p>
                 </li>
-                <li>
-                    <li data-publish-date="2026-07-21"><a href="article-hot-water-bottle.html">The Copper Hot Water Bottle</a>
+                <li data-publish-date="2026-07-21">
+                    <a href="article-hot-water-bottle.html">The Copper Hot Water Bottle</a>
                     <p class="cat-excerpt">My grandmother's hot water bottle was copper, with a screw cap tightened by hand. In winter it came out wrapped in old cotton cloth and was placed on the chair beside her bed each night.</p>
                 </li>
 
@@ -313,6 +328,5 @@
     </main>
 
     <div id="site-footer"></div>
-    <script src="js/main.js?v=2" defer></script>
 </body>
 </html>

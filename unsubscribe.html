@@ -7,7 +7,7 @@
     <meta name="description" content="Request removal from Folk Calm email updates.">
     <meta name="robots" content="noindex, nofollow">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="css/styles.css?v=15">
+    <link rel="stylesheet" href="css/styles.css?v=16">
     <script src="js/articles-data.js?v=1" defer></script>
     <script src="js/components.js?v=12" defer></script>
 </head>
@@ -29,6 +29,7 @@
             <div id="unsubscribe-form">
                 <p class="lead">Enter the email address you want removed from Folk Calm updates.</p>
                 <form class="email-cta-form" action="/unsubscribe" method="post">
+                    <input class="form-honeypot" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
                     <input type="email" name="email_address" placeholder="Your email address" required aria-label="Email address">
                     <button type="submit">Unsubscribe</button>
                 </form>
@@ -44,6 +45,6 @@
         else if(p.get("error")==="1"){document.getElementById("unsubscribe-form").style.display="none";document.getElementById("unsubscribe-error").style.display="block"}
     })();
     </script>
-    <script src="js/main.js?v=2" defer></script>
+    <script src="js/main.js?v=3" defer></script>
 </body>
 </html>

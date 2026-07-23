@@ -1,40 +1,29 @@
-# Cloudflare 缓存策略
-# 静态 HTML 页面缓存 4 小时
+# These rules apply only to static Pages assets. Functions set their own
+# security and no-store headers in functions/_lib/http.js.
+
 /*.html
   Cache-Control: public, max-age=14400
 
-# 图片缓存 7 天
 /images/*
   Cache-Control: public, max-age=604800, immutable
 
-# CSS/JS 缓存 30 分钟（文章发布时 JS 会变）
 /css/*
   Cache-Control: public, max-age=60
+
 /js/*
   Cache-Control: public, max-age=60
 
-# PDF 缓存 3 天
 /pdfs/*
   Cache-Control: public, max-age=259200
 
-# 首页不做长缓存（内容会变）
 /
   Cache-Control: public, max-age=3600
 
-# sitemap/robots 缓存 1 天
-/sitemap.xml
-  Cache-Control: public, max-age=86400
 /robots.txt
   Cache-Control: public, max-age=86400
 
-# 安全响应头
 /*
   X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
-
-# API 端点不缓存
-/capture-order
-  Cache-Control: no-store
-
- 

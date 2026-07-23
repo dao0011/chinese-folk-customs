@@ -1,4 +1,16 @@
 import { callResend } from './_lib/resend.js';
+import {
+  hasFilledHoneypot,
+  isOversizedForm,
+  isSameOriginRequest,
+  isSupportedFormContentType,
+  methodNotAllowed,
+  secureRedirect,
+  secureResponse,
+} from './_lib/http.js';
+
+const MAX_FORM_BYTES = 16 * 1024;
+const THANK_YOU_URL = 'https://www.folkcalm.com/subscribe-thankyou';
 
 async function createOrResubscribeContact(email, resendKey) {
   try {
@@ -51,14 +63,38 @@ async function createOrResubscribeContact(email, resendKey) {
 
 export async function onRequest({ request, env }) {
   if (request.method !== 'POST') {
-    return Response.redirect('https://www.folkcalm.com/', 302);
+    return methodNotAllowed('POST');
   }
 
-  var formData = await request.formData();
-  var email = (formData.get('email_address') || formData.get('email') || '').trim();
+  if (!isSameOriginRequest(request)) {
+    return secureResponse('Forbidden', { status: 403 });
+  }
 
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    return new Response('Please enter a valid email address.', { status: 400 });
+  if (isOversizedForm(request, MAX_FORM_BYTES)) {
+    return secureResponse('Request is too large.', { status: 413 });
+  }
+
+  if (!isSupportedFormContentType(request)) {
+    return secureResponse('Unsupported form encoding.', { status: 415 });
+  }
+
+  var formData;
+  try {
+    formData = await request.formData();
+  } catch (e) {
+    return secureResponse('Invalid form submission.', { status: 400 });
+  }
+
+  // Bots commonly fill fields hidden from people. Return the ordinary success
+  // redirect without touching Resend, so the trap does not advertise itself.
+  if (hasFilledHoneypot(formData)) {
+    return secureRedirect(THANK_YOU_URL, 303);
+  }
+
+  var email = String(formData.get('email_address') || formData.get('email') || '').trim();
+
+  if (!email || email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return secureResponse('Please enter a valid email address.', { status: 400 });
   }
 
   var pdfUrl = 'https://www.folkcalm.com/pdfs/10-Ancient-Chinese-Evening-Habits-Guide.pdf?v=1';
@@ -68,7 +104,7 @@ export async function onRequest({ request, env }) {
   var from = env.RESEND_FROM || 'Folk Calm <guide@folkcalm.com>';
 
   if (!resendKey) {
-    return new Response('Subscription failed. Please try again later.', { status: 500 });
+    return secureResponse('Subscription failed. Please try again later.', { status: 500 });
   }
 
   try {
@@ -76,7 +112,7 @@ export async function onRequest({ request, env }) {
     await createOrResubscribeContact(email, resendKey);
   } catch (e) {
     console.error('Contact sync failed:', e);
-    return new Response('Subscription failed. Please try again later.', { status: 500 });
+    return secureResponse('Subscription failed. Please try again later.', { status: 500 });
   }
 
   try {
@@ -109,10 +145,10 @@ export async function onRequest({ request, env }) {
       // 联系人已入库，邮件失败可降级到感谢页
     }
 
-    return Response.redirect('https://www.folkcalm.com/subscribe-thankyou', 303);
+    return secureRedirect(THANK_YOU_URL, 303);
   } catch (e) {
     // 网络错误或 API 不可达 — 联系人可能已入库，降级到感谢页
     console.error('Email send error:', e);
-    return Response.redirect('https://www.folkcalm.com/subscribe-thankyou', 303);
+    return secureRedirect(THANK_YOU_URL, 303);
   }
 }

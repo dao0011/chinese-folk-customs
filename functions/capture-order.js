@@ -3,6 +3,7 @@
 // Body: { orderID: string, email: string }
 
 import { callResend } from './_lib/resend.js';
+import { withSecurityHeaders } from './_lib/http.js';
 
 const PAID_GUIDE_FILE = 'The-Folk-Calm-Kitchen-Guide.pdf';
 const PAID_GUIDE_PRICE = '7.99';
@@ -63,13 +64,16 @@ function expectedPayeeMatches(env, payee) {
   return true;
 }
 
-export async function onRequest(context) {
+async function handleRequest(context) {
   const { request, env } = context;
 
   if (request.method !== 'POST') {
     return new Response(JSON.stringify({ error: 'Method not allowed' }), {
       status: 405,
-      headers: { 'Content-Type': 'application/json' }
+      headers: {
+        'Allow': 'POST',
+        'Content-Type': 'application/json'
+      }
     });
   }
 
@@ -216,4 +220,8 @@ export async function onRequest(context) {
       headers: { 'Content-Type': 'application/json' }
     });
   }
+}
+
+export async function onRequest(context) {
+  return withSecurityHeaders(await handleRequest(context));
 }

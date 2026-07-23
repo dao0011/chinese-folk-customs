@@ -12,6 +12,17 @@
 // the matching panel (unsubscribe-sent / unsubscribe-error / unsubscribe-form).
 
 import { callResend } from './_lib/resend.js';
+import {
+  hasFilledHoneypot,
+  isOversizedForm,
+  isSameOriginRequest,
+  isSupportedFormContentType,
+  methodNotAllowed,
+  secureRedirect,
+  secureResponse,
+} from './_lib/http.js';
+
+const MAX_FORM_BYTES = 16 * 1024;
 
 // Mark a Resend contact as unsubscribed.
 // Tries PATCH first; if the contact does not exist (404), creates it with
@@ -51,11 +62,11 @@ function redirectToUnsubscribe(request, search) {
   var url = new URL(request.url);
   url.pathname = '/unsubscribe';
   url.search = search;
-  return Response.redirect(url.toString(), 302);
+  return secureRedirect(url.toString(), 302);
 }
 
 export async function onRequest({ request, env }) {
-  if (request.method === 'GET') {
+  if (request.method === 'GET' || request.method === 'HEAD') {
     // Delegate to ASSETS: Cloudflare Pages Pretty URLs rule serves
     // /unsubscribe.html content at /unsubscribe automatically.
     // (Using '/unsubscribe.html' as pathname would trigger a 308 redirect
@@ -64,13 +75,31 @@ export async function onRequest({ request, env }) {
   }
 
   if (request.method !== 'POST') {
-    return new Response('Method not allowed', { status: 405 });
+    return methodNotAllowed('GET, HEAD, POST');
   }
 
-  var formData = await request.formData();
-  var email = (formData.get('email_address') || '').trim();
+  if (!isSameOriginRequest(request)) {
+    return secureResponse('Forbidden', { status: 403 });
+  }
 
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+  if (isOversizedForm(request, MAX_FORM_BYTES) || !isSupportedFormContentType(request)) {
+    return redirectToUnsubscribe(request, '?error=1');
+  }
+
+  var formData;
+  try {
+    formData = await request.formData();
+  } catch (e) {
+    return redirectToUnsubscribe(request, '?error=1');
+  }
+
+  if (hasFilledHoneypot(formData)) {
+    return redirectToUnsubscribe(request, '?sent=1');
+  }
+
+  var email = String(formData.get('email_address') || formData.get('email') || '').trim();
+
+  if (!email || email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return redirectToUnsubscribe(request, '?error=1');
   }
 

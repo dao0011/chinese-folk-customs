@@ -1,142 +1,237 @@
-"""Verify all Commit E changes before pushing.
+#!/usr/bin/env python3
+"""Verify the article HTML files against the shared client-side article index.
 
-Checks:
-  E4:  articles-data.js exists with 38 articles + 7 static pages
-       components.js references FOLK_CALM_DATA (no inline articles array)
-       main.js references FOLK_CALM_DATA (no inline sitePages array)
-  E7:  components.js has no injectPerformanceTags (function or call)
-       39 HTML files (38 articles + index.html) have static preconnect
-  E8:  capture-order.js has no business-error status:200 (only success 200)
-  E10: related() returns plain strings, not {url: ...} objects
-  E11: unsubscribe.js has the explanatory header comment
-  Version bumps: all HTML files use components.js?v=12, main.js?v=2, articles-data.js?v=1
+The checks are intentionally count-free: adding an article should only require
+adding its HTML, image, and matching entry in ``js/articles-data.js``.
 """
-import os
+
+from __future__ import annotations
+
+import ast
+import html as html_lib
 import re
 import sys
+from pathlib import Path
+from urllib.parse import urlsplit
 
-ROOT = r'c:\Users\Administrator\Desktop\AI做的网站\chinese-folk-wellness'
-PASS = 0
-FAIL = 0
 
-def check(name, condition, detail=''):
-    global PASS, FAIL
-    if condition:
-        PASS += 1
-        print(f"  PASS  {name}")
+ROOT = Path(__file__).resolve().parent
+DATA_FILE = ROOT / "js" / "articles-data.js"
+ARTICLE_FIELDS = ("url", "title", "desc", "img", "date", "keywords")
+JS_VALUE = r"(?:'(?:\\.|[^'\\])*'|\"(?:\\.|[^\"\\])*\")"
+JS_FIELD_RE = re.compile(rf"\b(?P<name>[A-Za-z][A-Za-z0-9]*)\s*:\s*(?P<value>{JS_VALUE})")
+OBJECT_RE = re.compile(r"\{[^{}]*\}", re.DOTALL)
+META_TAG_RE = re.compile(r"<meta\b[^>]*>", re.IGNORECASE)
+LINK_TAG_RE = re.compile(r"<link\b[^>]*>", re.IGNORECASE)
+ATTR_RE = re.compile(r"([:\w-]+)\s*=\s*([\"'])(.*?)\2", re.DOTALL)
+DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+
+
+def read_text(path: Path) -> str:
+    return path.read_text(encoding="utf-8", errors="strict")
+
+
+def decode_js_literal(value: str) -> str:
+    decoded = ast.literal_eval(value)
+    if not isinstance(decoded, str):
+        raise ValueError(f"Expected a JavaScript string, got {value!r}")
+    return decoded
+
+
+def array_body(source: str, name: str, following: str | None = None) -> str:
+    if following:
+        pattern = rf"\b{re.escape(name)}\s*:\s*\[(.*?)\]\s*,\s*\b{re.escape(following)}\s*:"
     else:
-        FAIL += 1
-        print(f"  FAIL  {name}  {detail}")
+        pattern = rf"\b{re.escape(name)}\s*:\s*\[(.*?)\]\s*\n?\s*\}}"
+    match = re.search(pattern, source, re.DOTALL)
+    if not match:
+        raise ValueError(f"Could not parse {name} array in {DATA_FILE.relative_to(ROOT)}")
+    return match.group(1)
 
-def read(name):
-    with open(os.path.join(ROOT, name), 'r', encoding='utf-8') as f:
-        return f.read()
 
-# ── E4: articles-data.js ───────────────────────────────────────
-print("\n=== E4: articles-data.js shared data ===")
-data_path = os.path.join(ROOT, 'js', 'articles-data.js')
-check("articles-data.js exists", os.path.exists(data_path))
-if os.path.exists(data_path):
-    data = read('js/articles-data.js')
-    check("defines window.FOLK_CALM_DATA", "window.FOLK_CALM_DATA" in data)
-    # Count articles (entries with url starting 'article-')
-    article_urls = re.findall(r"url:\s*'(article-[^']+\.html)'", data)
-    check("articles-data.js has 38 articles", len(article_urls) == 38, f"got {len(article_urls)}")
-    # Count static pages (entries in staticPages block)
-    static_block = re.search(r"staticPages:\s*\[(.*?)\]\s*\n\};", data, re.DOTALL)
-    static_count = 0
-    if static_block:
-        static_count = len(re.findall(r"\{\s*title:", static_block.group(1)))
-    check("articles-data.js has 7 static pages", static_count == 7, f"got {static_count}")
-    # Every article has url, title, desc, img, date, keywords
-    sample = re.search(r"\{ url: '[^']+', title: '[^']*', desc: '[^']*', img: '[^']+', date: '[^']+', keywords: '[^']*' \}", data)
-    check("article entries have all 6 fields", sample is not None)
+def parse_objects(body: str) -> list[dict[str, str]]:
+    records: list[dict[str, str]] = []
+    for object_match in OBJECT_RE.finditer(body):
+        fields: dict[str, str] = {}
+        for field_match in JS_FIELD_RE.finditer(object_match.group(0)):
+            fields[field_match.group("name")] = decode_js_literal(field_match.group("value"))
+        if fields:
+            records.append(fields)
+    return records
 
-# ── E4: components.js references shared data ───────────────────
-print("\n=== E4: components.js ===")
-comp = read('js/components.js')
-check("components.js references FOLK_CALM_DATA", "window.FOLK_CALM_DATA" in comp)
-check("components.js has no inline articles array", "var articles = [" not in comp)
-check("components.js has fallback || []", "(window.FOLK_CALM_DATA && window.FOLK_CALM_DATA.articles) || []" in comp)
 
-# ── E4: main.js references shared data ─────────────────────────
-print("\n=== E4: main.js ===")
-main = read('js/main.js')
-check("main.js references FOLK_CALM_DATA", "window.FOLK_CALM_DATA" in main)
-check("main.js has no inline sitePages array", "var sitePages = [" not in main)
-check("main.js concats articles + staticPages", "concat(window.FOLK_CALM_DATA.staticPages" in main)
+def tag_attributes(tag: str) -> dict[str, str]:
+    return {
+        match.group(1).lower(): html_lib.unescape(match.group(3))
+        for match in ATTR_RE.finditer(tag)
+    }
 
-# ── E7: injectPerformanceTags removed ──────────────────────────
-print("\n=== E7: injectPerformanceTags removed ===")
-check("components.js has no injectPerformanceTags function", "function injectPerformanceTags" not in comp)
-check("components.js has no injectPerformanceTags() call", "injectPerformanceTags()" not in comp)
-check("components.js has no preconnect DOM creation", "preconnect" not in comp and "dns-prefetch" not in comp)
 
-# ── E7: static preconnect in 39 HTML files ─────────────────────
-print("\n=== E7: static preconnect ===")
-article_files = sorted([f for f in os.listdir(ROOT) if f.startswith('article-') and f.endswith('.html')])
-check("38 article HTML files exist", len(article_files) == 38, f"got {len(article_files)}")
-preconnect_count = 0
-for name in article_files + ['index.html']:
-    c = read(name)
-    if 'rel="preconnect" href="https://api.resend.com"' in c and 'rel="dns-prefetch" href="//api.resend.com"' in c:
-        preconnect_count += 1
-check("38 articles + index.html have preconnect+dns-prefetch", preconnect_count == 39, f"got {preconnect_count}")
+def local_asset_path(value: str) -> str:
+    path = urlsplit(value).path if "://" in value else value.split("?", 1)[0].split("#", 1)[0]
+    return path.lstrip("/").replace("\\", "/")
 
-# Static pages should NOT have preconnect (not in scope)
-static_no_preconnect = 0
-for name in ['about.html', 'categories.html', 'disclaimer.html', 'privacy-policy.html', 'subscribe-thankyou.html', 'terms-of-use.html', 'affiliate-disclosure.html']:
-    c = read(name)
-    if 'preconnect' not in c:
-        static_no_preconnect += 1
-check("static pages have no preconnect (out of scope)", static_no_preconnect == 7, f"got {static_no_preconnect}")
 
-# ── E8: capture-order.js status codes ──────────────────────────
-print("\n=== E8: capture-order.js status codes ===")
-cap = read('functions/capture-order.js')
-status_200_count = len(re.findall(r"status:\s*200", cap))
-# Should be exactly 1 (the success response with ok: true, downloadUrl, transactionId)
-check("capture-order.js has exactly 1 status:200 (success only)", status_200_count == 1, f"got {status_200_count}")
-check("capture-order.js has status:400 for bad request", "status: 400" in cap)
-check("capture-order.js has status:502 for paypal token error", "status: 502" in cap)
-check("capture-order.js has status:503 for missing creds", "status: 503" in cap)
-check("capture-order.js has status:500 for network error", "status: 500" in cap)
+def article_dates(source: str) -> tuple[str | None, str | None]:
+    published_time = None
+    for tag in META_TAG_RE.findall(source):
+        attrs = tag_attributes(tag)
+        if attrs.get("property", "").lower() == "article:published_time":
+            published_time = attrs.get("content")
+            break
+    json_match = re.search(r'"datePublished"\s*:\s*"([^\"]+)"', source)
+    return published_time, json_match.group(1) if json_match else None
 
-# ── E10: related() simplification ──────────────────────────────
-print("\n=== E10: related() simplification ===")
-check("related() returns plain array of strings", "return [first, second, third];" in comp)
-check("related() does NOT wrap in {url: ...}", "{ url: first }" not in comp)
-check("getSidebarNotesFor uses url directly", "function (url)" in comp and "getArticleRecord(url) || { url: url }" in comp)
 
-# ── E11: unsubscribe.js comments ───────────────────────────────
-print("\n=== E11: unsubscribe.js comments ===")
-unsub = read('functions/unsubscribe.js')
-check("unsubscribe.js has header comment", "Cloudflare Function: /unsubscribe endpoint" in unsub)
-check("unsubscribe.js documents GET/POST split", "GET  — serve the static unsubscribe.html page" in unsub)
-check("unsubscribe.js documents markContactUnsubscribed", "Tries PATCH first; if the contact does not exist (404)" in unsub)
-check("unsubscribe.js documents redirectToUnsubscribe", "302-redirect back to /unsubscribe" in unsub)
+def link_relations(source: str) -> set[tuple[str, str]]:
+    relations: set[tuple[str, str]] = set()
+    for tag in LINK_TAG_RE.findall(source):
+        attrs = tag_attributes(tag)
+        rel = attrs.get("rel", "").lower()
+        href = attrs.get("href", "")
+        if rel and href:
+            relations.add((rel, href))
+    return relations
 
-# ── Version bumps across all HTML files ────────────────────────
-print("\n=== Version bumps ===")
-all_html = [f for f in os.listdir(ROOT) if f.endswith('.html') and f != 'google198e627e00e92b43.html']
-v11_files = []
-main_nov_files = []
-no_data_files = []
-for name in all_html:
-    c = read(name)
-    if 'components.js?v=11' in c:
-        v11_files.append(name)
-    if 'src="js/main.js"' in c:
-        main_nov_files.append(name)
-    # Every file that references components.js should also reference articles-data.js
-    if 'components.js?v=12' in c and 'articles-data.js?v=1' not in c:
-        no_data_files.append(name)
 
-check("no HTML file still uses components.js?v=11", len(v11_files) == 0, f"found: {v11_files}")
-check("no HTML file has main.js without version", len(main_nov_files) == 0, f"found: {main_nov_files}")
-check("every components.js?v=12 page also loads articles-data.js", len(no_data_files) == 0, f"missing: {no_data_files}")
+def main() -> int:
+    errors: list[str] = []
 
-# ── Summary ────────────────────────────────────────────────────
-print(f"\n{'='*60}")
-print(f"Total: {PASS} PASS, {FAIL} FAIL")
-sys.exit(0 if FAIL == 0 else 1)
+    def require(condition: bool, message: str) -> None:
+        if not condition:
+            errors.append(message)
+
+    try:
+        data_source = read_text(DATA_FILE)
+        article_records = parse_objects(array_body(data_source, "articles", "staticPages"))
+        static_records = parse_objects(array_body(data_source, "staticPages"))
+    except (OSError, SyntaxError, ValueError) as exc:
+        print(f"Article data verification failed:\n- {exc}")
+        return 1
+
+    require(
+        "window.FOLK_CALM_DATA" in data_source,
+        "js/articles-data.js does not define window.FOLK_CALM_DATA",
+    )
+
+    records_by_url: dict[str, dict[str, str]] = {}
+    for position, record in enumerate(article_records, start=1):
+        missing = [field for field in ARTICLE_FIELDS if not record.get(field)]
+        require(not missing, f"Article data entry {position} is missing: {', '.join(missing)}")
+        url = record.get("url", "")
+        if not url:
+            continue
+        require(
+            bool(re.fullmatch(r"article-[a-z0-9-]+\.html", url)),
+            f"Shared article URL has an unexpected format: {url}",
+        )
+        require(url not in records_by_url, f"Duplicate shared article URL: {url}")
+        records_by_url[url] = record
+
+    html_files = {path.name: path for path in sorted(ROOT.glob("article-*.html"))}
+    shared_urls = set(records_by_url)
+    html_urls = set(html_files)
+    for url in sorted(shared_urls - html_urls):
+        errors.append(f"Shared article entry has no HTML file: {url}")
+    for url in sorted(html_urls - shared_urls):
+        errors.append(f"Article HTML is missing from js/articles-data.js: {url}")
+
+    for url in sorted(shared_urls & html_urls):
+        record = records_by_url[url]
+        source = read_text(html_files[url])
+        prefix = f"{url}:"
+
+        shared_date = record.get("date", "")
+        require(bool(DATE_RE.fullmatch(shared_date)), f"{prefix} invalid shared date {shared_date!r}")
+        published_time, json_date = article_dates(source)
+        require(
+            published_time == shared_date,
+            f"{prefix} shared date {shared_date!r} does not match article:published_time {published_time!r}",
+        )
+        require(
+            json_date == shared_date,
+            f"{prefix} shared date {shared_date!r} does not match JSON-LD datePublished {json_date!r}",
+        )
+
+        shared_image = local_asset_path(record.get("img", ""))
+        require(bool(shared_image), f"{prefix} shared image path is empty")
+        if shared_image:
+            require((ROOT / shared_image).is_file(), f"{prefix} image file does not exist: {shared_image}")
+
+        relations = link_relations(source)
+        require(
+            ("preconnect", "https://api.resend.com") in relations,
+            f"{prefix} missing static Resend preconnect",
+        )
+        require(
+            ("dns-prefetch", "//api.resend.com") in relations,
+            f"{prefix} missing static Resend dns-prefetch",
+        )
+
+        data_position = source.find("js/articles-data.js")
+        components_position = source.find("js/components.js")
+        require(data_position >= 0, f"{prefix} does not load js/articles-data.js")
+        require(components_position >= 0, f"{prefix} does not load js/components.js")
+        require(
+            data_position >= 0 and components_position >= 0 and data_position < components_position,
+            f"{prefix} must load articles-data.js before components.js",
+        )
+
+    static_urls: set[str] = set()
+    for position, record in enumerate(static_records, start=1):
+        missing = [field for field in ("title", "url", "keywords") if not record.get(field)]
+        require(not missing, f"Static page entry {position} is missing: {', '.join(missing)}")
+        url = record.get("url", "")
+        if not url:
+            continue
+        require(url not in static_urls, f"Duplicate static page URL: {url}")
+        static_urls.add(url)
+        require((ROOT / local_asset_path(url)).is_file(), f"Static page entry does not exist: {url}")
+
+    for script_name in ("js/components.js", "js/main.js"):
+        script_source = read_text(ROOT / script_name)
+        require(
+            "window.FOLK_CALM_DATA" in script_source,
+            f"{script_name} does not consume window.FOLK_CALM_DATA",
+        )
+
+    for html_path in sorted(ROOT.glob("*.html")):
+        page_source = read_text(html_path)
+        components_position = page_source.find("js/components.js")
+        if components_position < 0:
+            continue
+        data_position = page_source.find("js/articles-data.js")
+        require(data_position >= 0, f"{html_path.name} loads components.js without articles-data.js")
+        require(
+            data_position >= 0 and data_position < components_position,
+            f"{html_path.name} must load articles-data.js before components.js",
+        )
+
+    index_source = read_text(ROOT / "index.html")
+    index_relations = link_relations(index_source)
+    require(
+        ("preconnect", "https://api.resend.com") in index_relations,
+        "index.html is missing the static Resend preconnect",
+    )
+    require(
+        ("dns-prefetch", "//api.resend.com") in index_relations,
+        "index.html is missing the static Resend dns-prefetch",
+    )
+
+    if errors:
+        print("Article data verification failed:")
+        for error in errors:
+            print(f"- {error}")
+        print(f"\nChecked {len(html_files)} article HTML files and {len(static_records)} static search entries.")
+        return 1
+
+    print(
+        "Article data verification passed: "
+        f"{len(html_files)} article HTML files, {len(static_records)} static search entries, "
+        "and all preconnect declarations are consistent."
+    )
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
