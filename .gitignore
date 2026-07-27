@@ -26,7 +26,6 @@ pin-*-agnes.png
 pinterest-*-pin.jpg
 yam-millet-porridge-agnes.png
 _city_night_test.png
-images/hair-combing-ritual.*
 images/hero-bg-soft.webp
 images/kitchen-tools/
 images/pattern-*.svg
@@ -36,7 +35,6 @@ images/pinterest/
 # Historical pin patterns (keep for existing files in images/)
 images/pin-*
 images/pinterest-*-pin.jpg
-images/sunning-the-back.*
 
 # PDF build artifacts (free guides deployed, paid guide kept locally)
 pdfs/Grandmothers-*.pdf
