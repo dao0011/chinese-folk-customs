@@ -331,4 +331,34 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>https://www.folkcalm.com/article-mosquito-net.html</loc>
+    <lastmod>2026-08-03T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.folkcalm.com/article-lotus-leaf-congee.html</loc>
+    <lastmod>2026-08-04T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.folkcalm.com/article-green-glass-bottle.html</loc>
+    <lastmod>2026-08-05T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.folkcalm.com/article-reed-blind.html</loc>
+    <lastmod>2026-08-06T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.folkcalm.com/article-biting-autumn.html</loc>
+    <lastmod>2026-08-07T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>
