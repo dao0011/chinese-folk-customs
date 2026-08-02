@@ -59,9 +59,9 @@ export function methodNotAllowed(allow, json) {
 
 export function isSameOriginRequest(request) {
   var expectedOrigin = new URL(request.url).origin;
-  var fetchSite = request.headers.get('Sec-Fetch-Site');
+  var fetchSite = (request.headers.get('Sec-Fetch-Site') || '').toLowerCase();
 
-  if (fetchSite && fetchSite.toLowerCase() === 'cross-site') return false;
+  if (fetchSite === 'cross-site') return false;
 
   var origin = request.headers.get('Origin');
   if (origin) {
@@ -82,10 +82,10 @@ export function isSameOriginRequest(request) {
     }
   }
 
-  // All modern browser form POSTs send Origin. Referer is retained as a
-  // compatibility fallback, but requests with neither signal cannot prove
-  // that they came from this site.
-  return false;
+  // Privacy tools can remove Origin and Referer while retaining Fetch
+  // Metadata. Accept only an explicit same-origin signal; fully unverifiable
+  // requests remain blocked.
+  return fetchSite === 'same-origin';
 }
 
 export function hasFilledHoneypot(formData) {

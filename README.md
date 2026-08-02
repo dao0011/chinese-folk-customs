@@ -58,7 +58,7 @@ Use Cloudflare Variables and Secrets for production values. `PDF_TOKEN_SECRET`, 
 
 `RESEND_FROM` controls the subscriber welcome email only; the purchase email sender is currently fixed in `functions/capture-order.js`. The PayPal browser client ID is currently embedded in `remedies-guide.html` and must belong to the same live application/account as the server credentials. `capture-order.js` calls PayPal's production API; a sandbox flow requires an explicit code/configuration change for both browser and server endpoints.
 
-The public forms currently enforce same-origin submissions, a small body limit, email validation, and a honeypot. They do not have a persistent per-IP rate limiter or Turnstile challenge. If automated abuse becomes material, add a stateful Cloudflare control (for example, Turnstile plus KV/Durable Object or a rate-limiting rule) rather than treating the honeypot as complete protection.
+The public forms currently enforce source verification, a small body limit, and email validation. The subscribe form intentionally avoids a hidden honeypot because browser autofill can silently block real signups; the unsubscribe form still uses one. Source verification accepts a matching Origin or Referer, or an explicit `Sec-Fetch-Site: same-origin` fallback. The forms do not have a persistent per-IP rate limiter or Turnstile challenge. If automated abuse becomes material, add a stateful Cloudflare control (for example, Turnstile plus KV/Durable Object or a rate-limiting rule).
 
 ## Verification
 

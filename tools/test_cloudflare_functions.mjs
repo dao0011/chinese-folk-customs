@@ -17,6 +17,8 @@ import {
 const ROOT = new URL('../', import.meta.url);
 const source = await readFile(new URL('js/articles-data.js', ROOT), 'utf8');
 const sitemap = await readFile(new URL('sitemap.xml', ROOT), 'utf8');
+const homeHtml = await readFile(new URL('index.html', ROOT), 'utf8');
+const componentsSource = await readFile(new URL('js/components.js', ROOT), 'utf8');
 const dates = parseArticlePublicationDates(source);
 
 function assertSecure(response) {
@@ -112,7 +114,10 @@ assert.equal(dynamicSitemap.status, 200);
 assertSecure(dynamicSitemap);
 assert.doesNotMatch(await dynamicSitemap.text(), /article-future\.html/);
 
-// Subscribe anti-abuse and method behavior.
+// Subscribe source verification, autofill compatibility, and method behavior.
+assert.doesNotMatch(homeHtml, /name=["']website["']/);
+assert.doesNotMatch(componentsSource, /name=["']website["']/);
+
 var subscribeGet = await subscribeRequest({
   request: new Request('https://www.folkcalm.com/subscribe'),
   env: {},
@@ -144,20 +149,19 @@ var unverifiableSubscribe = await subscribeRequest({
 });
 assert.equal(unverifiableSubscribe.status, 403);
 
-var trappedSubscribe = await subscribeRequest({
+var privacyCompatibleSubscribe = await subscribeRequest({
   request: new Request('https://www.folkcalm.com/subscribe', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
-      'Origin': 'https://www.folkcalm.com',
+      'Sec-Fetch-Site': 'same-origin',
     },
-    body: 'email_address=bot%40example.com&website=https%3A%2F%2Fspam.example',
+    body: 'email_address=not-an-email',
   }),
   env: {},
 });
-assert.equal(trappedSubscribe.status, 303);
-assert.equal(trappedSubscribe.headers.get('Location'), 'https://www.folkcalm.com/subscribe-thankyou');
-assertSecure(trappedSubscribe);
+assert.equal(privacyCompatibleSubscribe.status, 400);
+assertSecure(privacyCompatibleSubscribe);
 
 var originalFetch = globalThis.fetch;
 var resendCalls = [];
@@ -174,7 +178,9 @@ try {
         'Content-Type': 'application/x-www-form-urlencoded',
         'Origin': 'https://www.folkcalm.com',
       },
-      body: 'email_address=reader%40example.com',
+      // Cached pages may briefly retain the removed field. It must not cause a
+      // silent success response that skips Resend.
+      body: 'email_address=reader%40example.com&website=https%3A%2F%2Fautofill.example',
     }),
     env: { RESEND_API_KEY: 'test-key' },
   });
@@ -184,6 +190,95 @@ try {
   assert.match(resendCalls[1].url, /\/emails$/);
   assert.match(resendCalls[1].init.body, /10-Ancient-Chinese-Evening-Habits-Guide\.pdf/);
   assertSecure(validSubscribe);
+} finally {
+  globalThis.fetch = originalFetch;
+}
+
+resendCalls = [];
+globalThis.fetch = async function (url, init) {
+  resendCalls.push({ url: String(url), init: init });
+  if (String(url).endsWith('/contacts')) {
+    return new Response('{"message":"already exists"}', { status: 409 });
+  }
+  return new Response('{}', { status: 200 });
+};
+
+try {
+  var validResubscribe = await subscribeRequest({
+    request: new Request('https://www.folkcalm.com/subscribe', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Origin': 'https://www.folkcalm.com',
+      },
+      body: 'email_address=reader%40example.com',
+    }),
+    env: { RESEND_API_KEY: 'test-key' },
+  });
+  assert.equal(validResubscribe.status, 303);
+  assert.equal(resendCalls.length, 3);
+  assert.equal(resendCalls[1].init.method, 'PATCH');
+  assert.match(resendCalls[2].url, /\/emails$/);
+  assertSecure(validResubscribe);
+} finally {
+  globalThis.fetch = originalFetch;
+}
+
+resendCalls = [];
+globalThis.fetch = async function (url, init) {
+  resendCalls.push({ url: String(url), init: init });
+  return new Response('{"message":"validation failed"}', { status: 422 });
+};
+
+try {
+  var invalidContactSubscribe = await subscribeRequest({
+    request: new Request('https://www.folkcalm.com/subscribe', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Origin': 'https://www.folkcalm.com',
+      },
+      body: 'email_address=reader%40example.com',
+    }),
+    env: { RESEND_API_KEY: 'test-key' },
+  });
+  assert.equal(invalidContactSubscribe.status, 500);
+  assert.equal(resendCalls.length, 1);
+  assert.match(resendCalls[0].url, /\/contacts$/);
+  assertSecure(invalidContactSubscribe);
+} finally {
+  globalThis.fetch = originalFetch;
+}
+
+resendCalls = [];
+globalThis.fetch = async function (url, init) {
+  resendCalls.push({ url: String(url), init: init });
+  if (String(url).endsWith('/contacts')) {
+    return new Response('{"message":"already exists"}', { status: 409 });
+  }
+  if (init.method === 'PATCH') {
+    return new Response('{"message":"update failed"}', { status: 500 });
+  }
+  throw new Error('Welcome email must not be sent after a failed contact update');
+};
+
+try {
+  var failedResubscribe = await subscribeRequest({
+    request: new Request('https://www.folkcalm.com/subscribe', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Origin': 'https://www.folkcalm.com',
+      },
+      body: 'email_address=reader%40example.com',
+    }),
+    env: { RESEND_API_KEY: 'test-key' },
+  });
+  assert.equal(failedResubscribe.status, 500);
+  assert.equal(resendCalls.length, 2);
+  assert.match(resendCalls[1].url, /\/contacts\/reader%40example\.com$/);
+  assert.equal(resendCalls[1].init.method, 'PATCH');
+  assertSecure(failedResubscribe);
 } finally {
   globalThis.fetch = originalFetch;
 }

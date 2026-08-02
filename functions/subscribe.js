@@ -1,6 +1,5 @@
 import { callResend } from './_lib/resend.js';
 import {
-  hasFilledHoneypot,
   isOversizedForm,
   isSameOriginRequest,
   isSupportedFormContentType,
@@ -13,52 +12,50 @@ const MAX_FORM_BYTES = 16 * 1024;
 const THANK_YOU_URL = 'https://www.folkcalm.com/subscribe-thankyou';
 
 async function createOrResubscribeContact(email, resendKey) {
+  var createRes;
+
   try {
-    var createRes = await callResend(resendKey, '/contacts', 'POST', {
+    createRes = await callResend(resendKey, '/contacts', 'POST', {
       email: email,
       unsubscribed: false,
     });
-
-    if (createRes.ok) {
-      return { created: true };
-    }
-
-    var createBody = await createRes.text();
-    var createStatus = createRes.status;
-
-    // 联系人已存在（409 Conflict）—— 尝试恢复订阅，失败可降级
-    if (createStatus === 409 || createStatus === 422) {
-      try {
-        var updateRes = await callResend(resendKey, '/contacts/' + encodeURIComponent(email), 'PATCH', {
-          unsubscribed: false,
-        });
-
-        if (updateRes.ok) {
-          return { created: false, resubscribed: true };
-        }
-
-        var updateBody = await updateRes.text();
-        console.error('Resend contact update error [' + updateRes.status + ']: ' + updateBody);
-        // 联系人已存在，PATCH 失败可降级——仍然发邮件
-        return { created: false, resubscribed: false, patchFailed: true };
-      } catch (e) {
-        console.error('Resend contact update network error:', e);
-        // 网络错误但联系人大概率已存在——降级继续
-        return { created: false, resubscribed: false, patchFailed: true };
-      }
-    }
-
-    // 非 409 错误（5xx 等）——真正的服务端故障
-    console.error('Resend contact create error [' + createStatus + ']: ' + createBody);
-    throw new Error('Contact create failed: ' + createStatus);
   } catch (e) {
-    // fetch 本身的网络错误
-    if (e.message && e.message.startsWith('Contact create failed:')) {
-      throw e; // 服务端错误，向上抛
-    }
-    console.error('Resend contact create network error:', e);
+    console.error('Resend contact create network error');
     throw new Error('Contact API unreachable');
   }
+
+  if (createRes.ok) {
+    console.info('Subscription contact sync: created');
+    return { created: true };
+  }
+
+  var createStatus = createRes.status;
+
+  // Only a real conflict means the address already exists. Validation errors
+  // such as 422 must not be treated as a successful subscription.
+  if (createStatus !== 409) {
+    console.error('Resend contact create failed with status ' + createStatus);
+    throw new Error('Contact create failed: ' + createStatus);
+  }
+
+  var updateRes;
+
+  try {
+    updateRes = await callResend(resendKey, '/contacts/' + encodeURIComponent(email), 'PATCH', {
+      unsubscribed: false,
+    });
+  } catch (e) {
+    console.error('Resend contact update network error');
+    throw new Error('Contact update API unreachable');
+  }
+
+  if (!updateRes.ok) {
+    console.error('Resend contact update failed with status ' + updateRes.status);
+    throw new Error('Contact update failed: ' + updateRes.status);
+  }
+
+  console.info('Subscription contact sync: resubscribed');
+  return { created: false, resubscribed: true };
 }
 
 export async function onRequest({ request, env }) {
@@ -67,6 +64,7 @@ export async function onRequest({ request, env }) {
   }
 
   if (!isSameOriginRequest(request)) {
+    console.warn('Subscription rejected: unverified request source');
     return secureResponse('Forbidden', { status: 403 });
   }
 
@@ -85,12 +83,6 @@ export async function onRequest({ request, env }) {
     return secureResponse('Invalid form submission.', { status: 400 });
   }
 
-  // Bots commonly fill fields hidden from people. Return the ordinary success
-  // redirect without touching Resend, so the trap does not advertise itself.
-  if (hasFilledHoneypot(formData)) {
-    return secureRedirect(THANK_YOU_URL, 303);
-  }
-
   var email = String(formData.get('email_address') || formData.get('email') || '').trim();
 
   if (!email || email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -104,6 +96,7 @@ export async function onRequest({ request, env }) {
   var from = env.RESEND_FROM || 'Folk Calm <guide@folkcalm.com>';
 
   if (!resendKey) {
+    console.error('Subscription failed: RESEND_API_KEY is not configured');
     return secureResponse('Subscription failed. Please try again later.', { status: 500 });
   }
 
@@ -111,7 +104,7 @@ export async function onRequest({ request, env }) {
     // 第一步：创建或恢复联系人（失败不降级，直接报错）
     await createOrResubscribeContact(email, resendKey);
   } catch (e) {
-    console.error('Contact sync failed:', e);
+    console.error('Subscription contact sync failed:', e.message || 'unknown error');
     return secureResponse('Subscription failed. Please try again later.', { status: 500 });
   }
 
@@ -138,11 +131,11 @@ export async function onRequest({ request, env }) {
       ].join(''),
     });
 
-    var body = await res.text();
-
     if (!res.ok) {
-      console.error('Resend welcome email failed [' + res.status + ']: ' + body);
+      console.error('Resend welcome email failed with status ' + res.status);
       // 联系人已入库，邮件失败可降级到感谢页
+    } else {
+      console.info('Subscription welcome email accepted');
     }
 
     return secureRedirect(THANK_YOU_URL, 303);

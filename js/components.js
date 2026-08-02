@@ -233,7 +233,6 @@
         '<h3>Enjoyed this article? Get our free cultural guide</h3>' +
         '<p>A beautifully designed PDF documenting 10 ancient Chinese evening routines — delivered to your inbox.</p>' +
         '<form id="cta-email-form" class="email-cta-form" action="/subscribe" method="post">' +
-          '<input class="form-honeypot" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">' +
           '<input type="email" name="email_address" placeholder="Your email address" required aria-label="Email address">' +
           '<label class="gdpr-consent"><input type="checkbox" required> I agree to receive emails. Unsubscribe anytime. <a href="privacy-policy.html">Privacy Policy</a></label>' +
           '<button type="submit">Send Me the Free Guide</button>' +
