@@ -21,26 +21,26 @@ DEFAULT_ARTICLES = (
     "article-reed-blind.html",
     "article-biting-autumn.html",
 )
-EXPECTED_COMPARISONS = {
+EXPECTED_COMPARISON_PHRASES = {
     "article-mosquito-net.html": {
-        "article-bedding-airing.html",
-        "article-cassia-seed-pillow.html",
+        "bedding airing",
+        "cassia-seed pillow",
     },
     "article-lotus-leaf-congee.html": {
-        "article-mung-bean-soup.html",
-        "article-lotus-root-water.html",
+        "mung-bean soup",
+        "lotus-root water",
     },
     "article-green-glass-bottle.html": {
-        "article-rice-water-rinse.html",
-        "article-soap-pods.html",
+        "rice water between kitchen and washroom",
+        "soap pods at the wash basin",
     },
     "article-reed-blind.html": {
-        "article-bamboo-wife.html",
-        "article-mint-cool-cloth.html",
+        "bamboo wife",
+        "mint cloth",
     },
     "article-biting-autumn.html": {
-        "article-sour-plum-drink.html",
-        "article-winter-melon-tea.html",
+        "sour-plum drink",
+        "winter-melon tea",
     },
 }
 BANNED_TERMS = (
@@ -92,6 +92,8 @@ def validate_article(path: Path) -> tuple[list[str], dict[str, object]]:
     if not body_match:
         return ["cannot locate six-paragraph article body"], {}
     body = body_match.group(1)
+    if re.search(r"<a\b", body, re.IGNORECASE):
+        errors.append("article body must not contain links")
 
     h2_html = re.findall(r"<h2>(.*?)</h2>", body, re.DOTALL)
     headings = [strip_tags(value) for value in h2_html]
@@ -133,11 +135,14 @@ def validate_article(path: Path) -> tuple[list[str], dict[str, object]]:
                     "second H2's second paragraph must contain 2-3 sentences, "
                     f"found {comparison_sentences}"
                 )
-            links = set(re.findall(r'href="([^"]+)"', comparison_paragraph))
-            expected = EXPECTED_COMPARISONS.get(relative_name)
-            if expected and links != expected:
+            comparison_text = strip_tags(comparison_paragraph).lower()
+            expected = EXPECTED_COMPARISON_PHRASES.get(relative_name)
+            missing = sorted(
+                phrase for phrase in (expected or set()) if phrase not in comparison_text
+            )
+            if missing:
                 errors.append(
-                    f"comparison links must be {sorted(expected)}, found {sorted(links)}"
+                    f"comparison paragraph is missing phrases: {missing}"
                 )
 
     for term in BANNED_TERMS:
