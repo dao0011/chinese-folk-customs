@@ -15,11 +15,11 @@ from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_ARTICLES = (
-    "article-mosquito-net.html",
-    "article-lotus-leaf-congee.html",
-    "article-green-glass-bottle.html",
-    "article-reed-blind.html",
-    "article-biting-autumn.html",
+    "article-porcelain-pillow.html",
+    "article-xiangru-summer-drink.html",
+    "article-dried-loofah-scrubber.html",
+    "article-toasted-rice-water.html",
+    "article-cane-chair.html",
 )
 EXPECTED_COMPARISON_PHRASES = {
     "article-mosquito-net.html": {
@@ -42,6 +42,26 @@ EXPECTED_COMPARISON_PHRASES = {
         "sour-plum drink",
         "winter-melon tea",
     },
+    "article-porcelain-pillow.html": {
+        "cassia-seed pillow",
+        "bamboo sleeping mat",
+    },
+    "article-xiangru-summer-drink.html": {
+        "winter-melon tea",
+        "barley water",
+    },
+    "article-dried-loofah-scrubber.html": {
+        "soap pods",
+        "rice water between kitchen and washroom",
+    },
+    "article-toasted-rice-water.html": {
+        "plain rice congee",
+        "barley water",
+    },
+    "article-cane-chair.html": {
+        "post-meal walk",
+        "post-lunch pause",
+    },
 }
 BANNED_TERMS = (
     "treatment",
@@ -52,6 +72,7 @@ BANNED_TERMS = (
     "medical advice",
 )
 BANNED_ENDING_PHRASES = ("symbol", "meaning", "memory taught me")
+ALLOWED_HEADING_PROPER_NOUNS = {"Song"}
 WORD_RE = re.compile(r"[A-Za-z]+(?:[-'][A-Za-z]+)*")
 
 
@@ -105,7 +126,10 @@ def validate_article(path: Path) -> tuple[list[str], dict[str, object]]:
             errors.append(f'H2 must contain 4-6 words: "{heading}"')
         if heading and heading[0] != heading[0].upper():
             errors.append(f'H2 must begin with a capital letter: "{heading}"')
-        if any(word[0].isupper() for word in heading_words[1:]):
+        if any(
+            word[0].isupper() and word not in ALLOWED_HEADING_PROPER_NOUNS
+            for word in heading_words[1:]
+        ):
             errors.append(f'H2 must use sentence case: "{heading}"')
 
     sections = re.split(r"<h2>.*?</h2>", body, flags=re.DOTALL)[1:]
